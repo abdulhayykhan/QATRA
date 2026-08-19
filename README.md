@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/org-Alkhidmat%20Foundation%20Pakistan-8B1E1E" alt="org" />
 </p>
 
-\---
+---
 
 ## About
 
@@ -65,7 +65,7 @@ QATRA follows a modular architecture: a mobile client communicates through an AP
 QATRA/
 ├── docs/
 │   ├── PRD.pdf            # Full Project Requirement Document
-│   └── Wireframes.pdf     # Seeker, Donor \& Admin journey wireframes (22 screens)
+│   └── Wireframes.pdf     # Seeker, Donor & Admin journey wireframes (22 screens)
 ├── media/
 │   └── logo.png           # App logo
 └── README.md
