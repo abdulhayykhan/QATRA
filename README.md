@@ -57,7 +57,7 @@ QATRA follows a modular architecture: a mobile client communicates through an AP
   <img src="media/system-architecture.jpeg" alt="QATRA system architecture diagram" width="700" />
 </p>
 
-> The full architecture breakdown is also documented in \[`docs/PRD.pdf`](docs/PRD.pdf) (Section 8), and is being finalized pending external-service vendor confirmation.
+> The full architecture breakdown is also documented in PRD (Section 8), and is being finalized pending external-service vendor confirmation.
 
 ## Repository Structure
 
