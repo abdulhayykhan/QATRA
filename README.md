@@ -78,7 +78,7 @@ QATRA/
 
 ## Team
 
-Built by a 6-member group for the Alkhidmat Foundation Pakistan software development internship:
+Built by a 6-member group for the Alkhidmat Foundation Pakistan IT internship:
 
 | Role | Member |
 |---|---|
