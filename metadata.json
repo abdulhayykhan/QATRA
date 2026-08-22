@@ -1,0 +1,6 @@
+{
+  "name": "QATRA",
+  "description": "Emergency blood donation response platform connecting verified blood seekers to eligible donors in Karachi.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,40 @@
+# Android and Gradle build output
+/build/
+app/build/
+.gradle/
+captures/
+.cxx/
+
+# Local Android/Supabase configuration
+local.properties
+
+# Firebase configuration generated/downloaded for a real project
+app/google-services.json
+
+# Signing credentials and local keystores
+*.jks
+*.keystore
+
+# Local environment files; keep the committed template
+.env
+.env.local
+!.env.example
+
+# IDE and operating-system files
+.idea/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Supabase CLI local state and temporary artifacts
+.supabase/
+supabase/.temp/
+
+# CI generates the Gradle wrapper at runtime instead of committing its JAR.
+gradle/wrapper/gradle-wrapper.jar
+
+# Supabase Edge Function local environment files; keep the committed template
+supabase/functions/verify-firebase-phone/.env
+
+# Node.js dependencies
+node_modules/
