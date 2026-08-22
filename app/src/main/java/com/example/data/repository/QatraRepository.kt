@@ -15,9 +15,14 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
+import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.from
+import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.result.decodeAs
 import io.github.jan.supabase.storage.Storage
+import io.github.jan.supabase.storage.storage
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -534,7 +539,7 @@ class QatraRepository {
                 throw IllegalStateException("Phone session exchange failed (${response.code}).")
             }
             val session = JSONObject(response.body?.string().orEmpty())
-            client.auth.importSession(
+            client.auth.importAuthToken(
                 accessToken = session.getString("access_token"),
                 refreshToken = session.getString("refresh_token")
             )
