@@ -119,6 +119,7 @@ dependencies {
   implementation(libs.firebase.ai)
   implementation(libs.firebase.messaging)
   implementation(libs.firebase.auth)
+  implementation(libs.supabase.core)
   implementation(libs.supabase.auth)
   implementation(libs.supabase.storage)
   implementation(libs.supabase.postgrest)

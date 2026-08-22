@@ -9,6 +9,7 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
@@ -474,7 +475,7 @@ class QatraRepository {
                     }
             }
 
-            override fun onVerificationFailed(exception: Exception) {
+            override fun onVerificationFailed(exception: FirebaseException) {
                 setLastAuthError(exception.message ?: "Firebase phone verification failed.")
                 onResult(false)
             }
