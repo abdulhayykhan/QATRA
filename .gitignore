@@ -38,3 +38,6 @@ supabase/functions/verify-firebase-phone/.env
 
 # Node.js dependencies
 node_modules/
+
+# Claude
+.claude/
