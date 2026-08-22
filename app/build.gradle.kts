@@ -4,6 +4,7 @@ import java.util.Properties
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.compose)
+  alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.google.devtools.ksp)
   alias(libs.plugins.roborazzi)
   alias(libs.plugins.secrets)
@@ -123,6 +124,7 @@ dependencies {
   implementation(libs.supabase.auth)
   implementation(libs.supabase.storage)
   implementation(libs.supabase.postgrest)
+  implementation(libs.kotlinx.serialization.json)
   implementation(libs.play.services.location)
   implementation(libs.mlkit.text.recognition)
   // Uncomment to use Firestore:
