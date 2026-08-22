@@ -41,3 +41,6 @@ node_modules/
 
 # Claude
 .claude/
+
+# Playwright
+.playwright-mcp/
