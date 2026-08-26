@@ -104,6 +104,7 @@ class QatraViewModel(
     }
 
     fun startProxyCallCountdown() = seekerVm.startProxyCallCountdown()
+    fun endProxyCall() = seekerVm.endProxyCall()
     fun submitSlipAndVerify(context: Context) = seekerVm.submitSlipAndVerify(context)
     fun seekerDirectCallToDonor(donorPhone: String) = seekerVm.seekerDirectCallToDonor(donorPhone)
     fun submitSeekerFeedback() = seekerVm.submitSeekerFeedback()
