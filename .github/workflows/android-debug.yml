@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: android-debug-${{ github.workflow }}-${{ github.ref }}
@@ -31,10 +31,13 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.3.1'
+          cache-disabled: false
+          gradle-home-cache-excludes: |
+            caches/configuration-cache
 
       - name: Generate Gradle wrapper
         shell: bash
-        run: gradle wrapper --gradle-version 9.3.1 --distribution-type bin
+        run: gradle wrapper --gradle-version 9.3.1 --distribution-type bin --no-configuration-cache
 
       - name: Write local.properties from GitHub secrets
         env:
@@ -57,10 +60,10 @@ jobs:
           fi
 
       - name: Run debug unit tests
-        run: ./gradlew testDebugUnitTest --no-daemon --stacktrace
+        run: ./gradlew testDebugUnitTest --no-daemon --no-configuration-cache --stacktrace
 
       - name: Assemble debug APK
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        run: ./gradlew assembleDebug --no-daemon --no-configuration-cache --stacktrace
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
@@ -69,3 +72,27 @@ jobs:
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 14
+
+      - name: Generate version tag
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        id: version
+        shell: bash
+        run: |
+          VERSION="v1.0.0-build.${{ github.run_number }}"
+          echo "tag=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Generated version: $VERSION"
+
+      - name: Create GitHub Release
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          TAG="${{ steps.version.outputs.tag }}"
+          git tag "$TAG"
+          git push origin "$TAG"
+          gh release create "$TAG" \
+            --title "QATRA $TAG (Debug)" \
+            --generate-notes \
+            --prerelease \
+            app/build/outputs/apk/debug/*.apk
