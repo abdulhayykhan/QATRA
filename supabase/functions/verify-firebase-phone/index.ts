@@ -24,6 +24,13 @@ function randomPassword(): string {
   return `${crypto.randomUUID()}-${crypto.randomUUID()}!`;
 }
 
+async function sha256Hex(input: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
+  return Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 async function findUserByPhone(phone: string) {
   for (let pageNumber = 1; ; pageNumber += 1) {
     const page = await supabase.auth.admin.listUsers({ page: pageNumber, perPage: 1000 });
@@ -44,10 +51,43 @@ Deno.serve(async (request) => {
       return Response.json({ error: "firebase_id_token is required" }, { status: 400 });
     }
 
-    const decodedToken = await firebaseAuth.verifyIdToken(firebaseIdToken, false);
+    const decodedToken = await firebaseAuth.verifyIdToken(firebaseIdToken, true);
     const phone = decodedToken.phone_number;
     if (typeof phone !== "string" || phone.length === 0) {
       return Response.json({ error: "Firebase token has no phone_number claim" }, { status: 401 });
+    }
+
+    // Single-use replay guard: a Firebase ID token is a ~1h bearer JWT, so a
+    // leaked token could otherwise be exchanged repeatedly to mint sessions for
+    // the victim's phone. Record its hash the moment it is accepted; the
+    // ledger's primary key rejects any second use. Fail closed — write the
+    // ledger row BEFORE minting a session so there is no window in which a
+    // replay could succeed.
+    const tokenHash = await sha256Hex(firebaseIdToken);
+    const tokenExpiresAt = new Date((decodedToken.exp ?? 0) * 1000).toISOString();
+
+    // Opportunistic prune of tokens past their own expiry (unusable anyway);
+    // keeps the ledger bounded without a scheduled job.
+    // ponytail: best-effort — a failed prune must not block a valid login.
+    await supabase
+      .from("firebase_phone_token_ledger")
+      .delete()
+      .lt("expires_at", new Date().toISOString());
+
+    const ledger = await supabase.from("firebase_phone_token_ledger").insert({
+      token_hash: tokenHash,
+      firebase_uid: decodedToken.uid,
+      phone,
+      expires_at: tokenExpiresAt
+    });
+    if (ledger.error) {
+      if (ledger.error.code === "23505") {
+        return Response.json(
+          { error: "This verification token has already been used" },
+          { status: 409 }
+        );
+      }
+      throw ledger.error;
     }
 
     const password = randomPassword();

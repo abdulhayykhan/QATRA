@@ -47,6 +47,14 @@ Invalid, expired, malformed, or phone-less Firebase tokens return HTTP `401`:
 
 Missing `firebase_id_token` returns HTTP `400`.
 
+A token that has already been exchanged returns HTTP `409`:
+
+```json
+{
+  "error": "This verification token has already been used"
+}
+```
+
 ## Manual curl test
 
 Use a freshly issued Firebase ID token. Do not put a service-role key in this request.
@@ -68,7 +76,16 @@ performs a server-side phone/password sign-in. The random password never leaves 
 function; the client receives only the normal Supabase session.
 
 Firebase ID tokens are bearer tokens and are valid until their Firebase expiry. Firebase
-Admin verification rejects invalid and expired tokens, but Firebase ID tokens are not
-single-use. This function does not store tokens or add a replay ledger, so a valid token
-could be replayed until expiry. A future hardening step should persist Firebase `uid` plus
-`iat`/`jti` and reject repeats if strict single-use semantics are required.
+Admin verification rejects invalid and expired tokens, and is called here with revocation
+checking enabled (`verifyIdToken(token, true)`), so tokens for sessions Firebase has revoked
+are also rejected.
+
+Firebase ID tokens are not single-use on Firebase's side, so this function enforces single
+use itself. It records the SHA-256 of each accepted token in the
+`public.firebase_phone_token_ledger` table (`token_hash` primary key) **before** minting a
+Supabase session — fail-closed, so there is no window in which a replay could succeed. A
+second exchange of the same token hits the primary-key unique constraint and returns HTTP
+`409`. Rows whose `expires_at` has passed are pruned opportunistically on each call (best
+effort; a failed prune never blocks a valid login), which keeps the ledger bounded without a
+scheduled job. The table has RLS enabled with no policies, so only the service-role function
+can read or write it.
