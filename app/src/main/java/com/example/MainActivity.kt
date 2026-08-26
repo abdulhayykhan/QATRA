@@ -253,7 +253,11 @@ fun MainShellScreen(
                 MainTab.EMERGENCY -> LiveRequestFeedStatusScreen(viewModel = viewModel)
                 MainTab.DONATE -> DonorHomeDashboardScreen(viewModel = viewModel)
                 MainTab.LEARN -> AwarenessHubScreen(viewModel = viewModel)
-                MainTab.DESK -> VerificationQueueScreen(viewModel = viewModel)
+                MainTab.DESK -> {
+                    val isAdminAuth by viewModel.isAdminAuthenticated.collectAsState()
+                    if (isAdminAuth) VerificationQueueScreen(viewModel = viewModel)
+                    else AdminLogin2FAScreen(viewModel = viewModel)
+                }
             }
         }
     }

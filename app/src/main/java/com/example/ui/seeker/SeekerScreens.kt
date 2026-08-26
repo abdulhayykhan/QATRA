@@ -257,7 +257,7 @@ fun PhoneVerificationScreen(
     var otpError by remember { mutableStateOf<String?>(null) }
     val context = LocalContext.current
 
-    LaunchedEffect(phone) {
+    LaunchedEffect(Unit) {
         val activity = context as? Activity
         if (activity != null && phone.isNotBlank()) {
             viewModel.repository.sendFirebaseOtp(activity, phone) { sent ->
@@ -372,7 +372,7 @@ fun PhoneVerificationScreen(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 for (i in 0..5) {
-                    val char = if (i < otp.length) otp[i].toString() else if (i == 0 && otp.isEmpty()) "1" else ""
+                    val char = if (i < otp.length) otp[i].toString() else ""
                     val isCurrent = i == otp.length || (i == 0 && otp.isEmpty())
 
                     Box(
@@ -2008,8 +2008,8 @@ fun DonationConfirmationScreen(
     viewModel: QatraViewModel,
     modifier: Modifier = Modifier
 ) {
-    var rating by remember { mutableStateOf(5) }
-    var feedback by remember { mutableStateOf("Donor arrived swiftly at JPMC and transfusion started. Thank you so much!") }
+    val rating by viewModel.feedbackRating.collectAsState()
+    val feedback by viewModel.feedbackNote.collectAsState()
 
     Column(
         modifier = modifier
@@ -2073,7 +2073,7 @@ fun DonationConfirmationScreen(
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 for (i in 1..5) {
                     IconButton(
-                        onClick = { rating = i },
+                        onClick = { viewModel.feedbackRating.value = i },
                         modifier = Modifier.size(40.dp)
                     ) {
                         Icon(
@@ -2091,7 +2091,7 @@ fun DonationConfirmationScreen(
             // Feedback Text Field
             OutlinedTextField(
                 value = feedback,
-                onValueChange = { feedback = it },
+                onValueChange = { viewModel.feedbackNote.value = it },
                 label = { Text("Thank You Note / Experience (Optional)") },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
@@ -2102,7 +2102,7 @@ fun DonationConfirmationScreen(
         // Submit & Close Request Button
         Button(
             onClick = {
-                viewModel.setSeekerStep(SeekerScreenStep.SPLASH)
+                viewModel.submitSeekerFeedback()
             },
             modifier = Modifier
                 .fillMaxWidth()

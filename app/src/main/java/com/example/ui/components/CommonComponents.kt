@@ -344,7 +344,7 @@ fun InteractiveKarachiMapCanvas(
 ) {
     val centerHospital = hospitals.firstOrNull { it.shortName == "JPMC" } ?: hospitals.first()
 
-    Box(
+    BoxWithConstraints(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(16.dp))
@@ -445,8 +445,9 @@ fun InteractiveKarachiMapCanvas(
                     .fillMaxSize()
                     .wrapContentSize(Alignment.TopStart)
                     .offset(
-                        x = (hospital.xPercent * 300).dp, // responsive positioning proxy
-                        y = (hospital.yPercent * 240).dp
+                        // ponytail: pins anchored top-left to fractional coords, matches Canvas rings. Center-anchor if pins must sit dead-on.
+                        x = maxWidth * hospital.xPercent,
+                        y = maxHeight * hospital.yPercent
                     )
                     .clickable { onHospitalSelected(hospital) }
             ) {

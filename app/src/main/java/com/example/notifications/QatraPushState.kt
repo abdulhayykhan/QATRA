@@ -34,6 +34,13 @@ object QatraPushState {
             .apply()
     }
 
+    fun savePendingToken(context: Context, token: String) {
+        context.getSharedPreferences("qatra_push", Context.MODE_PRIVATE)
+            .edit()
+            .putString("pending_fcm_token", token)
+            .apply()
+    }
+
     fun consume(context: Context): GeoAlertPayload? {
         val preferences = context.getSharedPreferences("qatra_push", Context.MODE_PRIVATE)
         val requestId = preferences.getString("alert_request_id", null) ?: return null

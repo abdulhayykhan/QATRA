@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,9 +41,10 @@ fun AdminLogin2FAScreen(
     viewModel: QatraViewModel,
     modifier: Modifier = Modifier
 ) {
-    var email by remember { mutableStateOf("admin@qatra.org") }
-    var password by remember { mutableStateOf("••••••••") }
-    var totpCode by remember { mutableStateOf("688001") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var totpCode by remember { mutableStateOf("") }
+    var loginError by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = modifier
@@ -84,26 +86,6 @@ fun AdminLogin2FAScreen(
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.White.copy(alpha = 0.85f)
                 )
-
-                Spacer(modifier = Modifier.height(14.dp))
-
-                Surface(
-                    shape = RoundedCornerShape(8.dp),
-                    color = QatraRedDark
-                ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(imageVector = Icons.Filled.Shield, contentDescription = null, tint = Color.White, modifier = Modifier.size(12.dp))
-                        Spacer(modifier = Modifier.width(4.dp))
-                        Text(
-                            text = "ISO 27001 SECURITY COMPLIANCE",
-                            style = MaterialTheme.typography.labelSmall.copy(fontSize = 9.sp, fontWeight = FontWeight.Bold),
-                            color = Color.White
-                        )
-                    }
-                }
             }
         }
 
@@ -149,7 +131,8 @@ fun AdminLogin2FAScreen(
                     Icon(imageVector = Icons.Filled.Visibility, contentDescription = null, tint = QatraGray600)
                 },
                 modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
+                visualTransformation = PasswordVisualTransformation()
             )
 
             // 2FA TOTP Code Field
@@ -174,11 +157,21 @@ fun AdminLogin2FAScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            if (loginError != null) {
+                Text(
+                    text = loginError ?: "",
+                    style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Medium),
+                    color = QatraUrgent
+                )
+            }
+
             // Sign In Button
             Button(
                 onClick = {
-                    // // MOCK: 2FA validation pass
-                    viewModel.setAdminStep(AdminScreenStep.VERIFICATION_QUEUE)
+                    loginError = null
+                    val ok = viewModel.adminSignIn(email, password, totpCode)
+                    if (ok) viewModel.setAdminStep(AdminScreenStep.VERIFICATION_QUEUE)
+                    else loginError = "Invalid credentials or 2FA code. Check the pilot admin sheet."
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -222,7 +215,61 @@ fun VerificationQueueScreen(
     modifier: Modifier = Modifier
 ) {
     val queueItems by viewModel.repository.verificationQueue.collectAsState()
-    val activeItem = queueItems.firstOrNull { it.status == "Pending" } ?: queueItems.first()
+    val activeItem = queueItems.firstOrNull { it.status == "Pending" }
+
+    if (activeItem == null) {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .statusBarsPadding()
+                .navigationBarsPadding()
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = Icons.Filled.CheckCircle,
+                contentDescription = null,
+                tint = QatraSuccess,
+                modifier = Modifier.size(64.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = "Verification Queue Clear",
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                color = QatraGray900
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = "No pending requests awaiting verification.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = QatraGray600,
+                textAlign = TextAlign.Center
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            OutlinedButton(
+                onClick = { viewModel.setAdminStep(AdminScreenStep.FRAUD_AUDIT) },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Icon(imageVector = Icons.Filled.Security, contentDescription = null, modifier = Modifier.size(16.dp))
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(text = "Fraud Audit Center")
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            OutlinedButton(
+                onClick = { viewModel.setAdminStep(AdminScreenStep.DRIVE_MANAGEMENT) },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Icon(imageVector = Icons.Filled.Event, contentDescription = null, modifier = Modifier.size(16.dp))
+                Spacer(modifier = Modifier.width(6.dp))
+                Text(text = "Campus Drive Management")
+            }
+        }
+        return
+    }
 
     Column(
         modifier = modifier

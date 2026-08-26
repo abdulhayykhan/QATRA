@@ -139,10 +139,9 @@ class QatraViewModel(
     val feedbackNote = MutableStateFlow("")
 
     // Admin State
-    val adminEmail = MutableStateFlow("admin@qatra.org")
-    val adminPassword = MutableStateFlow("••••••••")
-    val admin2faCode = MutableStateFlow("688001")
-    val adminSearchQuery = MutableStateFlow("")
+    private val _isAdminAuthenticated = MutableStateFlow(false)
+    val isAdminAuthenticated: StateFlow<Boolean> = _isAdminAuthenticated.asStateFlow()
+    val adminAuthError = MutableStateFlow<String?>(null)
 
     // Feed State
     val feedFilterBloodGroup = MutableStateFlow<BloodGroup?>(null)
@@ -230,6 +229,22 @@ class QatraViewModel(
     fun setAdminStep(step: AdminScreenStep) {
         _adminStep.value = step
         _activeFlow.value = FlowType.ADMIN
+    }
+
+    fun adminSignIn(email: String, password: String, totpCode: String): Boolean {
+        // ponytail: demo credential gate — creds compiled into the client for the closed pilot.
+        // Real fix = server-side auth + live TOTP (see docs 04-Known-Gaps/Admin-Login-Unwired).
+        val ok = email.trim().equals(ADMIN_DEMO_EMAIL, ignoreCase = true) &&
+            password == ADMIN_DEMO_PASSWORD &&
+            totpCode.trim() == ADMIN_DEMO_TOTP
+        adminAuthError.value = if (ok) null else "Invalid credentials or 2FA code."
+        _isAdminAuthenticated.value = ok
+        return ok
+    }
+
+    fun adminSignOut() {
+        _isAdminAuthenticated.value = false
+        adminAuthError.value = null
     }
 
     fun enterMainShell(initialTab: MainTab = MainTab.EMERGENCY) {
@@ -349,8 +364,14 @@ class QatraViewModel(
     }
 
     fun donorFinishDonation() {
-        repository.completeDonation("DNR-001", 5, "Heroic prompt response")
+        val note = feedbackNote.value.ifBlank { "Donation completed via QATRA emergency dispatch." }
+        repository.completeDonation("DNR-001", feedbackRating.value, note)
         _donorStep.value = DonorScreenStep.DONATION_COMPLETE
+    }
+
+    fun submitSeekerFeedback() {
+        // ponytail: feedback lives in VM state (feedbackRating/feedbackNote) — no backend sink for seeker ratings yet.
+        setSeekerStep(SeekerScreenStep.SPLASH)
     }
 
     fun scheduleDrive() {
@@ -370,5 +391,12 @@ class QatraViewModel(
             repository.checkInAttendee("ATT-02")
             qrScanActive.value = false
         }
+    }
+
+    companion object {
+        // ponytail: pilot demo admin credentials (client-side gate only). Rotate + move server-side before production.
+        private const val ADMIN_DEMO_EMAIL = "admin@qatra.org"
+        private const val ADMIN_DEMO_PASSWORD = "Alkhidmat@2026"
+        private const val ADMIN_DEMO_TOTP = "688001"
     }
 }

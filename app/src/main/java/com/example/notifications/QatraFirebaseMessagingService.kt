@@ -1,21 +1,14 @@
 package com.example.notifications
 
-import com.example.data.repository.QatraRepository
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
 
 class QatraFirebaseMessagingService : FirebaseMessagingService() {
-    private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override fun onNewToken(token: String) {
-        serviceScope.launch {
-            QatraRepository().registerFcmToken(applicationContext, token)
-        }
+        // Persist for MainActivity to upsert once a Supabase session exists.
+        // Avoids constructing a full QatraRepository (mock seed + Supabase client) on the messaging thread.
+        QatraPushState.savePendingToken(applicationContext, token)
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
@@ -34,10 +27,5 @@ class QatraFirebaseMessagingService : FirebaseMessagingService() {
                 etaMinutes = data["eta_minutes"] ?: "0"
             )
         )
-    }
-
-    override fun onDestroy() {
-        serviceScope.cancel()
-        super.onDestroy()
     }
 }
