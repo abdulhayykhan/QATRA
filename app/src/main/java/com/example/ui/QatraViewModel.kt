@@ -231,18 +231,18 @@ class QatraViewModel(
         _activeFlow.value = FlowType.ADMIN
     }
 
-    fun adminSignIn(email: String, password: String, totpCode: String): Boolean {
-        // ponytail: demo credential gate — creds compiled into the client for the closed pilot.
-        // Real fix = server-side auth + live TOTP (see docs 04-Known-Gaps/Admin-Login-Unwired).
-        val ok = email.trim().equals(ADMIN_DEMO_EMAIL, ignoreCase = true) &&
-            password == ADMIN_DEMO_PASSWORD &&
-            totpCode.trim() == ADMIN_DEMO_TOTP
-        adminAuthError.value = if (ok) null else "Invalid credentials or 2FA code."
+    suspend fun adminSignIn(email: String, password: String, totpCode: String): Boolean {
+        // ponytail: the TOTP field is accepted but not yet enforced. Supabase MFA (TOTP
+        // enroll + challenge) is a documented Phase-1 pilot gap; password auth is real and
+        // server-verified. The UI keeps the field so the terminal flow matches production.
+        val ok = repository.adminSignIn(email, password)
+        adminAuthError.value = if (ok) null else (repository.lastAuthErrorMessage ?: "Invalid credentials.")
         _isAdminAuthenticated.value = ok
         return ok
     }
 
-    fun adminSignOut() {
+    suspend fun adminSignOut() {
+        repository.adminSignOut()
         _isAdminAuthenticated.value = false
         adminAuthError.value = null
     }
@@ -391,12 +391,5 @@ class QatraViewModel(
             repository.checkInAttendee("ATT-02")
             qrScanActive.value = false
         }
-    }
-
-    companion object {
-        // ponytail: pilot demo admin credentials (client-side gate only). Rotate + move server-side before production.
-        private const val ADMIN_DEMO_EMAIL = "admin@qatra.org"
-        private const val ADMIN_DEMO_PASSWORD = "Alkhidmat@2026"
-        private const val ADMIN_DEMO_TOTP = "688001"
     }
 }

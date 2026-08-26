@@ -16,6 +16,7 @@ import com.google.firebase.auth.PhoneAuthProvider
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.auth.providers.builtin.Email
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.from
@@ -550,6 +551,33 @@ class QatraRepository {
             setLastAuthError(exception.message ?: exception::class.simpleName ?: "Unknown OTP verification error")
             false
         }
+    }
+
+    /**
+     * Signs the admin in against the real Supabase auth backend with an email/password
+     * credential. The admin identity carries a `user_role=admin` claim in its JWT, which is
+     * what the row-level-security policies check — so authority lives on the server, not in the
+     * client. This replaces the old compiled-in demo password gate.
+     *
+     * ponytail: the shared client holds one session at a time, so an admin sign-in replaces any
+     * donor/seeker phone session on this device. That is acceptable for the closed pilot (admins
+     * use their own devices); revisit with a separate client if concurrent roles are ever needed.
+     */
+    suspend fun adminSignIn(email: String, password: String): Boolean = try {
+        client.auth.signInWith(Email) {
+            this.email = email.trim()
+            this.password = password
+        }
+        setLastAuthError(null)
+        true
+    } catch (exception: Exception) {
+        setLastAuthError(exception.message ?: "Invalid admin credentials.")
+        false
+    }
+
+    /** Tears down the admin Supabase session so a signed-out terminal cannot keep admin authority. */
+    suspend fun adminSignOut() {
+        runCatching { client.auth.signOut() }
     }
 
     private suspend fun FirebaseAuth.signInWithCredentialAwait(

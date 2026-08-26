@@ -32,6 +32,7 @@ import com.example.ui.QatraViewModel
 import com.example.ui.SeekerScreenStep
 import com.example.ui.components.MockRequisitionSlipView
 import com.example.ui.theme.*
+import kotlinx.coroutines.launch
 
 // ----------------------------------------------------
 // 1. Admin Login & 2FA (Wireframe Page 20)
@@ -45,6 +46,8 @@ fun AdminLogin2FAScreen(
     var password by remember { mutableStateOf("") }
     var totpCode by remember { mutableStateOf("") }
     var loginError by remember { mutableStateOf<String?>(null) }
+    var signingIn by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
 
     Column(
         modifier = modifier
@@ -169,10 +172,19 @@ fun AdminLogin2FAScreen(
             Button(
                 onClick = {
                     loginError = null
-                    val ok = viewModel.adminSignIn(email, password, totpCode)
-                    if (ok) viewModel.setAdminStep(AdminScreenStep.VERIFICATION_QUEUE)
-                    else loginError = "Invalid credentials or 2FA code. Check the pilot admin sheet."
+                    signingIn = true
+                    scope.launch {
+                        val ok = viewModel.adminSignIn(email, password, totpCode)
+                        signingIn = false
+                        if (ok) {
+                            viewModel.setAdminStep(AdminScreenStep.VERIFICATION_QUEUE)
+                        } else {
+                            loginError = viewModel.adminAuthError.value
+                                ?: "Invalid credentials. Contact IT support."
+                        }
+                    }
                 },
+                enabled = !signingIn,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(54.dp)
@@ -181,7 +193,7 @@ fun AdminLogin2FAScreen(
                 colors = ButtonDefaults.buttonColors(containerColor = QatraRedPrimary)
             ) {
                 Text(
-                    text = "Sign In to 24/7 Verification Desk",
+                    text = if (signingIn) "Signing in…" else "Sign In to 24/7 Verification Desk",
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                     color = Color.White
                 )
