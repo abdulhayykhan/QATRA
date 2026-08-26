@@ -106,7 +106,7 @@ data class VerificationQueueItem(
     val ocrConfidence: Int,
     val bloodGroupConfidence: Int,
     val flagWarning: String? = null,
-    var status: String = "Pending" // Pending, Approved, Rejected
+    val status: String = "Pending" // Pending, Approved, Rejected
 )
 
 data class FraudAuditItem(
@@ -117,7 +117,7 @@ data class FraudAuditItem(
     val hospitalMrn: String,
     val ocrConfidence: Int,
     val flagReason: String,
-    var actionStatus: String = "Flagged" // Flagged, Blacklisted, Whitelisted
+    val actionStatus: String = "Flagged" // Flagged, Blacklisted, Whitelisted
 )
 
 data class CampusDrive(

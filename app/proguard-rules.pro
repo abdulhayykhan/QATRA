@@ -19,3 +19,21 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Supabase & Kotlin Serialization
+-keep class io.github.jan.supabase.** { *; }
+-keep class kotlinx.serialization.** { *; }
+-keepattributes *Annotation*
+-keepclassmembers class * {
+    @kotlinx.serialization.SerialName <fields>;
+}
+
+# Firebase
+-keep class com.google.firebase.** { *; }
+
+# OkHttp
+-dontwarn okhttp3.**
+-keep class okhttp3.** { *; }
+
+# Keep data classes used with Supabase
+-keep class com.example.data.model.** { *; }
