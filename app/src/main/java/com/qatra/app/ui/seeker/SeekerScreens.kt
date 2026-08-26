@@ -76,7 +76,7 @@ fun SplashScreen(
 
             Surface(
                 shape = RoundedCornerShape(20.dp),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.surface,
                 border = androidx.compose.foundation.BorderStroke(1.dp, QatraGray300),
                 modifier = Modifier.clickable {
                     selectedLanguage = if (selectedLanguage == "EN") "اردو" else "EN"
@@ -162,7 +162,7 @@ fun SplashScreen(
                     }
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                        contentDescription = null,
+                        contentDescription = "Proceed",
                         tint = Color.White
                     )
                 }
@@ -179,7 +179,7 @@ fun SplashScreen(
                     .testTag("btn_register_donor"),
                 shape = RoundedCornerShape(16.dp),
                 border = androidx.compose.foundation.BorderStroke(1.5.dp, QatraRedPrimary),
-                colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.White)
+                colors = ButtonDefaults.outlinedButtonColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -187,7 +187,7 @@ fun SplashScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Favorite,
-                        contentDescription = null,
+                        contentDescription = "Donate",
                         tint = QatraRedPrimary,
                         modifier = Modifier.size(18.dp)
                     )
@@ -220,7 +220,7 @@ fun SplashScreen(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Filled.PhoneInTalk,
-                        contentDescription = null,
+                        contentDescription = "Helpline",
                         tint = QatraRedDark,
                         modifier = Modifier.size(16.dp)
                     )
@@ -275,7 +275,7 @@ fun PhoneVerificationScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
             .padding(24.dp),
@@ -311,7 +311,7 @@ fun PhoneVerificationScreen(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Security,
-                    contentDescription = null,
+                    contentDescription = "Security",
                     tint = QatraRedPrimary,
                     modifier = Modifier.size(32.dp)
                 )
@@ -417,7 +417,7 @@ fun PhoneVerificationScreen(
             ) {
                 Icon(
                     imageVector = Icons.Filled.AccessTime,
-                    contentDescription = null,
+                    contentDescription = "Timer",
                     tint = QatraRedDark,
                     modifier = Modifier.size(16.dp)
                 )
@@ -498,7 +498,7 @@ fun RoleSelectionProfileScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
             .padding(24.dp),
@@ -614,7 +614,7 @@ fun RoleSelectionProfileScreen(
                     label = { Text("Primary District (Karachi)") },
                     trailingIcon = {
                         IconButton(onClick = { districtMenuExpanded = true }) {
-                            Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = null)
+                            Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "Expand")
                         }
                     },
                     modifier = Modifier
@@ -654,7 +654,7 @@ fun RoleSelectionProfileScreen(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Filled.Verified,
-                            contentDescription = null,
+                            contentDescription = "Verified",
                             tint = QatraSuccess,
                             modifier = Modifier.size(14.dp)
                         )
@@ -714,7 +714,7 @@ fun RequestCreationScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
             .padding(20.dp),
@@ -797,7 +797,7 @@ fun RequestCreationScreen(
                     )
                     Icon(
                         imageVector = Icons.Outlined.Info,
-                        contentDescription = null,
+                        contentDescription = "Info",
                         tint = QatraGray600,
                         modifier = Modifier.size(16.dp)
                     )
@@ -905,15 +905,15 @@ fun RequestCreationScreen(
                         onValueChange = {},
                         readOnly = true,
                         leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Filled.LocalHospital,
-                                contentDescription = null,
+                                Icon(
+                                    imageVector = Icons.Filled.LocalHospital,
+                                    contentDescription = "Hospital",
                                 tint = QatraRedPrimary
                             )
                         },
                         trailingIcon = {
                             IconButton(onClick = { hospitalDropdownExpanded = true }) {
-                                Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = null)
+                                Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "Expand")
                             }
                         },
                         modifier = Modifier
@@ -983,7 +983,7 @@ fun RequestCreationScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.Warning,
-                                    contentDescription = null,
+                                    contentDescription = "Urgent",
                                     tint = Color.White,
                                     modifier = Modifier.size(20.dp)
                                 )
@@ -1049,7 +1049,7 @@ fun RequestCreationScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.Schedule,
-                                    contentDescription = null,
+                                    contentDescription = "Standard",
                                     tint = Color.White,
                                     modifier = Modifier.size(20.dp)
                                 )
@@ -1125,7 +1125,7 @@ fun RequisitionSlipUploadScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
             .padding(24.dp),
@@ -1196,7 +1196,7 @@ fun RequisitionSlipUploadScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.CheckCircle,
-                                contentDescription = null,
+                                contentDescription = "Slip attached",
                                 tint = QatraSuccess,
                                 modifier = Modifier.size(16.dp)
                             )
@@ -1224,7 +1224,7 @@ fun RequisitionSlipUploadScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.AddAPhoto,
-                                contentDescription = null,
+                                contentDescription = "Upload photo",
                                 tint = QatraRedPrimary,
                                 modifier = Modifier.size(32.dp)
                             )
@@ -1281,7 +1281,7 @@ fun RequisitionSlipUploadScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.AutoAwesome,
-                        contentDescription = null,
+                        contentDescription = "AI",
                         tint = QatraRedPrimary,
                         modifier = Modifier.size(24.dp)
                     )
@@ -1342,7 +1342,7 @@ fun SlipVerificationPendingModal(
                 .fillMaxWidth()
                 .shadow(16.dp, RoundedCornerShape(24.dp)),
             shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
             Column(
                 modifier = Modifier.padding(24.dp),
@@ -1364,7 +1364,7 @@ fun SlipVerificationPendingModal(
                     } else {
                         Icon(
                             imageVector = Icons.Filled.CheckCircle,
-                            contentDescription = null,
+                            contentDescription = "Success",
                             tint = QatraSuccess,
                             modifier = Modifier.size(36.dp)
                         )
@@ -1416,7 +1416,7 @@ fun SlipVerificationPendingModal(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         if (step1Done) {
-                            Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = null, tint = QatraSuccess, modifier = Modifier.size(20.dp))
+                            Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "Done", tint = QatraSuccess, modifier = Modifier.size(20.dp))
                         } else {
                             CircularProgressIndicator(modifier = Modifier.size(16.dp), color = QatraRedPrimary, strokeWidth = 2.dp)
                         }
@@ -1436,7 +1436,7 @@ fun SlipVerificationPendingModal(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         if (step2Done) {
-                            Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = null, tint = QatraSuccess, modifier = Modifier.size(20.dp))
+                            Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "Done", tint = QatraSuccess, modifier = Modifier.size(20.dp))
                         } else {
                             CircularProgressIndicator(modifier = Modifier.size(16.dp), color = QatraRedPrimary, strokeWidth = 2.dp)
                         }
@@ -1555,7 +1555,7 @@ fun LiveRequestFeedStatusScreen(
                             .fillMaxWidth()
                             .shadow(8.dp, RoundedCornerShape(20.dp)),
                         shape = RoundedCornerShape(20.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White)
+                        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                     ) {
                         Column(modifier = Modifier.padding(18.dp)) {
                             // Top Bar of Active Card
@@ -1660,7 +1660,7 @@ fun LiveRequestFeedStatusScreen(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Row(
                         modifier = Modifier
@@ -1716,7 +1716,7 @@ fun MatchedDonorsScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .padding(16.dp)
     ) {
@@ -1809,7 +1809,7 @@ fun MatchedDonorsScreen(
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(imageVector = Icons.Filled.Place, contentDescription = null, tint = QatraRedPrimary, modifier = Modifier.size(16.dp))
+                                Icon(imageVector = Icons.Filled.Place, contentDescription = "Location", tint = QatraRedPrimary, modifier = Modifier.size(16.dp))
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Text(
                                     text = "${donor.distanceKm} km away",
@@ -1819,7 +1819,7 @@ fun MatchedDonorsScreen(
                             }
 
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(imageVector = Icons.Filled.AccessTime, contentDescription = null, tint = QatraGray600, modifier = Modifier.size(16.dp))
+                                Icon(imageVector = Icons.Filled.AccessTime, contentDescription = "ETA", tint = QatraGray600, modifier = Modifier.size(16.dp))
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Text(
                                     text = "Est. Arrival: ${donor.etaMinutes} mins",
@@ -1841,7 +1841,7 @@ fun MatchedDonorsScreen(
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = QatraRedPrimary)
                         ) {
-                            Icon(imageVector = Icons.Filled.Phone, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
+                            Icon(imageVector = Icons.Filled.Phone, contentDescription = "Call", tint = Color.White, modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(text = "Call via Masked Proxy", fontWeight = FontWeight.Bold, color = Color.White)
                         }
@@ -1953,7 +1953,7 @@ fun MaskedCallingScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Lock,
-                        contentDescription = null,
+                        contentDescription = "Encrypted",
                         tint = Color.White,
                         modifier = Modifier.size(20.dp)
                     )
@@ -2014,7 +2014,7 @@ fun DonationConfirmationScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
             .padding(24.dp),
@@ -2034,7 +2034,7 @@ fun DonationConfirmationScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.CheckCircle,
-                        contentDescription = null,
+                        contentDescription = "Donation complete",
                         tint = QatraSuccess,
                         modifier = Modifier.size(48.dp)
                     )

@@ -52,7 +52,7 @@ fun AdminLogin2FAScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
     ) {
@@ -116,7 +116,7 @@ fun AdminLogin2FAScreen(
                 onValueChange = { email = it },
                 label = { Text("Email Address") },
                 leadingIcon = {
-                    Icon(imageVector = Icons.Filled.Email, contentDescription = null, tint = QatraGray600)
+                    Icon(imageVector = Icons.Filled.Email, contentDescription = "Email", tint = QatraGray600)
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
@@ -128,10 +128,10 @@ fun AdminLogin2FAScreen(
                 onValueChange = { password = it },
                 label = { Text("Password") },
                 leadingIcon = {
-                    Icon(imageVector = Icons.Filled.Lock, contentDescription = null, tint = QatraGray600)
+                    Icon(imageVector = Icons.Filled.Lock, contentDescription = "Password", tint = QatraGray600)
                 },
                 trailingIcon = {
-                    Icon(imageVector = Icons.Filled.Visibility, contentDescription = null, tint = QatraGray600)
+                    Icon(imageVector = Icons.Filled.Visibility, contentDescription = "Show password", tint = QatraGray600)
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
@@ -145,7 +145,7 @@ fun AdminLogin2FAScreen(
                 label = { Text("2FA TOTP Code") },
                 placeholder = { Text("6-digit authenticator code") },
                 leadingIcon = {
-                    Icon(imageVector = Icons.Filled.Pin, contentDescription = null, tint = QatraGray600)
+                    Icon(imageVector = Icons.Filled.Pin, contentDescription = "TOTP code", tint = QatraGray600)
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
@@ -208,7 +208,7 @@ fun AdminLogin2FAScreen(
                 }
                 TextButton(onClick = { /* IT Support */ }) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(imageVector = Icons.Filled.SupportAgent, contentDescription = null, tint = QatraRedPrimary, modifier = Modifier.size(16.dp))
+                        Icon(imageVector = Icons.Filled.SupportAgent, contentDescription = "IT Support", tint = QatraRedPrimary, modifier = Modifier.size(16.dp))
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(text = "IT Support", color = QatraRedPrimary, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold))
                     }
@@ -233,7 +233,7 @@ fun VerificationQueueScreen(
         Column(
             modifier = modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.surface)
                 .statusBarsPadding()
                 .navigationBarsPadding()
                 .padding(24.dp),
@@ -242,7 +242,7 @@ fun VerificationQueueScreen(
         ) {
             Icon(
                 imageVector = Icons.Filled.CheckCircle,
-                contentDescription = null,
+                contentDescription = "Queue clear",
                 tint = QatraSuccess,
                 modifier = Modifier.size(64.dp)
             )
@@ -265,7 +265,7 @@ fun VerificationQueueScreen(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Icon(imageVector = Icons.Filled.Security, contentDescription = null, modifier = Modifier.size(16.dp))
+                Icon(imageVector = Icons.Filled.Security, contentDescription = "Fraud audit", modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(text = "Fraud Audit Center")
             }
@@ -275,7 +275,7 @@ fun VerificationQueueScreen(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Icon(imageVector = Icons.Filled.Event, contentDescription = null, modifier = Modifier.size(16.dp))
+                Icon(imageVector = Icons.Filled.Event, contentDescription = "Campus drives", modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(text = "Campus Drive Management")
             }
@@ -286,7 +286,7 @@ fun VerificationQueueScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
             .padding(16.dp)
@@ -409,7 +409,7 @@ fun VerificationQueueScreen(
                                     modifier = Modifier.padding(8.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Icon(imageVector = Icons.Filled.Warning, contentDescription = null, tint = QatraWarning, modifier = Modifier.size(16.dp))
+                                    Icon(imageVector = Icons.Filled.Warning, contentDescription = "Warning", tint = QatraWarning, modifier = Modifier.size(16.dp))
                                     Spacer(modifier = Modifier.width(6.dp))
                                     Text(
                                         text = activeItem.flagWarning ?: "",
@@ -451,7 +451,7 @@ fun VerificationQueueScreen(
                 colors = ButtonDefaults.outlinedButtonColors(contentColor = QatraUrgent),
                 border = androidx.compose.foundation.BorderStroke(1.5.dp, QatraUrgent)
             ) {
-                Icon(imageVector = Icons.Filled.Close, contentDescription = null, modifier = Modifier.size(16.dp))
+                Icon(imageVector = Icons.Filled.Close, contentDescription = "Reject", modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(text = "Reject Request", fontWeight = FontWeight.Bold)
             }
@@ -468,7 +468,7 @@ fun VerificationQueueScreen(
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = QatraRedPrimary)
             ) {
-                Icon(imageVector = Icons.Filled.Check, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
+                Icon(imageVector = Icons.Filled.Check, contentDescription = "Approve", tint = Color.White, modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(text = "Approve & Publish", fontWeight = FontWeight.Bold, color = Color.White)
             }
@@ -494,7 +494,7 @@ private fun ExtractedFieldRow(
         Text(text = value, style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold), color = QatraGray900)
         Row(verticalAlignment = Alignment.CenterVertically) {
             if (isLow) {
-                Icon(imageVector = Icons.Filled.Warning, contentDescription = null, tint = QatraWarning, modifier = Modifier.size(14.dp))
+                Icon(imageVector = Icons.Filled.Warning, contentDescription = "Low confidence", tint = QatraWarning, modifier = Modifier.size(14.dp))
                 Spacer(modifier = Modifier.width(2.dp))
             }
             Text(
@@ -534,7 +534,7 @@ fun FraudAuditCenterScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
             .padding(16.dp)
@@ -581,7 +581,7 @@ fun FraudAuditCenterScreen(
             value = searchQuery,
             onValueChange = { searchQuery = it },
             placeholder = { Text("Search by CNIC or Hospital MRN...") },
-            leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = null) },
+            leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Search") }
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp)
         )
@@ -732,7 +732,7 @@ fun DriveManagementDashboardScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
             .padding(16.dp)
@@ -787,7 +787,7 @@ fun DriveManagementDashboardScreen(
                 ) {
                     Column(modifier = Modifier.padding(14.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(imageVector = Icons.Filled.AddCircle, contentDescription = null, tint = QatraRedPrimary, modifier = Modifier.size(18.dp))
+                            Icon(imageVector = Icons.Filled.AddCircle, contentDescription = "Add", tint = QatraRedPrimary, modifier = Modifier.size(18.dp))
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(
                                 text = "Schedule New Drive",
@@ -818,7 +818,7 @@ fun DriveManagementDashboardScreen(
                                 label = { Text("University / Campus Venue") },
                                 trailingIcon = {
                                     IconButton(onClick = { venueDropdownExpanded = true }) {
-                                        Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = null)
+                                        Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "Expand")
                                     }
                                 },
                                 modifier = Modifier
@@ -884,7 +884,7 @@ fun DriveManagementDashboardScreen(
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = QatraRedPrimary)
                         ) {
-                            Icon(imageVector = Icons.Filled.Publish, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
+                            Icon(imageVector = Icons.Filled.Publish, contentDescription = "Publish", tint = Color.White, modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(6.dp))
                             Text(text = "Publish Event to Awareness Hub", fontWeight = FontWeight.Bold, color = Color.White)
                         }
@@ -906,7 +906,7 @@ fun DriveManagementDashboardScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(imageVector = Icons.Filled.QrCodeScanner, contentDescription = null, tint = QatraRedPrimary, modifier = Modifier.size(18.dp))
+                                Icon(imageVector = Icons.Filled.QrCodeScanner, contentDescription = "QR Scanner", tint = QatraRedPrimary, modifier = Modifier.size(18.dp))
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
                                     text = "Live Attendance & QR Scanner",
@@ -945,7 +945,7 @@ fun DriveManagementDashboardScreen(
                                     Spacer(modifier = Modifier.height(6.dp))
                                     Text(text = "Verifying Student QR Code...", color = Color.White, style = MaterialTheme.typography.bodySmall)
                                 } else {
-                                    Icon(imageVector = Icons.Filled.QrCode, contentDescription = null, tint = Color.White, modifier = Modifier.size(36.dp))
+                                    Icon(imageVector = Icons.Filled.QrCode, contentDescription = "Scan QR code", tint = Color.White, modifier = Modifier.size(36.dp))
                                     Spacer(modifier = Modifier.height(4.dp))
                                     Text(text = "Click to activate camera for QR scanning", color = Color.White, style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp))
                                 }
@@ -966,7 +966,7 @@ fun DriveManagementDashboardScreen(
                         attendees.forEach { attendee ->
                             Surface(
                                 shape = RoundedCornerShape(8.dp),
-                                color = Color.White,
+                                color = MaterialTheme.colorScheme.surface,
                                 border = androidx.compose.foundation.BorderStroke(1.dp, QatraGray200),
                                 modifier = Modifier
                                     .fillMaxWidth()

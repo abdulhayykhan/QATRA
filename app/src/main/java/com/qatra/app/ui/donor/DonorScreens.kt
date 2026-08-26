@@ -76,7 +76,7 @@ fun DonorCnicUploadScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
             .padding(24.dp),
@@ -173,7 +173,7 @@ fun DonorCnicUploadScreen(
                     ) {
                         Icon(
                             imageVector = if (frontUri != null) Icons.Filled.CheckCircle else Icons.Filled.AddPhotoAlternate,
-                            contentDescription = null,
+                            contentDescription = "Front CNIC",
                             tint = if (frontUri != null) QatraSuccess else QatraRedPrimary,
                             modifier = Modifier.size(28.dp)
                         )
@@ -206,7 +206,7 @@ fun DonorCnicUploadScreen(
                     ) {
                         Icon(
                             imageVector = if (backUri != null) Icons.Filled.CheckCircle else Icons.Filled.AddPhotoAlternate,
-                            contentDescription = null,
+                            contentDescription = "Back CNIC",
                             tint = if (backUri != null) QatraSuccess else QatraRedPrimary,
                             modifier = Modifier.size(28.dp)
                         )
@@ -258,7 +258,7 @@ fun DonorCnicUploadScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Lock,
-                        contentDescription = null,
+                        contentDescription = "Encrypted",
                         tint = QatraGray800,
                         modifier = Modifier.size(22.dp)
                     )
@@ -346,7 +346,7 @@ fun PreScreeningChecklistScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
             .padding(24.dp),
@@ -421,7 +421,7 @@ fun PreScreeningChecklistScreen(
                                         .background(QatraRedContainer, CircleShape),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Icon(imageVector = Icons.Filled.Badge, contentDescription = null, tint = QatraRedPrimary)
+                                    Icon(imageVector = Icons.Filled.Badge, contentDescription = "Identity", tint = QatraRedPrimary)
                                 }
                                 Spacer(modifier = Modifier.width(10.dp))
                                 Text(
@@ -508,7 +508,7 @@ fun PreScreeningChecklistScreen(
                                         .background(QatraRedContainer, CircleShape),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Icon(imageVector = Icons.Filled.Medication, contentDescription = null, tint = QatraRedPrimary)
+                                    Icon(imageVector = Icons.Filled.Medication, contentDescription = "Health", tint = QatraRedPrimary)
                                 }
                                 Spacer(modifier = Modifier.width(10.dp))
                                 Text(
@@ -564,7 +564,7 @@ fun PreScreeningChecklistScreen(
                                         .background(QatraRedContainer, CircleShape),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Icon(imageVector = Icons.Filled.AvTimer, contentDescription = null, tint = QatraRedPrimary)
+                                    Icon(imageVector = Icons.Filled.AvTimer, contentDescription = "Cooldown", tint = QatraRedPrimary)
                                 }
                                 Spacer(modifier = Modifier.width(10.dp))
                                 Text(
@@ -620,7 +620,7 @@ fun PreScreeningChecklistScreen(
                                         .background(QatraRedContainer, CircleShape),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Icon(imageVector = Icons.Filled.HealthAndSafety, contentDescription = null, tint = QatraRedPrimary)
+                                    Icon(imageVector = Icons.Filled.HealthAndSafety, contentDescription = "Safety", tint = QatraRedPrimary)
                                 }
                                 Spacer(modifier = Modifier.width(10.dp))
                                 Text(
@@ -767,7 +767,7 @@ fun DonorHomeDashboardScreen(
                     .fillMaxWidth()
                     .shadow(6.dp, RoundedCornerShape(16.dp)),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Row(
                     modifier = Modifier
@@ -836,7 +836,7 @@ fun DonorHomeDashboardScreen(
                 Card(
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Column(
                         modifier = Modifier
@@ -852,7 +852,7 @@ fun DonorHomeDashboardScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.CheckCircle,
-                                contentDescription = null,
+                                contentDescription = "Status",
                                 tint = QatraSuccess,
                                 modifier = Modifier.size(24.dp)
                             )
@@ -886,7 +886,7 @@ fun DonorHomeDashboardScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Favorite,
-                            contentDescription = null,
+                            contentDescription = "Lives saved",
                             tint = Color.White,
                             modifier = Modifier.size(24.dp)
                         )
@@ -925,7 +925,7 @@ fun DonorHomeDashboardScreen(
                     .fillMaxWidth()
                     .shadow(4.dp, RoundedCornerShape(16.dp)),
                 shape = RoundedCornerShape(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
             ) {
                 Column(modifier = Modifier.padding(18.dp)) {
                     Row(
@@ -958,7 +958,7 @@ fun DonorHomeDashboardScreen(
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     imageVector = Icons.Filled.Place,
-                                    contentDescription = null,
+                                    contentDescription = "Location",
                                     tint = QatraRedPrimary,
                                     modifier = Modifier.size(18.dp)
                                 )
@@ -1032,7 +1032,7 @@ fun GeoFencedPushAlertModal(
                 .fillMaxWidth()
                 .shadow(16.dp, RoundedCornerShape(24.dp)),
             shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 // High Priority Urgency Banner
@@ -1050,7 +1050,7 @@ fun GeoFencedPushAlertModal(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Warning,
-                            contentDescription = null,
+                            contentDescription = "Urgency",
                             tint = Color.White,
                             modifier = Modifier.size(16.dp)
                         )
@@ -1078,7 +1078,7 @@ fun GeoFencedPushAlertModal(
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Icon(
                                     imageVector = Icons.Filled.Place,
-                                    contentDescription = null,
+                                    contentDescription = "Location",
                                     tint = QatraRedPrimary,
                                     modifier = Modifier.size(14.dp)
                                 )
@@ -1168,7 +1168,7 @@ fun GeoFencedPushAlertModal(
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = QatraRedPrimary)
                     ) {
-                        Icon(imageVector = Icons.Filled.DirectionsCar, contentDescription = null, tint = Color.White)
+                        Icon(imageVector = Icons.Filled.DirectionsCar, contentDescription = "Navigate", tint = Color.White)
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(text = "Accept Dispatch & Route", fontWeight = FontWeight.Bold, color = Color.White)
                     }
@@ -1215,7 +1215,7 @@ fun InteractiveMapScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .padding(16.dp),
         verticalArrangement = Arrangement.SpaceBetween
@@ -1281,7 +1281,7 @@ fun InteractiveMapScreen(
                 .fillMaxWidth()
                 .shadow(8.dp, RoundedCornerShape(18.dp)),
             shape = RoundedCornerShape(18.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White)
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -1323,7 +1323,7 @@ fun InteractiveMapScreen(
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = QatraRedPrimary)
                 ) {
-                    Icon(imageVector = Icons.Filled.DirectionsCar, contentDescription = null, tint = Color.White)
+                    Icon(imageVector = Icons.Filled.DirectionsCar, contentDescription = "Navigate", tint = Color.White)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(text = "Accept Dispatch", fontWeight = FontWeight.Bold, color = Color.White)
                 }
@@ -1343,7 +1343,7 @@ fun NavigationProxyRoutingScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
             .padding(16.dp),
@@ -1361,7 +1361,7 @@ fun NavigationProxyRoutingScreen(
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black),
                     color = QatraRedPrimary
                 )
-                Icon(imageVector = Icons.Outlined.Notifications, contentDescription = null)
+                Icon(imageVector = Icons.Outlined.Notifications, contentDescription = "Notifications")
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -1385,7 +1385,7 @@ fun NavigationProxyRoutingScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.TurnRight,
-                            contentDescription = null,
+                            contentDescription = "Turn",
                             tint = Color.White,
                             modifier = Modifier.size(24.dp)
                         )
@@ -1424,7 +1424,7 @@ fun NavigationProxyRoutingScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         imageVector = Icons.Filled.Navigation,
-                        contentDescription = null,
+                        contentDescription = "Navigation",
                         tint = QatraRedPrimary,
                         modifier = Modifier.size(36.dp)
                     )
@@ -1467,7 +1467,7 @@ fun NavigationProxyRoutingScreen(
                     // Recipient Card
                     Surface(
                         shape = RoundedCornerShape(10.dp),
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.surface,
                         border = androidx.compose.foundation.BorderStroke(1.dp, QatraGray200)
                     ) {
                         Row(
@@ -1478,7 +1478,7 @@ fun NavigationProxyRoutingScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(imageVector = Icons.Filled.Person, contentDescription = null, tint = QatraGray600)
+                                Icon(imageVector = Icons.Filled.Person, contentDescription = "Recipient", tint = QatraGray600)
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Column {
                                     Text(text = "Recipient: Ahmed Khan", fontWeight = FontWeight.Bold, style = MaterialTheme.typography.bodySmall)
@@ -1510,7 +1510,7 @@ fun NavigationProxyRoutingScreen(
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = QatraSuccess)
             ) {
-                Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = null, tint = Color.White)
+                Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "Done", tint = Color.White)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(text = "I Have Arrived & Donated", fontWeight = FontWeight.Bold, color = Color.White)
             }
@@ -1537,7 +1537,7 @@ fun DonationCompleteCooldownScreen(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
             .padding(24.dp),
@@ -1556,7 +1556,7 @@ fun DonationCompleteCooldownScreen(
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black),
                     color = QatraRedPrimary
                 )
-                Icon(imageVector = Icons.Outlined.Notifications, contentDescription = null)
+                Icon(imageVector = Icons.Outlined.Notifications, contentDescription = "Notifications")
             }
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -1573,7 +1573,7 @@ fun DonationCompleteCooldownScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.CheckCircle,
-                        contentDescription = null,
+                        contentDescription = "Donation confirmed",
                         tint = QatraSuccess,
                         modifier = Modifier.size(36.dp)
                     )
@@ -1639,7 +1639,7 @@ fun DonationCompleteCooldownScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Info,
-                        contentDescription = null,
+                        contentDescription = "Info",
                         tint = QatraWarning,
                         modifier = Modifier.size(22.dp)
                     )
@@ -1704,7 +1704,7 @@ fun CooldownStateScreen(
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Black),
                         color = QatraRedPrimary
                     )
-                    Icon(imageVector = Icons.Outlined.Notifications, contentDescription = null)
+                    Icon(imageVector = Icons.Outlined.Notifications, contentDescription = "Notifications")
                 }
             }
 
@@ -1713,7 +1713,7 @@ fun CooldownStateScreen(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Column(modifier = Modifier.padding(18.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -1723,7 +1723,7 @@ fun CooldownStateScreen(
                                     .background(QatraRedContainer, CircleShape),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Icon(imageVector = Icons.Filled.Person, contentDescription = null, tint = QatraRedPrimary)
+                                Icon(imageVector = Icons.Filled.Person, contentDescription = "Profile", tint = QatraRedPrimary)
                             }
                             Spacer(modifier = Modifier.width(12.dp))
                             Column {
@@ -1755,7 +1755,7 @@ fun CooldownStateScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.Schedule,
-                                    contentDescription = null,
+                                    contentDescription = "Cooldown",
                                     tint = QatraWarning,
                                     modifier = Modifier.size(16.dp)
                                 )
@@ -1776,7 +1776,7 @@ fun CooldownStateScreen(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Row(
                         modifier = Modifier
@@ -1793,7 +1793,7 @@ fun CooldownStateScreen(
                                     color = QatraGray600
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
-                                Icon(imageVector = Icons.Filled.Lock, contentDescription = null, tint = QatraGray600, modifier = Modifier.size(14.dp))
+                                Icon(imageVector = Icons.Filled.Lock, contentDescription = "Locked", tint = QatraGray600, modifier = Modifier.size(14.dp))
                             }
                             Text(
                                 text = "Auto-unlocks on Day 90",
@@ -1815,7 +1815,7 @@ fun CooldownStateScreen(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -1844,7 +1844,7 @@ fun CooldownStateScreen(
                         .fillMaxWidth()
                         .clickable { viewModel.enterMainShell(MainTab.LEARN) },
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -1877,7 +1877,7 @@ fun CooldownStateScreen(
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
                 ) {
                     Column(modifier = Modifier.padding(16.dp)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
