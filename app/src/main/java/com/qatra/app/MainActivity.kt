@@ -20,26 +20,17 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.qatra.app.data.repository.QatraRepository
 import com.qatra.app.ui.*
 import com.qatra.app.ui.admin.*
 import com.qatra.app.ui.awareness.AwarenessHubScreen
 import com.qatra.app.ui.donor.*
 import com.qatra.app.ui.seeker.*
 import com.qatra.app.ui.theme.*
+import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: QatraViewModel by lazy {
-        val repo = QatraRepository()
-        val authVm = SharedAuthViewModel(repo)
-        val seekerVm = SeekerViewModel(repo)
-        val donorVm = DonorViewModel(repo)
-        val adminVm = AdminViewModel(repo)
-        QatraViewModel(authVm, seekerVm, donorVm, adminVm)
-    }
+    private val viewModel: QatraViewModel by koinViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

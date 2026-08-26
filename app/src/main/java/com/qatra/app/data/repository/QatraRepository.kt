@@ -11,12 +11,12 @@ import kotlinx.coroutines.flow.StateFlow
  * All logic lives in the sub-repositories; this class exists solely to preserve
  * the existing public API surface that QatraViewModel depends on.
  */
-class QatraRepository {
-
-    internal val authRepository = AuthRepository()
-    internal val seekerRepository = SeekerRepository()
-    internal val donorRepository = DonorRepository()
-    internal val adminRepository = AdminRepository()
+class QatraRepository(
+    internal val authRepository: AuthRepository,
+    internal val seekerRepository: SeekerRepository,
+    internal val donorRepository: DonorRepository,
+    internal val adminRepository: AdminRepository
+) {
 
     init {
         // Wire cross-repository state references so donor operations can update the

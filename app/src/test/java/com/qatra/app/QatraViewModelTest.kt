@@ -1,5 +1,9 @@
 package com.qatra.app
 
+import com.qatra.app.data.repository.AuthRepository
+import com.qatra.app.data.repository.SeekerRepository
+import com.qatra.app.data.repository.DonorRepository
+import com.qatra.app.data.repository.AdminRepository
 import com.qatra.app.data.repository.QatraRepository
 import com.qatra.app.ui.QatraViewModel
 import com.qatra.app.ui.SeekerScreenStep
@@ -34,7 +38,12 @@ class QatraViewModelTest {
     }
 
     private fun createViewModel(): QatraViewModel {
-        val repo = QatraRepository()
+        val repo = QatraRepository(
+            AuthRepository(),
+            SeekerRepository(),
+            DonorRepository(),
+            AdminRepository()
+        )
         return QatraViewModel(
             authVm = SharedAuthViewModel(repo),
             seekerVm = SeekerViewModel(repo),
