@@ -563,20 +563,24 @@ class QatraRepository {
      * donor/seeker phone session on this device. That is acceptable for the closed pilot (admins
      * use their own devices); revisit with a separate client if concurrent roles are ever needed.
      */
-    suspend fun adminSignIn(email: String, password: String): Boolean = try {
-        client.auth.signInWith(Email) {
-            this.email = email.trim()
-            this.password = password
+    suspend fun adminSignIn(email: String, password: String): Boolean {
+        val client = supabaseClient ?: return false
+        return try {
+            client.auth.signInWith(Email) {
+                this.email = email.trim()
+                this.password = password
+            }
+            setLastAuthError(null)
+            true
+        } catch (exception: Exception) {
+            setLastAuthError(exception.message ?: "Invalid admin credentials.")
+            false
         }
-        setLastAuthError(null)
-        true
-    } catch (exception: Exception) {
-        setLastAuthError(exception.message ?: "Invalid admin credentials.")
-        false
     }
 
     /** Tears down the admin Supabase session so a signed-out terminal cannot keep admin authority. */
     suspend fun adminSignOut() {
+        val client = supabaseClient ?: return
         runCatching { client.auth.signOut() }
     }
 
@@ -853,10 +857,6 @@ class QatraRepository {
 
     // // MOCK: Initiates masked proxy call without exposing raw phone numbers
     // // TODO: NFR 2.3 — replace with real Twilio Voice Proxy / Asterisk Telephony bridge
-    fun initiateMaskedProxyCall(callerId: String, targetId: String): String {
-        return "0300-XXXXXXX" // Always masked
-    }
-
     // FR 2.4 — donor completes a donation. The durable side is the complete_donation RPC
     // (SECURITY DEFINER, keyed on auth.uid()): it starts the 90-day cooldown and increments
     // lifetime donations for the caller's own profile. rating/thankYouNote have no backend

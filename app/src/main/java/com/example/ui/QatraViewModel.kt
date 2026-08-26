@@ -38,7 +38,7 @@ enum class SeekerScreenStep {
     VERIFICATION_MODAL,
     LIVE_STATUS_FEED,
     MATCHED_DONORS,
-    MASKED_CALL,
+    DIRECT_CALL, // seeker-only tel:+XXXX direct to accepted donor
     CONFIRMATION
 }
 
@@ -128,10 +128,6 @@ class QatraViewModel(
     val selectedMapRadiusKm = MutableStateFlow(10) // 5, 10, 15
     val selectedHospitalForMap = MutableStateFlow<Hospital?>(repository.hospitals[0])
 
-    // Masked Proxy Call State
-    val isProxyCallActive = MutableStateFlow(false)
-    val proxyCallSecondsRemaining = MutableStateFlow(120)
-    private var proxyCallJob: Job? = null
     private var donorLocationJob: Job? = null
 
     // Seeker Confirmation & Feedback
@@ -196,24 +192,6 @@ class QatraViewModel(
                 _otpTimerSeconds.value -= 1
             }
         }
-    }
-
-    fun startProxyCallCountdown() {
-        proxyCallJob?.cancel()
-        proxyCallSecondsRemaining.value = 120
-        isProxyCallActive.value = true
-        proxyCallJob = viewModelScope.launch {
-            while (proxyCallSecondsRemaining.value > 0 && isProxyCallActive.value) {
-                delay(1000)
-                proxyCallSecondsRemaining.value -= 1
-            }
-            isProxyCallActive.value = false
-        }
-    }
-
-    fun endProxyCall() {
-        isProxyCallActive.value = false
-        proxyCallJob?.cancel()
     }
 
     fun setSeekerStep(step: SeekerScreenStep) {
@@ -376,6 +354,13 @@ class QatraViewModel(
         val note = feedbackNote.value.ifBlank { "Donation completed via QATRA emergency dispatch." }
         viewModelScope.launch { repository.completeDonation(feedbackRating.value, note) }
         _donorStep.value = DonorScreenStep.DONATION_COMPLETE
+    }
+
+    // Direct contact: only the seeker may call the accepted donor via tel:+XXXX.
+    // No masked proxy; dispatch completes via this direct link.
+    fun seekerDirectCallToDonor(donorPhone: String) {
+        // Intent to dial donorPhone (tel:+XXXX) — gated to seeker role only.
+        _seekerStep.value = SeekerScreenStep.CONFIRMATION
     }
 
     fun submitSeekerFeedback() {
