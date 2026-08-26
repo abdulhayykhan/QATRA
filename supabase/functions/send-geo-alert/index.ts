@@ -84,35 +84,46 @@ Deno.serve(async (request) => {
   if (tokenError) throw tokenError;
 
   const accessToken = await createGoogleAccessToken();
+  const BATCH_SIZE = 10;
   let sent = 0;
-  for (const row of tokenRows ?? []) {
-    const match = (matches ?? []).find((candidate: { donor_id: string }) => candidate.donor_id === row.donor_id);
-    const data = {
-      type: "GEO_FENCED_BLOOD_REQUEST",
-      request_id: String(record.id),
-      blood_group: String(record.blood_group),
-      hospital_name: String(hospital?.short_name ?? hospital?.name ?? "Hospital"),
-      urgency: String(record.urgency),
-      distance_km: Number(match?.distance_km ?? 0).toFixed(1),
-      units: String(record.units_required ?? 1),
-      component: String(record.component ?? "PRBC"),
-      eta_minutes: String(match?.eta_minutes ?? 0)
-    };
-    const response = await fetch(`https://fcm.googleapis.com/v1/projects/${firebaseProjectId}/messages:send`, {
-      method: "POST",
-      headers: {
-        authorization: `Bearer ${accessToken}`,
-        "content-type": "application/json"
-      },
-      body: JSON.stringify({
-        message: {
-          token: row.token,
-          data,
-          android: { priority: "HIGH" }
-        }
-      })
-    });
-    if (response.ok) sent += 1;
+
+  for (let i = 0; i < (tokenRows ?? []).length; i += BATCH_SIZE) {
+    const batch = (tokenRows ?? []).slice(i, i + BATCH_SIZE);
+    const results = await Promise.all(batch.map(async (row: { donor_id: string; token: string }) => {
+      try {
+        const match = (matches ?? []).find((candidate: { donor_id: string }) => candidate.donor_id === row.donor_id);
+        const data = {
+          type: "GEO_FENCED_BLOOD_REQUEST",
+          request_id: String(record.id),
+          blood_group: String(record.blood_group),
+          hospital_name: String(hospital?.short_name ?? hospital?.name ?? "Hospital"),
+          urgency: String(record.urgency),
+          distance_km: Number(match?.distance_km ?? 0).toFixed(1),
+          units: String(record.units_required ?? 1),
+          component: String(record.component ?? "PRBC"),
+          eta_minutes: String(match?.eta_minutes ?? 0)
+        };
+        const response = await fetch(`https://fcm.googleapis.com/v1/projects/${firebaseProjectId}/messages:send`, {
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${accessToken}`,
+            "content-type": "application/json"
+          },
+          body: JSON.stringify({
+            message: {
+              token: row.token,
+              data,
+              android: { priority: "HIGH" }
+            }
+          })
+        });
+        return response.ok;
+      } catch (err) {
+        console.error(`FCM send failed for donor ${row.donor_id}`, err);
+        return false;
+      }
+    }));
+    sent += results.filter(Boolean).length;
   }
 
   return Response.json({ sent, matched: donorIds.length });

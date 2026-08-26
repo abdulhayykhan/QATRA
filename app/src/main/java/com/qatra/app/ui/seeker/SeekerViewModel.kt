@@ -66,6 +66,10 @@ class SeekerViewModel(
     val proxyCallSecondsRemaining = MutableStateFlow(0)
     private var proxyCallJob: Job? = null
 
+    // ── Dial Event (emitted when seeker wants to directly call a donor) ─────
+    private val _dialEvent = MutableSharedFlow<String>(replay = 0)
+    val dialEvent = _dialEvent.asSharedFlow()
+
     fun startProxyCallCountdown() {
         proxyCallJob?.cancel()
         isProxyCallActive.value = true
@@ -122,7 +126,10 @@ class SeekerViewModel(
     }
 
     fun seekerDirectCallToDonor(donorPhone: String) {
-        // Intent to dial donorPhone (tel:+XXXX) — gated to seeker role only.
+        // Emit dial event so the UI layer can launch the phone dialer intent.
+        viewModelScope.launch {
+            _dialEvent.emit(donorPhone)
+        }
         _seekerStep.value = SeekerScreenStep.CONFIRMATION
     }
 

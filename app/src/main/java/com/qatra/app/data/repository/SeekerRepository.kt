@@ -26,6 +26,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import timber.log.Timber
 
 class SeekerRepository {
 
@@ -174,6 +175,7 @@ class SeekerRepository {
             client.storage.from(bucket).upload(objectPath, bytes)
             true
         } catch (exception: Exception) {
+            Timber.e(exception, "Failed to upload private document")
             false
         }
     }
@@ -298,6 +300,7 @@ class SeekerRepository {
             }
             donors
         } catch (exception: Exception) {
+            Timber.e(exception, "Failed to dispatch proximity alerts for request %s", requestId)
             _matchedDonors.value = emptyList()
             if (request != null) {
                 _activeSeekerRequest.value = request.copy(activeDonorsInRadius = 0)

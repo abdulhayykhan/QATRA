@@ -32,11 +32,27 @@ async function sha256Hex(input: string): Promise<string> {
 }
 
 async function findUserByPhone(phone: string) {
-  for (let pageNumber = 1; ; pageNumber += 1) {
-    const page = await supabase.auth.admin.listUsers({ page: pageNumber, perPage: 1000 });
-    const match = page.data.users.find((user) => user.phone === phone);
-    if (match || page.data.users.length < 1000) return match ?? null;
+  // O(1) lookup via GoTrue admin API phone filter instead of paginating all users
+  const url = new URL(`${supabaseUrl}/auth/v1/admin/users`);
+  url.searchParams.set("filter", `phone.eq.${phone}`);
+  url.searchParams.set("page", "1");
+  url.searchParams.set("per_page", "1");
+
+  const response = await fetch(url.toString(), {
+    headers: {
+      apikey: serviceRoleKey,
+      authorization: `Bearer ${serviceRoleKey}`,
+    },
+  });
+
+  if (!response.ok) {
+    console.error("findUserByPhone: admin API error", response.status, await response.text());
+    return null;
   }
+
+  const body = await response.json();
+  const users = body.users ?? [];
+  return users.length > 0 ? (users[0] as { id: string; phone: string }) : null;
 }
 
 Deno.serve(async (request) => {

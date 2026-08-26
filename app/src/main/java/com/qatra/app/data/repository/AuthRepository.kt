@@ -18,6 +18,7 @@ import org.json.JSONObject
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
+import timber.log.Timber
 
 class AuthRepository {
     var lastAuthErrorMessage: String? = null
@@ -133,6 +134,7 @@ class AuthRepository {
             setLastAuthError(null)
             true
         } catch (exception: Exception) {
+            Timber.e(exception, "OTP verification failed")
             setLastAuthError(exception.message ?: exception::class.simpleName ?: "Unknown OTP verification error")
             false
         }
@@ -154,6 +156,7 @@ class AuthRepository {
             setLastAuthError(null)
             true
         } catch (exception: Exception) {
+            Timber.e(exception, "Admin sign-in failed")
             setLastAuthError(exception.message ?: "Invalid admin credentials.")
             false
         }

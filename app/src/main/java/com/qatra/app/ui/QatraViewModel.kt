@@ -1,6 +1,7 @@
 package com.qatra.app.ui
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import com.qatra.app.data.model.*
@@ -11,6 +12,10 @@ import com.qatra.app.ui.donor.DonorViewModel
 import com.qatra.app.ui.seeker.SeekerViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+
+private const val PREFS_NAME = "qatra_consent_prefs"
+private const val KEY_TERMS_ACCEPTED = "has_accepted_terms"
 
 // ── Enums (shared across all screens) ────────────────────────────────────────
 
@@ -97,6 +102,7 @@ class QatraViewModel(
     val feedbackNote = seekerVm.feedbackNote
     val isProxyCallActive = seekerVm.isProxyCallActive
     val proxyCallSecondsRemaining = seekerVm.proxyCallSecondsRemaining
+    val dialEvent = seekerVm.dialEvent
 
     fun setSeekerStep(step: SeekerScreenStep) {
         seekerVm.setStep(step)
@@ -150,6 +156,40 @@ class QatraViewModel(
     fun adminApproveVerification(id: String) = adminVm.adminApproveVerification(id)
     fun adminRejectVerification(id: String) = adminVm.adminRejectVerification(id)
     fun simulateQrScan() = adminVm.simulateQrScan()
+
+    // ── Consent Gate ────────────────────────────────────────────────────────
+
+    private val _hasAcceptedTerms = MutableStateFlow(false)
+    val hasAcceptedTerms: StateFlow<Boolean> = _hasAcceptedTerms.asStateFlow()
+
+    /**
+     * Reads the persisted consent state from SharedPreferences.
+     * Should be called once at app startup (e.g. in MainActivity.onCreate).
+     */
+    fun loadConsentState(context: Context) {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        _hasAcceptedTerms.value = prefs.getBoolean(KEY_TERMS_ACCEPTED, false)
+    }
+
+    /**
+     * Persists acceptance of Terms of Service and Privacy Policy to
+     * SharedPreferences and updates the in-memory state.
+     */
+    fun acceptTerms(context: Context) {
+        val prefs: SharedPreferences =
+            context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putBoolean(KEY_TERMS_ACCEPTED, true).apply()
+        _hasAcceptedTerms.value = true
+    }
+
+    /**
+     * Called when the user declines the terms — keeps the state as false
+     * so the consent gate remains visible.
+     */
+    fun declineTerms() {
+        _hasAcceptedTerms.value = false
+    }
 
     // ── Feed State (used in main shell / awareness) ─────────────────────────
 

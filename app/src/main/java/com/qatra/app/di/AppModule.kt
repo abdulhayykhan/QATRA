@@ -12,8 +12,12 @@ import com.qatra.app.ui.QatraViewModel
 import com.qatra.app.ui.seeker.SeekerViewModel
 import com.qatra.app.ui.donor.DonorViewModel
 import com.qatra.app.ui.admin.AdminViewModel
+import com.qatra.app.util.NetworkMonitor
 
 val appModule = module {
+    // Utilities
+    single { NetworkMonitor(androidContext()) }
+
     // Sub-repositories
     single { AuthRepository() }
     single { SeekerRepository() }

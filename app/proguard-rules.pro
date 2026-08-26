@@ -20,20 +20,31 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# Supabase & Kotlin Serialization
--keep class io.github.jan.supabase.** { *; }
--keep class kotlinx.serialization.** { *; }
+# Kotlin Serialization metadata (required by Supabase and app serialization)
 -keepattributes *Annotation*
 -keepclassmembers class * {
     @kotlinx.serialization.SerialName <fields>;
 }
+-keep @kotlinx.serialization.Serializable class * { *; }
 
-# Firebase
+# Supabase - keep serialization metadata only
+-keepclassmembers class io.github.jan.supabase.** {
+    @kotlinx.serialization.SerialName *;
+}
+-keep @kotlinx.serialization.Serializable class io.github.jan.supabase.** { *; }
+
+# Keep Supabase plugin service loaders
+-keep class io.github.jan.supabase.** extends io.github.jan.supabase.plugins.SupabasePlugin { *; }
+
+# Firebase - keep annotated/serializable classes only
 -keep class com.google.firebase.** { *; }
 
-# OkHttp
+# OkHttp - suppress warnings, keep only essential classes
 -dontwarn okhttp3.**
--keep class okhttp3.** { *; }
+-keep class okhttp3.internal.** { *; }
+-keepclassmembers class okhttp3.** {
+    @kotlinx.serialization.SerialName *;
+}
 
 # Keep data classes used with Supabase
 -keep class com.qatra.app.data.model.** { *; }

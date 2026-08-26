@@ -4,6 +4,7 @@ import android.app.Activity
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,6 +27,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.viewModelScope
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -79,7 +81,13 @@ fun SplashScreen(
                 color = MaterialTheme.colorScheme.surface,
                 border = androidx.compose.foundation.BorderStroke(1.dp, QatraGray300),
                 modifier = Modifier.clickable {
-                    selectedLanguage = if (selectedLanguage == "EN") "اردو" else "EN"
+                    if (selectedLanguage == "EN") {
+                        selectedLanguage = "اردو"
+                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("ur"))
+                    } else {
+                        selectedLanguage = "EN"
+                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("en"))
+                    }
                 }
             ) {
                 Row(

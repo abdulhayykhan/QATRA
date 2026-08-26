@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
+import timber.log.Timber
 
 class DonorRepository {
 
@@ -82,6 +83,7 @@ class DonorRepository {
             }
             isValid
         } catch (exception: Exception) {
+            Timber.e(exception, "CNIC validation failed")
             setLastAuthError(exception.message ?: exception::class.simpleName ?: "Unknown CNIC validation error")
             false
         }
@@ -104,6 +106,7 @@ class DonorRepository {
             )
             true
         } catch (exception: Exception) {
+            Timber.e(exception, "Failed to update donor location")
             setLastAuthError(exception.message ?: "Unable to update donor location.")
             false
         }
@@ -127,6 +130,7 @@ class DonorRepository {
             )
             true
         } catch (exception: Exception) {
+            Timber.e(exception, "Failed to register FCM token")
             setLastAuthError(exception.message ?: "Unable to register FCM token.")
             false
         }
@@ -157,6 +161,7 @@ class DonorRepository {
             )
             true
         } catch (exception: Exception) {
+            Timber.e(exception, "Failed to accept emergency dispatch")
             setLastAuthError(exception.message ?: "Unable to accept dispatch.")
             false
         }
@@ -186,6 +191,7 @@ class DonorRepository {
             )
             true
         } catch (exception: Exception) {
+            Timber.e(exception, "Failed to complete donation")
             setLastAuthError(exception.message ?: "Unable to complete donation.")
             false
         }

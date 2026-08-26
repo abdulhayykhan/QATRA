@@ -6,6 +6,7 @@ import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import timber.log.Timber
 
 class AdminRepository {
 
@@ -188,6 +189,7 @@ class AdminRepository {
             }
             true
         } catch (exception: Exception) {
+            Timber.e(exception, "Failed to update verification item status to %s", status)
             setLastAuthError(exception.message ?: "Unable to update verification item.")
             false
         }

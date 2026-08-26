@@ -1,6 +1,8 @@
 package com.qatra.app
 
 import android.os.Bundle
+import android.content.Intent
+import android.net.Uri
 import com.google.firebase.messaging.FirebaseMessaging
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -17,20 +19,25 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.qatra.app.ui.*
 import com.qatra.app.ui.admin.*
 import com.qatra.app.ui.awareness.AwarenessHubScreen
+import com.qatra.app.ui.components.ConsentDialog
 import com.qatra.app.ui.donor.*
 import com.qatra.app.ui.seeker.*
 import com.qatra.app.ui.theme.*
+import com.qatra.app.util.NetworkMonitor
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel as koinViewModel
 
 class MainActivity : ComponentActivity() {
 
     private val viewModel: QatraViewModel by koinViewModel()
+    private val networkMonitor: NetworkMonitor by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,22 +47,34 @@ class MainActivity : ComponentActivity() {
         }
         viewModel.registerPendingPushToken(applicationContext)
         viewModel.consumePendingGeoAlert(applicationContext)
+        viewModel.loadConsentState(applicationContext)
         setContent {
             QatraTheme {
-                QatraApp(viewModel = viewModel)
+                QatraApp(viewModel = viewModel, networkMonitor = networkMonitor)
             }
         }
     }
 }
 
 @Composable
-fun QatraApp(viewModel: QatraViewModel) {
+fun QatraApp(viewModel: QatraViewModel, networkMonitor: NetworkMonitor) {
     val activeFlow by viewModel.activeFlow.collectAsState()
     val seekerStep by viewModel.seekerStep.collectAsState()
     val donorStep by viewModel.donorStep.collectAsState()
     val adminStep by viewModel.adminStep.collectAsState()
     val mainTab by viewModel.mainTab.collectAsState()
     val showGeoAlert by viewModel.showGeoAlertModal.collectAsState()
+    val isOnline by networkMonitor.isOnline.collectAsState(initial = true)
+    val hasAcceptedTerms by viewModel.hasAcceptedTerms.collectAsState()
+    val context = androidx.compose.ui.platform.LocalContext.current
+
+    // Observe dial events and launch the phone dialer
+    LaunchedEffect(Unit) {
+        viewModel.dialEvent.collect { phoneNumber ->
+            val dialIntent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phoneNumber"))
+            context.startActivity(dialIntent)
+        }
+    }
 
     // Handle Back Press
     BackHandler {
@@ -100,7 +119,43 @@ fun QatraApp(viewModel: QatraViewModel) {
         }
     }
 
+    // ── Consent Gate ────────────────────────────────────────────────────────
+    if (!hasAcceptedTerms) {
+        ConsentDialog(
+            onAccept = { viewModel.acceptTerms(context) },
+            onDecline = { viewModel.declineTerms() }
+        )
+        return
+    }
+
     Box(modifier = Modifier.fillMaxSize()) {
+        // Offline Banner
+        if (!isOnline) {
+            androidx.compose.foundation.layout.Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFFB71C1C))
+                    .statusBarsPadding()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.WifiOff,
+                    contentDescription = "Offline",
+                    tint = Color.White,
+                    modifier = Modifier.size(16.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "You are offline",
+                    color = Color.White,
+                    style = androidx.compose.material3.MaterialTheme.typography.labelMedium,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+
         when (activeFlow) {
             FlowType.SEEKER -> {
                 AnimatedContent(
