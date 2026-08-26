@@ -19,7 +19,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.decodeAs
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
@@ -268,13 +268,14 @@ class SeekerRepository {
         if (requestId.toUuidOrNull() == null) return emptyList()
 
         return try {
-            val result = client.postgrest.rpc(
+            val responseJson = client.postgrest.rpc(
                 function = "find_eligible_donors_for_request",
                 parameters = buildJsonObject {
                     put("p_request_id", requestId)
                     put("p_radius_km", radiusKm)
                 }
-            ).decodeAs<JsonArray>()
+            ).data
+            val result = Json.decodeFromString<JsonArray>(responseJson)
 
             val donors = result.mapNotNull { element ->
                 val row = element as? JsonObject ?: return@mapNotNull null

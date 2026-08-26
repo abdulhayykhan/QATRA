@@ -581,7 +581,7 @@ fun FraudAuditCenterScreen(
             value = searchQuery,
             onValueChange = { searchQuery = it },
             placeholder = { Text("Search by CNIC or Hospital MRN...") },
-            leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Search") }
+            leadingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "Search") },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp)
         )

@@ -1,7 +1,7 @@
 package com.qatra.app.di
 
 import org.koin.dsl.module
-import org.koin.core.module.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
 import com.qatra.app.data.repository.AuthRepository
 import com.qatra.app.data.repository.SeekerRepository
 import com.qatra.app.data.repository.DonorRepository

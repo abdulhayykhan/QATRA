@@ -79,6 +79,12 @@ class SeekerViewModel(
         }
     }
 
+    fun endProxyCall() {
+        proxyCallJob?.cancel()
+        isProxyCallActive.value = false
+        proxyCallSecondsRemaining.value = 0
+    }
+
     // ── Actions ─────────────────────────────────────────────────────────────
 
     fun submitSlipAndVerify(context: Context) {
