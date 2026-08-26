@@ -47,7 +47,7 @@ class QatraRepository {
         .callTimeout(30, TimeUnit.SECONDS)
         .build()
 
-    private val supabaseClient: SupabaseClient? =
+    private val supabaseClient: SupabaseClient? by lazy {
         if (BuildConfig.SUPABASE_URL.isNotBlank() && BuildConfig.SUPABASE_ANON_KEY.isNotBlank()) {
             createSupabaseClient(
                 supabaseUrl = BuildConfig.SUPABASE_URL,
@@ -60,6 +60,7 @@ class QatraRepository {
         } else {
             null
         }
+    }
 
     // Seeded Karachi Hospitals (PRD / Wireframes)
     val hospitals = listOf(
@@ -456,8 +457,8 @@ class QatraRepository {
             val normalized = cnicNumber.trim()
             if (normalized.length != 13 || normalized.any { !it.isDigit() }) return false
 
-            val districtCode = normalized.substring(0, 5).toIntOrNull() ?: return false
-            return validProvinceDistrictRanges.any { districtCode in it }
+            val provincePrefix = normalized.substring(0, 2).toIntOrNull() ?: return false
+            return validProvinceDistrictRanges.any { provincePrefix in it }
         }
     }
 
