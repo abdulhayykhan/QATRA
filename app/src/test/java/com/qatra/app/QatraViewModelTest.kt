@@ -1,7 +1,12 @@
 package com.qatra.app
 
+import com.qatra.app.data.repository.QatraRepository
 import com.qatra.app.ui.QatraViewModel
 import com.qatra.app.ui.SeekerScreenStep
+import com.qatra.app.ui.SharedAuthViewModel
+import com.qatra.app.ui.seeker.SeekerViewModel
+import com.qatra.app.ui.donor.DonorViewModel
+import com.qatra.app.ui.admin.AdminViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -28,9 +33,19 @@ class QatraViewModelTest {
         Dispatchers.resetMain()
     }
 
+    private fun createViewModel(): QatraViewModel {
+        val repo = QatraRepository()
+        return QatraViewModel(
+            authVm = SharedAuthViewModel(repo),
+            seekerVm = SeekerViewModel(repo),
+            donorVm = DonorViewModel(repo),
+            adminVm = AdminViewModel(repo)
+        )
+    }
+
     @Test
     fun emptyOtp_doesNotAdvanceToRoleProfile() = runTest {
-        val viewModel = QatraViewModel()
+        val viewModel = createViewModel()
         viewModel.setSeekerStep(SeekerScreenStep.PHONE_VERIFICATION)
 
         val verified = viewModel.verifyOtpAndContinue("")
@@ -41,7 +56,7 @@ class QatraViewModelTest {
 
     @Test
     fun malformedOtp_doesNotAdvanceToRoleProfile() = runTest {
-        val viewModel = QatraViewModel()
+        val viewModel = createViewModel()
         viewModel.setSeekerStep(SeekerScreenStep.PHONE_VERIFICATION)
 
         val verified = viewModel.verifyOtpAndContinue("12AB")

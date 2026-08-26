@@ -6,7 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -21,6 +20,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.qatra.app.data.repository.QatraRepository
 import com.qatra.app.ui.*
 import com.qatra.app.ui.admin.*
 import com.qatra.app.ui.awareness.AwarenessHubScreen
@@ -29,7 +31,15 @@ import com.qatra.app.ui.seeker.*
 import com.qatra.app.ui.theme.*
 
 class MainActivity : ComponentActivity() {
-    private val viewModel: QatraViewModel by viewModels()
+
+    private val viewModel: QatraViewModel by lazy {
+        val repo = QatraRepository()
+        val authVm = SharedAuthViewModel(repo)
+        val seekerVm = SeekerViewModel(repo)
+        val donorVm = DonorViewModel(repo)
+        val adminVm = AdminViewModel(repo)
+        QatraViewModel(authVm, seekerVm, donorVm, adminVm)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +80,7 @@ fun QatraApp(viewModel: QatraViewModel) {
                     SeekerScreenStep.LIVE_STATUS_FEED -> viewModel.setSeekerStep(SeekerScreenStep.SPLASH)
                     SeekerScreenStep.MATCHED_DONORS -> viewModel.setSeekerStep(SeekerScreenStep.LIVE_STATUS_FEED)
                     SeekerScreenStep.MASKED_CALL -> viewModel.setSeekerStep(SeekerScreenStep.MATCHED_DONORS)
+                    SeekerScreenStep.DIRECT_CALL -> viewModel.setSeekerStep(SeekerScreenStep.MATCHED_DONORS)
                     SeekerScreenStep.CONFIRMATION -> viewModel.setSeekerStep(SeekerScreenStep.SPLASH)
                 }
             }
@@ -115,6 +126,7 @@ fun QatraApp(viewModel: QatraViewModel) {
                         SeekerScreenStep.LIVE_STATUS_FEED -> LiveRequestFeedStatusScreen(viewModel = viewModel)
                         SeekerScreenStep.MATCHED_DONORS -> MatchedDonorsScreen(viewModel = viewModel)
                         SeekerScreenStep.MASKED_CALL -> MaskedCallingScreen(viewModel = viewModel)
+                        SeekerScreenStep.DIRECT_CALL -> MaskedCallingScreen(viewModel = viewModel)
                         SeekerScreenStep.CONFIRMATION -> DonationConfirmationScreen(viewModel = viewModel)
                     }
                 }
