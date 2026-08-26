@@ -36,25 +36,76 @@ class AdminViewModel(
 
     val adminAuthError = MutableStateFlow<String?>(null)
 
+    /** Whether the admin has passed email/password but still needs TOTP verification. */
+    private val _isTotpRequired = MutableStateFlow(false)
+    val isTotpRequired: StateFlow<Boolean> = _isTotpRequired.asStateFlow()
+
+    /** Stores the MFA factor IDs that need TOTP verification. */
+    private var pendingMfaFactorIds: List<String> = emptyList()
+
     // ── QR Scan State ───────────────────────────────────────────────────────
     val qrScanActive = MutableStateFlow(false)
 
     // ── Auth Actions ────────────────────────────────────────────────────────
 
     suspend fun adminSignIn(email: String, password: String, totpCode: String): Boolean {
-        // ponytail: TOTP field accepted but not yet enforced. Supabase MFA (TOTP
-        // enroll + challenge) is a documented Phase-1 pilot gap; password auth is
-        // real and server-verified. The UI keeps the field so the terminal flow
-        // matches production.
-        val ok = repository.adminSignIn(email, password)
-        adminAuthError.value = if (ok) null else (repository.lastAuthErrorMessage ?: "Invalid credentials.")
-        _isAdminAuthenticated.value = ok
+        // Phase 6.4: Two-step admin authentication.
+        // Step 1 — email/password against Supabase.
+        val passwordOk = repository.adminSignIn(email, password)
+        if (!passwordOk) {
+            adminAuthError.value = repository.lastAuthErrorMessage ?: "Invalid credentials."
+            _isAdminAuthenticated.value = false
+            return false
+        }
+
+        // Step 2 — check for enrolled MFA factors and enforce TOTP.
+        val factorIds = repository.getAdminMfaFactors()
+        if (factorIds.isNotEmpty()) {
+            pendingMfaFactorIds = factorIds
+            // If the user already provided a TOTP code, verify immediately.
+            if (totpCode.isNotBlank()) {
+                return verifyTotp(totpCode)
+            }
+            // Otherwise signal the UI to prompt for TOTP.
+            _isTotpRequired.value = true
+            adminAuthError.value = null
+            // Don't authenticate yet — TOTP pending.
+            return false
+        }
+
+        // No MFA factors enrolled — password auth alone is sufficient.
+        adminAuthError.value = null
+        _isAdminAuthenticated.value = true
+        return true
+    }
+
+    /**
+     * Called from the UI when the user submits the TOTP code after
+     * [adminSignIn] set [isTotpRequired] to true.
+     */
+    suspend fun verifyTotp(code: String): Boolean {
+        val factorId = pendingMfaFactorIds.firstOrNull()
+        if (factorId == null) {
+            adminAuthError.value = "No MFA factor available for verification."
+            return false
+        }
+        val ok = repository.verifyAdminTotp(factorId, code)
+        if (ok) {
+            adminAuthError.value = null
+            _isTotpRequired.value = false
+            _isAdminAuthenticated.value = true
+            pendingMfaFactorIds = emptyList()
+        } else {
+            adminAuthError.value = "Invalid TOTP code. Please try again."
+        }
         return ok
     }
 
     suspend fun adminSignOut() {
         repository.adminSignOut()
         _isAdminAuthenticated.value = false
+        _isTotpRequired.value = false
+        pendingMfaFactorIds = emptyList()
         adminAuthError.value = null
     }
 

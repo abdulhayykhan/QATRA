@@ -59,6 +59,7 @@ android {
     }
     debug {
       signingConfig = signingConfigs.getByName("debugConfig")
+      enableUnitTestCoverage = true
     }
   }
   flavorDimensions += "environment"

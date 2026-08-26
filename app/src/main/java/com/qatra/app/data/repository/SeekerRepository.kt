@@ -317,6 +317,21 @@ class SeekerRepository {
         }
     }
 
+    suspend fun submitFeedback(requestId: String, rating: Int, note: String): Boolean {
+        return try {
+            val client = SupabaseClientProvider.client ?: return false
+            client.from("request_feedback").insert(buildJsonObject {
+                put("request_id", requestId)
+                put("rating", rating)
+                put("note", note)
+            })
+            true
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to submit seeker feedback")
+            false
+        }
+    }
+
     private fun String.toUuidOrNull(): java.util.UUID? =
         runCatching { java.util.UUID.fromString(this) }.getOrNull()
 

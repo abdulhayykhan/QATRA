@@ -154,4 +154,14 @@ class QatraRepository(
     ) = adminRepository.scheduleNewCampusDrive(title, venue, targetQuota, dateStr, timeStr)
 
     fun checkInAttendee(id: String) = adminRepository.checkInAttendee(id)
+
+    // ==========================================
+    // ADMIN — MFA / TOTP ENFORCEMENT
+    // ==========================================
+
+    suspend fun getAdminMfaFactors(): List<String> =
+        adminRepository.getAdminMfaFactors()
+
+    suspend fun verifyAdminTotp(factorId: String, code: String): Boolean =
+        adminRepository.verifyAdminTotp(factorId, code)
 }

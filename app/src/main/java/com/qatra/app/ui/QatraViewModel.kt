@@ -180,6 +180,7 @@ class QatraViewModel(
 
     val adminStep: StateFlow<AdminScreenStep> = adminVm.adminStep
     val isAdminAuthenticated: StateFlow<Boolean> = adminVm.isAdminAuthenticated
+    val isTotpRequired: StateFlow<Boolean> = adminVm.isTotpRequired
     val adminAuthError = adminVm.adminAuthError
     val qrScanActive = adminVm.qrScanActive
 
@@ -190,6 +191,9 @@ class QatraViewModel(
 
     suspend fun adminSignIn(email: String, password: String, totpCode: String): Boolean =
         adminVm.adminSignIn(email, password, totpCode)
+
+    suspend fun adminVerifyTotp(code: String): Boolean =
+        adminVm.verifyTotp(code)
 
     suspend fun adminSignOut() = adminVm.adminSignOut()
     fun adminApproveVerification(id: String) = adminVm.adminApproveVerification(id)

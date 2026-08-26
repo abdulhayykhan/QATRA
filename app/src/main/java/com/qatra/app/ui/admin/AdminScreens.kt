@@ -47,6 +47,7 @@ fun AdminLogin2FAScreen(
     var totpCode by remember { mutableStateOf("") }
     var loginError by remember { mutableStateOf<String?>(null) }
     var signingIn by remember { mutableStateOf(false) }
+    val isTotpRequired by viewModel.isTotpRequired.collectAsState()
     val scope = rememberCoroutineScope()
 
     Column(
@@ -142,18 +143,23 @@ fun AdminLogin2FAScreen(
             OutlinedTextField(
                 value = totpCode,
                 onValueChange = { totpCode = it },
-                label = { Text("2FA TOTP Code") },
+                label = { Text(if (isTotpRequired) "TOTP Code (Required)" else "2FA TOTP Code") },
                 placeholder = { Text("6-digit authenticator code") },
                 leadingIcon = {
-                    Icon(imageVector = Icons.Filled.Pin, contentDescription = "TOTP code", tint = QatraGray600)
+                    Icon(
+                        imageVector = Icons.Filled.Pin,
+                        contentDescription = "TOTP code",
+                        tint = if (isTotpRequired) QatraRedPrimary else QatraGray600
+                    )
                 },
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(12.dp),
+                isError = isTotpRequired && totpCode.isBlank(),
                 supportingText = {
                     Text(
-                        text = "Required for terminal access",
+                        text = if (isTotpRequired) "Enter the code from your authenticator app" else "Required for terminal access",
                         style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                        color = QatraGray600
+                        color = if (isTotpRequired) QatraRedPrimary else QatraGray600
                     )
                 }
             )
@@ -174,13 +180,28 @@ fun AdminLogin2FAScreen(
                     loginError = null
                     signingIn = true
                     scope.launch {
-                        val ok = viewModel.adminSignIn(email, password, totpCode)
-                        signingIn = false
-                        if (ok) {
-                            viewModel.setAdminStep(AdminScreenStep.VERIFICATION_QUEUE)
+                        if (isTotpRequired) {
+                            // TOTP-only verification step after successful password auth.
+                            val ok = viewModel.adminVerifyTotp(totpCode)
+                            signingIn = false
+                            if (ok) {
+                                viewModel.setAdminStep(AdminScreenStep.VERIFICATION_QUEUE)
+                            } else {
+                                loginError = viewModel.adminAuthError.value
+                                    ?: "Invalid TOTP code. Please try again."
+                            }
                         } else {
-                            loginError = viewModel.adminAuthError.value
-                                ?: "Invalid credentials. Contact IT support."
+                            val ok = viewModel.adminSignIn(email, password, totpCode)
+                            signingIn = false
+                            if (ok) {
+                                viewModel.setAdminStep(AdminScreenStep.VERIFICATION_QUEUE)
+                            } else if (viewModel.isTotpRequired.value) {
+                                // Password succeeded but TOTP is required — prompt user.
+                                loginError = "Please enter your 6-digit TOTP code to continue."
+                            } else {
+                                loginError = viewModel.adminAuthError.value
+                                    ?: "Invalid credentials. Contact IT support."
+                            }
                         }
                     }
                 },
@@ -193,7 +214,7 @@ fun AdminLogin2FAScreen(
                 colors = ButtonDefaults.buttonColors(containerColor = QatraRedPrimary)
             ) {
                 Text(
-                    text = if (signingIn) "Signing in…" else "Sign In to 24/7 Verification Desk",
+                    text = if (signingIn) "Verifying\u2026" else if (isTotpRequired) "Verify TOTP Code" else "Sign In to 24/7 Verification Desk",
                     style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
                     color = Color.White
                 )

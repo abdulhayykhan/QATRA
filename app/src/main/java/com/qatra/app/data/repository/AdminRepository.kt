@@ -2,6 +2,7 @@ package com.qatra.app.data.repository
 
 import com.qatra.app.data.model.*
 import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.auth.mfa.UserMfaFactor
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -224,6 +225,42 @@ class AdminRepository {
     fun checkInAttendee(id: String) {
         _attendees.value = _attendees.value.map {
             if (it.id == id) it.copy(checkInStatus = "Checked In Just Now") else it
+        }
+    }
+
+    /**
+     * Retrieves the list of verified MFA factor IDs for the currently authenticated user.
+     * Returns an empty list when no Supabase client is available, the user is not
+     * authenticated, or the MFA API call fails.
+     */
+    suspend fun getAdminMfaFactors(): List<String> {
+        return try {
+            val client = SupabaseClientProvider.client ?: return emptyList()
+            val factors: List<UserMfaFactor> = client.auth.mfa.retrieveFactorsForCurrentUser()
+            factors.filter { it.isVerified }.map { it.id }
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to retrieve MFA factors")
+            emptyList()
+        }
+    }
+
+    /**
+     * Creates an MFA challenge for the given factor and verifies it with the
+     * user-supplied TOTP code. Returns true when verification succeeds.
+     */
+    suspend fun verifyAdminTotp(factorId: String, code: String): Boolean {
+        return try {
+            val client = SupabaseClientProvider.client ?: return false
+            val challengeResponse = client.auth.mfa.createChallenge(factorId)
+            client.auth.mfa.verifyChallenge(
+                factorId = factorId,
+                challengeId = challengeResponse.id,
+                code = code
+            )
+            true
+        } catch (e: Exception) {
+            Timber.e(e, "Admin TOTP verification failed")
+            false
         }
     }
 

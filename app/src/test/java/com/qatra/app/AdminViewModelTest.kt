@@ -71,6 +71,12 @@ class AdminViewModelTest {
         assertFalse(vm.qrScanActive.value)
     }
 
+    @Test
+    fun initialState_totpNotRequired() {
+        val vm = createViewModel()
+        assertFalse(vm.isTotpRequired.value)
+    }
+
     // ── Step Transitions ───────────────────────────────────────────────────
 
     @Test

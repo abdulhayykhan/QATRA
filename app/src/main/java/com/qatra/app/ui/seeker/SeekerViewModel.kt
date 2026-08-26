@@ -154,8 +154,23 @@ class SeekerViewModel(
     }
 
     fun submitSeekerFeedback() {
-        // Feedback lives in VM state — no backend sink for seeker ratings yet.
-        setStep(SeekerScreenStep.SPLASH)
+        val requestId = repository.seekerRepository.activeSeekerRequest.value?.id
+        if (requestId == null) {
+            // No active request — just reset to splash.
+            setStep(SeekerScreenStep.SPLASH)
+            return
+        }
+        val rating = feedbackRating.value
+        val note = feedbackNote.value
+        viewModelScope.launch {
+            val submitted = repository.seekerRepository.submitFeedback(requestId, rating, note)
+            if (!submitted) {
+                Timber.w("Feedback submission to backend failed for request %s", requestId)
+            }
+            feedbackRating.value = 5
+            feedbackNote.value = ""
+            setStep(SeekerScreenStep.SPLASH)
+        }
     }
 
     override fun onCleared() {
