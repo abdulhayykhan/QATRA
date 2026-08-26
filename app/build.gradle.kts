@@ -9,7 +9,7 @@ plugins {
   alias(libs.plugins.secrets)
   alias(libs.plugins.google.services)
   alias(libs.plugins.firebase.crashlytics)
-  alias(libs.plugins.firebase.perf.plugin)
+  // firebase-perf plugin 1.4.2 broken with AGP 9.1.1; removed until upgraded.
 }
 
 val localProperties = Properties().apply {

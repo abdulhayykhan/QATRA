@@ -1839,19 +1839,19 @@ fun MatchedDonorsScreen(
 
                         Spacer(modifier = Modifier.height(14.dp))
 
-                        // Action: Call via Masked Proxy
+                        // Direct contact: seeker-only tel:+XXXX link to accepted donor
                         Button(
-                            onClick = { viewModel.setSeekerStep(SeekerScreenStep.MASKED_CALL) },
+                            onClick = { viewModel.setSeekerStep(SeekerScreenStep.DIRECT_CALL) },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(44.dp)
-                                .testTag("btn_call_masked_donor"),
+                                .testTag("btn_direct_call_donor"),
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = QatraRedPrimary)
                         ) {
-                            Icon(imageVector = Icons.Filled.Phone, contentDescription = "Call donor via masked proxy", tint = Color.White, modifier = Modifier.size(16.dp))
+                            Icon(imageVector = Icons.Filled.Phone, contentDescription = "Direct contact donor", tint = Color.White, modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text(text = "Call via Masked Proxy", fontWeight = FontWeight.Bold, color = Color.White)
+                            Text(text = "Contact Donor Direct (tel:+XXXX)", fontWeight = FontWeight.Bold, color = Color.White)
                         }
                     }
                 }
@@ -1860,21 +1860,12 @@ fun MatchedDonorsScreen(
     }
 }
 
-// ----------------------------------------------------
-// 9. Masked Calling Screen (Wireframe Page 10)
-// ----------------------------------------------------
+// 9. Direct Call Screen (seeker-only tel:+XXXX to accepted donor)
 @Composable
-fun MaskedCallingScreen(
+fun DirectCallScreen(
     viewModel: QatraViewModel,
     modifier: Modifier = Modifier
 ) {
-    val isCallActive by viewModel.isProxyCallActive.collectAsState()
-    val secondsRemaining by viewModel.proxyCallSecondsRemaining.collectAsState()
-
-    LaunchedEffect(Unit) {
-        viewModel.startProxyCallCountdown()
-    }
-
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -1886,124 +1877,55 @@ fun MaskedCallingScreen(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            // Header
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "QATRA MASKED CALL",
-                    style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
-                    color = Color.White.copy(alpha = 0.7f)
-                )
-                Surface(
-                    shape = RoundedCornerShape(6.dp),
-                    color = QatraSuccess
-                ) {
-                    Text(
-                        text = "Encrypted Bridge",
-                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 10.sp, fontWeight = FontWeight.Bold),
-                        color = Color.White,
-                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(40.dp))
-
-            // Donor Avatar / Badge
+            Text(
+                text = "Direct Contact — Seeker Only",
+                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                color = Color.White.copy(alpha = 0.85f)
+            )
+            Spacer(modifier = Modifier.height(32.dp))
             Box(
                 modifier = Modifier
                     .size(96.dp)
                     .background(QatraRedPrimary, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text = "O-",
-                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Black),
-                    color = Color.White
-                )
+                Icon(imageVector = Icons.Filled.Phone, contentDescription = "Direct call", tint = Color.White, modifier = Modifier.size(48.dp))
             }
-
             Spacer(modifier = Modifier.height(16.dp))
-
             Text(
-                text = "Donor #D-104",
+                text = "Contact Accepted Donor",
                 style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold),
                 color = Color.White
             )
-
+            Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "Proxy Connected • 0300-XXXXXXX",
-                style = MaterialTheme.typography.bodyMedium,
-                color = Color.White.copy(alpha = 0.7f)
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = "Call Duration: ${secondsRemaining / 60}:${String.format("%02d", secondsRemaining % 60)}",
+                text = "tel:+XXXX",
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                 color = QatraSuccess
             )
-
-            Spacer(modifier = Modifier.height(28.dp))
-
-            // Privacy Callout
-            Surface(
-                shape = RoundedCornerShape(12.dp),
-                color = Color.White.copy(alpha = 0.1f)
-            ) {
-                Row(
-                    modifier = Modifier.padding(14.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Lock,
-                        contentDescription = "Encrypted call privacy",
-                        tint = Color.White,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Spacer(modifier = Modifier.width(10.dp))
-                    Text(
-                        text = "Direct phone numbers are masked by QATRA Proxy for your safety and privacy.",
-                        style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
-                        color = Color.White.copy(alpha = 0.85f)
-                    )
-                }
-            }
-        }
-
-        // Actions
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            // End Call Red Floating Button
-            IconButton(
-                onClick = {
-                    viewModel.endProxyCall()
-                    viewModel.setSeekerStep(SeekerScreenStep.CONFIRMATION)
-                },
-                modifier = Modifier
-                    .size(64.dp)
-                    .background(QatraUrgent, CircleShape)
-                    .testTag("btn_end_masked_call")
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.CallEnd,
-                    contentDescription = "End call and confirm delivery",
-                    tint = Color.White,
-                    modifier = Modifier.size(32.dp)
-                )
-            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "End Call & Confirm Delivery",
-                style = MaterialTheme.typography.labelSmall,
-                color = Color.White.copy(alpha = 0.6f)
+                text = "Only the seeker may initiate this call. No masked proxy.",
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.White.copy(alpha = 0.7f),
+                textAlign = TextAlign.Center
             )
+        }
+        Button(
+            onClick = { viewModel.seekerDirectCallToDonor("+XXXX") },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(containerColor = QatraSuccess)
+        ) {
+            Icon(imageVector = Icons.Filled.Phone, contentDescription = "Dial donor", tint = Color.White, modifier = Modifier.size(18.dp))
+            Spacer(modifier = Modifier.width(8.dp))
+            Text(text = "Call Now (tel:+XXXX)", fontWeight = FontWeight.Bold, color = Color.White)
+        }
+        OutlinedButton(
+            onClick = { viewModel.setSeekerStep(SeekerScreenStep.CONFIRMATION) },
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White)
+        ) {
+            Text(text = "Skip / Confirm Delivery", fontWeight = FontWeight.Bold)
         }
     }
 }

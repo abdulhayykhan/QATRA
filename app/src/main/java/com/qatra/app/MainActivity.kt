@@ -89,8 +89,7 @@ fun QatraApp(viewModel: QatraViewModel, networkMonitor: NetworkMonitor) {
                     SeekerScreenStep.VERIFICATION_MODAL -> viewModel.setSeekerStep(SeekerScreenStep.SLIP_UPLOAD)
                     SeekerScreenStep.LIVE_STATUS_FEED -> viewModel.setSeekerStep(SeekerScreenStep.SPLASH)
                     SeekerScreenStep.MATCHED_DONORS -> viewModel.setSeekerStep(SeekerScreenStep.LIVE_STATUS_FEED)
-                    SeekerScreenStep.MASKED_CALL -> viewModel.setSeekerStep(SeekerScreenStep.MATCHED_DONORS)
-                    SeekerScreenStep.DIRECT_CALL -> viewModel.setSeekerStep(SeekerScreenStep.MATCHED_DONORS)
+                    SeekerScreenStep.DIRECT_CALL -> viewModel.setSeekerStep(SeekerScreenStep.CONFIRMATION)
                     SeekerScreenStep.CONFIRMATION -> viewModel.setSeekerStep(SeekerScreenStep.SPLASH)
                 }
             }
@@ -171,8 +170,7 @@ fun QatraApp(viewModel: QatraViewModel, networkMonitor: NetworkMonitor) {
                         SeekerScreenStep.VERIFICATION_MODAL -> SlipVerificationPendingModal(viewModel = viewModel)
                         SeekerScreenStep.LIVE_STATUS_FEED -> LiveRequestFeedStatusScreen(viewModel = viewModel)
                         SeekerScreenStep.MATCHED_DONORS -> MatchedDonorsScreen(viewModel = viewModel)
-                        SeekerScreenStep.MASKED_CALL -> MaskedCallingScreen(viewModel = viewModel)
-                        SeekerScreenStep.DIRECT_CALL -> MaskedCallingScreen(viewModel = viewModel)
+                        SeekerScreenStep.DIRECT_CALL -> DirectCallScreen(viewModel = viewModel)
                         SeekerScreenStep.CONFIRMATION -> DonationConfirmationScreen(viewModel = viewModel)
                     }
                 }
