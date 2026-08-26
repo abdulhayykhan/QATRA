@@ -84,7 +84,7 @@ We implement industry-standard security measures to protect your data:
 - **Encryption at Rest** — All stored data is encrypted using Supabase's built-in encryption mechanisms.
 - **CNIC Hashing** — CNIC numbers are stored exclusively as one-way cryptographic hashes. Plain-text CNIC values are never persisted.
 - **Row-Level Security (RLS)** — Database access is enforced through PostgreSQL Row-Level Security policies, ensuring users can only access data they are authorized to view.
-- **Masked Communication** — Direct calls between matched donors and seekers use proxy numbers to prevent phone number exposure.
+- **Direct Contact** — Seekers initiate direct calls (`tel:+XXXX`) to accepted donors; no proxy numbers used.
 
 ---
 

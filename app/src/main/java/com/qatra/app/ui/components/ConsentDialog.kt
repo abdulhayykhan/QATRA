@@ -146,7 +146,7 @@ fun ConsentDialog(
                             "All data encrypted in transit (TLS 1.2+) and at rest (Supabase encryption)",
                             "CNIC stored exclusively as a cryptographic hash",
                             "Row-Level Security (RLS) enforces access control at the database level",
-                            "Masked calling protects phone numbers during donor–seeker communication"
+                            "Direct dialing (seeker-initiated, no masked proxy) connects matched parties via tel:+XXXX link"
                         )
                     )
 
