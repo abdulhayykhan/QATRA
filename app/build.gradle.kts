@@ -18,7 +18,7 @@ val localProperties = Properties().apply {
 }
 
 android {
-  namespace = "com.example"
+  namespace = "com.qatra.app"
   compileSdk { version = release(36) { minorApiLevel = 1 } }
 
   defaultConfig {

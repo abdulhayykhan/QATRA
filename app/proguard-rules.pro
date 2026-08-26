@@ -36,4 +36,4 @@
 -keep class okhttp3.** { *; }
 
 # Keep data classes used with Supabase
--keep class com.example.data.model.** { *; }
+-keep class com.qatra.app.data.model.** { *; }
