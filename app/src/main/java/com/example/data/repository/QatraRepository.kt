@@ -825,12 +825,29 @@ class QatraRepository {
 
     private fun String.toUuidOrNull(): java.util.UUID? = runCatching { java.util.UUID.fromString(this) }.getOrNull()
 
-    // // MOCK: Donor accepts emergency dispatch
-    // // TODO: FR 1.4 — replace with real WebSocket broadcast lock & masked proxy route creation
-    fun acceptEmergencyDispatch(donorId: String, requestId: String) {
-        val current = _activeSeekerRequest.value
-        if (current != null) {
+    // FR 1.4 — donor accepts an emergency dispatch. The durable side is the
+    // accept_emergency_dispatch RPC (SECURITY DEFINER, keyed on auth.uid()): it records the
+    // responder in matched_donor_requests and locks the request to DONOR_MATCHED as the
+    // broadcast lock. Local state advances optimistically first so the demo flow continues
+    // even with no live session; the DB write is therefore best effort and returns whether it
+    // landed. ponytail: masked-proxy call routing (NFR 2.3) is still out of scope — see
+    // initiateMaskedProxyCall below.
+    suspend fun acceptEmergencyDispatch(requestId: String): Boolean {
+        _activeSeekerRequest.value?.let { current ->
             _activeSeekerRequest.value = current.copy(status = RequestStatus.DONOR_MATCHED)
+        }
+        val client = supabaseClient ?: return false
+        if (client.auth.currentUserOrNull() == null) return false
+        if (requestId.toUuidOrNull() == null) return false
+        return try {
+            client.postgrest.rpc(
+                function = "accept_emergency_dispatch",
+                parameters = buildJsonObject { put("p_request_id", requestId) }
+            )
+            true
+        } catch (exception: Exception) {
+            setLastAuthError(exception.message ?: "Unable to accept dispatch.")
+            false
         }
     }
 
@@ -840,9 +857,14 @@ class QatraRepository {
         return "0300-XXXXXXX" // Always masked
     }
 
-    // // MOCK: Completes donation and starts 90-day cooldown countdown
-    // // TODO: FR 2.4 — replace with real server-side Cooldown Engine with Day-85 automated push triggers
-    fun completeDonation(donorId: String, rating: Int, thankYouNote: String?) {
+    // FR 2.4 — donor completes a donation. The durable side is the complete_donation RPC
+    // (SECURITY DEFINER, keyed on auth.uid()): it starts the 90-day cooldown and increments
+    // lifetime donations for the caller's own profile. rating/thankYouNote have no backend
+    // sink yet, so they stay in local state only. Local state (including the optimistic
+    // FULFILLED flip, which the RPC deliberately leaves to the admin/seeker request
+    // lifecycle) advances first so the demo flow completes without a live session; the DB
+    // write is best effort and returns whether it landed.
+    suspend fun completeDonation(rating: Int, thankYouNote: String?): Boolean {
         val currentProfile = _donorProfile.value
         _donorProfile.value = currentProfile.copy(
             isAvailableToDonate = false,
@@ -850,9 +872,20 @@ class QatraRepository {
             cooldownDaysRemaining = 90,
             lifetimeDonations = currentProfile.lifetimeDonations + 1
         )
-        val activeReq = _activeSeekerRequest.value
-        if (activeReq != null) {
+        _activeSeekerRequest.value?.let { activeReq ->
             _activeSeekerRequest.value = activeReq.copy(status = RequestStatus.FULFILLED)
+        }
+        val client = supabaseClient ?: return false
+        if (client.auth.currentUserOrNull() == null) return false
+        return try {
+            client.postgrest.rpc(
+                function = "complete_donation",
+                parameters = buildJsonObject { }
+            )
+            true
+        } catch (exception: Exception) {
+            setLastAuthError(exception.message ?: "Unable to complete donation.")
+            false
         }
     }
 
@@ -872,15 +905,31 @@ class QatraRepository {
         )
     }
 
-    fun approveVerificationItem(id: String) {
-        _verificationQueue.value = _verificationQueue.value.map {
-            if (it.id == id) it.copy(status = "Approved") else it
-        }
-    }
+    // FR 3.x — admin approves/rejects a verification-queue item. Optimistic local update
+    // first, then the durable status write to verification_queue. The write is gated by the
+    // admin RLS policy (auth.jwt() ->> 'user_role' = 'admin'), so it only lands once the
+    // custom access-token hook is enabled; returns whether it did.
+    suspend fun approveVerificationItem(id: String): Boolean = setVerificationStatus(id, "Approved")
 
-    fun rejectVerificationItem(id: String) {
+    suspend fun rejectVerificationItem(id: String): Boolean = setVerificationStatus(id, "Rejected")
+
+    private suspend fun setVerificationStatus(id: String, status: String): Boolean {
         _verificationQueue.value = _verificationQueue.value.map {
-            if (it.id == id) it.copy(status = "Rejected") else it
+            if (it.id == id) it.copy(status = status) else it
+        }
+        val client = supabaseClient ?: return false
+        if (client.auth.currentUserOrNull() == null) return false
+        if (id.toUuidOrNull() == null) return false
+        return try {
+            client.from("verification_queue").update({
+                set("status", status)
+            }) {
+                filter { eq("id", id) }
+            }
+            true
+        } catch (exception: Exception) {
+            setLastAuthError(exception.message ?: "Unable to update verification item.")
+            false
         }
     }
 

@@ -231,6 +231,15 @@ class QatraViewModel(
         _activeFlow.value = FlowType.ADMIN
     }
 
+    // Admin verification-queue actions delegate to the now-suspend repository writes.
+    fun adminApproveVerification(id: String) {
+        viewModelScope.launch { repository.approveVerificationItem(id) }
+    }
+
+    fun adminRejectVerification(id: String) {
+        viewModelScope.launch { repository.rejectVerificationItem(id) }
+    }
+
     suspend fun adminSignIn(email: String, password: String, totpCode: String): Boolean {
         // ponytail: the TOTP field is accepted but not yet enforced. Supabase MFA (TOTP
         // enroll + challenge) is a documented Phase-1 pilot gap; password auth is real and
@@ -356,16 +365,16 @@ class QatraViewModel(
     // Donor accepts alert
     fun donorAcceptDispatch() {
         showGeoAlertModal.value = false
-        repository.acceptEmergencyDispatch(
-            donorId = "DNR-001",
-            requestId = geoAlertPayload.value?.requestId ?: "REQ-8821"
-        )
+        val requestId = geoAlertPayload.value?.requestId
+        if (requestId != null) {
+            viewModelScope.launch { repository.acceptEmergencyDispatch(requestId) }
+        }
         _donorStep.value = DonorScreenStep.NAVIGATION_ROUTING
     }
 
     fun donorFinishDonation() {
         val note = feedbackNote.value.ifBlank { "Donation completed via QATRA emergency dispatch." }
-        repository.completeDonation("DNR-001", feedbackRating.value, note)
+        viewModelScope.launch { repository.completeDonation(feedbackRating.value, note) }
         _donorStep.value = DonorScreenStep.DONATION_COMPLETE
     }
 

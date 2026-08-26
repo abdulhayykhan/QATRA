@@ -442,7 +442,7 @@ fun VerificationQueueScreen(
         ) {
             OutlinedButton(
                 onClick = {
-                    viewModel.repository.rejectVerificationItem(activeItem.id)
+                    viewModel.adminRejectVerification(activeItem.id)
                 },
                 modifier = Modifier
                     .weight(1f)
@@ -458,7 +458,7 @@ fun VerificationQueueScreen(
 
             Button(
                 onClick = {
-                    viewModel.repository.approveVerificationItem(activeItem.id)
+                    viewModel.adminApproveVerification(activeItem.id)
                     viewModel.setAdminStep(AdminScreenStep.FRAUD_AUDIT)
                 },
                 modifier = Modifier
