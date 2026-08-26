@@ -66,10 +66,7 @@ class SeekerViewModel(
     val feedbackRating = MutableStateFlow(5)
     val feedbackNote = MutableStateFlow("")
 
-    // ── Proxy Call State (MaskedCallingScreen) ──────────────────────────────
-    val isProxyCallActive = MutableStateFlow(false)
-    val proxyCallSecondsRemaining = MutableStateFlow(0)
-    private var proxyCallJob: Job? = null
+    // Direct call event (emitted for seeker-only tel:+XXXX contact)
 
     // ── Dial Event (emitted when seeker wants to directly call a donor) ─────
     private val _dialEvent = MutableSharedFlow<String>(replay = 0)
@@ -82,25 +79,6 @@ class SeekerViewModel(
                 _sessionExpiredEvent.emit(Unit)
             }
         }
-    }
-
-    fun startProxyCallCountdown() {
-        proxyCallJob?.cancel()
-        isProxyCallActive.value = true
-        proxyCallSecondsRemaining.value = 300
-        proxyCallJob = viewModelScope.launch {
-            while (proxyCallSecondsRemaining.value > 0) {
-                delay(1000)
-                proxyCallSecondsRemaining.value -= 1
-            }
-            isProxyCallActive.value = false
-        }
-    }
-
-    fun endProxyCall() {
-        proxyCallJob?.cancel()
-        isProxyCallActive.value = false
-        proxyCallSecondsRemaining.value = 0
     }
 
     // ── Actions ─────────────────────────────────────────────────────────────
@@ -174,7 +152,6 @@ class SeekerViewModel(
     }
 
     override fun onCleared() {
-        proxyCallJob?.cancel()
         super.onCleared()
     }
 }

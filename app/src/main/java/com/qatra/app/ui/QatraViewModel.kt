@@ -30,7 +30,7 @@ enum class MainTab { EMERGENCY, DONATE, LEARN, DESK }
 enum class SeekerScreenStep {
     SPLASH, PHONE_VERIFICATION, ROLE_PROFILE, REQUEST_CREATION, SLIP_UPLOAD,
     VERIFICATION_MODAL, LIVE_STATUS_FEED, MATCHED_DONORS,
-    MASKED_CALL, DIRECT_CALL, CONFIRMATION
+    DIRECT_CALL, CONFIRMATION
 }
 
 enum class DonorScreenStep {
@@ -139,8 +139,6 @@ class QatraViewModel(
     val slipRoutedToVerification = seekerVm.slipRoutedToVerification
     val feedbackRating = seekerVm.feedbackRating
     val feedbackNote = seekerVm.feedbackNote
-    val isProxyCallActive = seekerVm.isProxyCallActive
-    val proxyCallSecondsRemaining = seekerVm.proxyCallSecondsRemaining
     val dialEvent = seekerVm.dialEvent
 
     fun setSeekerStep(step: SeekerScreenStep) {
@@ -148,8 +146,6 @@ class QatraViewModel(
         authVm.setActiveFlow(FlowType.SEEKER)
     }
 
-    fun startProxyCallCountdown() = seekerVm.startProxyCallCountdown()
-    fun endProxyCall() = seekerVm.endProxyCall()
     fun submitSlipAndVerify(context: Context) = seekerVm.submitSlipAndVerify(context)
     fun seekerDirectCallToDonor(donorPhone: String) = seekerVm.seekerDirectCallToDonor(donorPhone)
     fun submitSeekerFeedback() = seekerVm.submitSeekerFeedback()

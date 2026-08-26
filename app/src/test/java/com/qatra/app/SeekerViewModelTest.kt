@@ -80,10 +80,10 @@ class SeekerViewModelTest {
     }
 
     @Test
-    fun initialState_proxyCallIsNotActive() {
+    fun initialState_dialEventIsEmpty() {
         val vm = createViewModel()
-        assertFalse(vm.isProxyCallActive.value)
-        assertEquals(0, vm.proxyCallSecondsRemaining.value)
+        // Direct call uses seekerDirectCallToDonor; proxy state removed.
+        assertEquals(SeekerScreenStep.SPLASH, vm.seekerStep.value)
     }
 
     @Test
@@ -148,24 +148,6 @@ class SeekerViewModelTest {
 
     // ── Proxy Call State ───────────────────────────────────────────────────
 
-    @Test
-    fun startProxyCallCountdown_setsActiveAndTimer() {
-        val vm = createViewModel()
-        vm.startProxyCallCountdown()
-        assertTrue(vm.isProxyCallActive.value)
-        assertEquals(300, vm.proxyCallSecondsRemaining.value)
-    }
-
-    @Test
-    fun endProxyCall_resetsState() {
-        val vm = createViewModel()
-        vm.startProxyCallCountdown()
-        assertTrue(vm.isProxyCallActive.value)
-
-        vm.endProxyCall()
-        assertFalse(vm.isProxyCallActive.value)
-        assertEquals(0, vm.proxyCallSecondsRemaining.value)
-    }
 
     // ── Feedback State ─────────────────────────────────────────────────────
 
