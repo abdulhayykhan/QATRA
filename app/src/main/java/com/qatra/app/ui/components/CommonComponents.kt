@@ -97,7 +97,7 @@ fun QatraLogo(
 fun BloodGroupBadge(
     group: BloodGroup,
     modifier: Modifier = Modifier,
-    size: Dp = 44.dp,
+    size: Dp = 48.dp,
     isSelected: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {

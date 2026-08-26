@@ -4,15 +4,21 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.qatra.app.data.model.*
 import com.qatra.app.data.repository.QatraRepository
 import com.qatra.app.notifications.GeoAlertPayload
 import com.qatra.app.ui.admin.AdminViewModel
 import com.qatra.app.ui.donor.DonorViewModel
 import com.qatra.app.ui.seeker.SeekerViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 private const val PREFS_NAME = "qatra_consent_prefs"
 private const val KEY_TERMS_ACCEPTED = "has_accepted_terms"
@@ -57,6 +63,39 @@ class QatraViewModel(
 
     /** Shared repository reference (convenience for screens that read `viewModel.repository.X`). */
     val repository: QatraRepository = authVm.repository
+
+    // ── Session Expiry (aggregated from all sub-ViewModels) ─────────────────
+    private val _sessionExpiredEvent = MutableSharedFlow<Unit>(replay = 0)
+    val sessionExpiredEvent: SharedFlow<Unit> = _sessionExpiredEvent.asSharedFlow()
+
+    init {
+        // Forward session-expired events from seeker and donor sub-ViewModels
+        viewModelScope.launch {
+            seekerVm.sessionExpiredEvent.collect {
+                Timber.w("Session expired event received from seeker flow")
+                handleSessionExpired()
+            }
+        }
+        viewModelScope.launch {
+            donorVm.sessionExpiredEvent.collect {
+                Timber.w("Session expired event received from donor flow")
+                handleSessionExpired()
+            }
+        }
+    }
+
+    /**
+     * Called when a Supabase call fails with an auth error (401/403) indicating
+     * the session has expired and the SDK's internal token refresh also failed.
+     * Resets navigation to the splash screen so the user can re-authenticate.
+     */
+    fun handleSessionExpired() {
+        Timber.w("Session expired — resetting auth state and navigating to splash")
+        authVm.setActiveFlow(FlowType.SEEKER)
+        seekerVm.setStep(SeekerScreenStep.SPLASH)
+        donorVm.setStep(DonorScreenStep.CNIC_UPLOAD)
+        _sessionExpiredEvent.tryEmit(Unit)
+    }
 
     // ── Auth / Shared Delegation ────────────────────────────────────────────
 

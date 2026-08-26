@@ -89,7 +89,7 @@ fun DonorCnicUploadScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = { viewModel.setSeekerStep(SeekerScreenStep.SPLASH) }) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Navigate back")
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
@@ -173,7 +173,7 @@ fun DonorCnicUploadScreen(
                     ) {
                         Icon(
                             imageVector = if (frontUri != null) Icons.Filled.CheckCircle else Icons.Filled.AddPhotoAlternate,
-                            contentDescription = "Front CNIC",
+                            contentDescription = if (frontUri != null) "Front CNIC uploaded" else "Upload front CNIC image",
                             tint = if (frontUri != null) QatraSuccess else QatraRedPrimary,
                             modifier = Modifier.size(28.dp)
                         )
@@ -206,7 +206,7 @@ fun DonorCnicUploadScreen(
                     ) {
                         Icon(
                             imageVector = if (backUri != null) Icons.Filled.CheckCircle else Icons.Filled.AddPhotoAlternate,
-                            contentDescription = "Back CNIC",
+                            contentDescription = if (backUri != null) "Back CNIC uploaded" else "Upload back CNIC image",
                             tint = if (backUri != null) QatraSuccess else QatraRedPrimary,
                             modifier = Modifier.size(28.dp)
                         )
@@ -361,7 +361,7 @@ fun PreScreeningChecklistScreen(
                 IconButton(onClick = {
                     if (step > 1) step -= 1 else viewModel.setDonorStep(DonorScreenStep.CNIC_UPLOAD)
                 }) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Navigate back")
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
@@ -852,7 +852,7 @@ fun DonorHomeDashboardScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.CheckCircle,
-                                contentDescription = "Status",
+                                contentDescription = "Eligible donor status",
                                 tint = QatraSuccess,
                                 modifier = Modifier.size(24.dp)
                             )
@@ -1050,7 +1050,7 @@ fun GeoFencedPushAlertModal(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Warning,
-                            contentDescription = "Urgency",
+                            contentDescription = "High priority urgency",
                             tint = Color.White,
                             modifier = Modifier.size(16.dp)
                         )
@@ -1168,7 +1168,7 @@ fun GeoFencedPushAlertModal(
                         shape = RoundedCornerShape(12.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = QatraRedPrimary)
                     ) {
-                        Icon(imageVector = Icons.Filled.DirectionsCar, contentDescription = "Navigate", tint = Color.White)
+                        Icon(imageVector = Icons.Filled.DirectionsCar, contentDescription = "Navigate to hospital", tint = Color.White)
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(text = "Accept Dispatch & Route", fontWeight = FontWeight.Bold, color = Color.White)
                     }
@@ -1227,7 +1227,7 @@ fun InteractiveMapScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = { viewModel.setDonorStep(DonorScreenStep.HOME_DASHBOARD) }) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Navigate back")
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
@@ -1285,7 +1285,7 @@ fun InteractiveMapScreen(
         ) {
             Column(modifier = Modifier.padding(16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    BloodGroupBadge(group = BloodGroup.O_NEG, isSelected = true, size = 44.dp)
+                    BloodGroupBadge(group = BloodGroup.O_NEG, isSelected = true, size = 48.dp)
                     Spacer(modifier = Modifier.width(12.dp))
                     Column {
                         Text(
@@ -1323,7 +1323,7 @@ fun InteractiveMapScreen(
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = QatraRedPrimary)
                 ) {
-                    Icon(imageVector = Icons.Filled.DirectionsCar, contentDescription = "Navigate", tint = Color.White)
+                    Icon(imageVector = Icons.Filled.DirectionsCar, contentDescription = "Navigate to hospital", tint = Color.White)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(text = "Accept Dispatch", fontWeight = FontWeight.Bold, color = Color.White)
                 }
@@ -1385,7 +1385,7 @@ fun NavigationProxyRoutingScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.TurnRight,
-                            contentDescription = "Turn",
+                            contentDescription = "Turn right direction",
                             tint = Color.White,
                             modifier = Modifier.size(24.dp)
                         )
@@ -1424,7 +1424,7 @@ fun NavigationProxyRoutingScreen(
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Icon(
                         imageVector = Icons.Filled.Navigation,
-                        contentDescription = "Navigation",
+                        contentDescription = "Live navigation route",
                         tint = QatraRedPrimary,
                         modifier = Modifier.size(36.dp)
                     )
@@ -1510,7 +1510,7 @@ fun NavigationProxyRoutingScreen(
                 shape = RoundedCornerShape(12.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = QatraSuccess)
             ) {
-                Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "Done", tint = Color.White)
+                Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "Confirm arrival and donation", tint = Color.White)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(text = "I Have Arrived & Donated", fontWeight = FontWeight.Bold, color = Color.White)
             }
@@ -1573,7 +1573,7 @@ fun DonationCompleteCooldownScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.CheckCircle,
-                        contentDescription = "Donation confirmed",
+                        contentDescription = "Donation confirmed successfully",
                         tint = QatraSuccess,
                         modifier = Modifier.size(36.dp)
                     )
@@ -1639,7 +1639,7 @@ fun DonationCompleteCooldownScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Info,
-                        contentDescription = "Info",
+                        contentDescription = "Cooldown information",
                         tint = QatraWarning,
                         modifier = Modifier.size(22.dp)
                     )
@@ -1723,7 +1723,7 @@ fun CooldownStateScreen(
                                     .background(QatraRedContainer, CircleShape),
                                 contentAlignment = Alignment.Center
                             ) {
-                                Icon(imageVector = Icons.Filled.Person, contentDescription = "Profile", tint = QatraRedPrimary)
+                                Icon(imageVector = Icons.Filled.Person, contentDescription = "Donor profile", tint = QatraRedPrimary)
                             }
                             Spacer(modifier = Modifier.width(12.dp))
                             Column {
@@ -1755,7 +1755,7 @@ fun CooldownStateScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.Schedule,
-                                    contentDescription = "Cooldown",
+                                    contentDescription = "Cooldown period remaining",
                                     tint = QatraWarning,
                                     modifier = Modifier.size(16.dp)
                                 )
@@ -1793,7 +1793,7 @@ fun CooldownStateScreen(
                                     color = QatraGray600
                                 )
                                 Spacer(modifier = Modifier.width(4.dp))
-                                Icon(imageVector = Icons.Filled.Lock, contentDescription = "Locked", tint = QatraGray600, modifier = Modifier.size(14.dp))
+                                Icon(imageVector = Icons.Filled.Lock, contentDescription = "Availability locked until cooldown ends", tint = QatraGray600, modifier = Modifier.size(14.dp))
                             }
                             Text(
                                 text = "Auto-unlocks on Day 90",

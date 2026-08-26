@@ -10,8 +10,10 @@ import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.storage.storage
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.json.JsonArray
@@ -29,6 +31,10 @@ import kotlin.coroutines.resumeWithException
 import timber.log.Timber
 
 class SeekerRepository {
+
+    // ── Session Expiry Detection ────────────────────────────────────────────
+    private val _sessionExpiredEvent = MutableSharedFlow<Unit>(replay = 0)
+    val sessionExpiredEvent = _sessionExpiredEvent.asSharedFlow()
 
     data class SlipProcessingResult(
         val request: BloodRequest?,
@@ -176,6 +182,7 @@ class SeekerRepository {
             true
         } catch (exception: Exception) {
             Timber.e(exception, "Failed to upload private document")
+            if (isAuthError(exception)) _sessionExpiredEvent.tryEmit(Unit)
             false
         }
     }
@@ -301,6 +308,7 @@ class SeekerRepository {
             donors
         } catch (exception: Exception) {
             Timber.e(exception, "Failed to dispatch proximity alerts for request %s", requestId)
+            if (isAuthError(exception)) _sessionExpiredEvent.tryEmit(Unit)
             _matchedDonors.value = emptyList()
             if (request != null) {
                 _activeSeekerRequest.value = request.copy(activeDonorsInRadius = 0)
@@ -311,6 +319,19 @@ class SeekerRepository {
 
     private fun String.toUuidOrNull(): java.util.UUID? =
         runCatching { java.util.UUID.fromString(this) }.getOrNull()
+
+    /**
+     * Detects whether an exception represents an authentication/authorization failure
+     * (HTTP 401 or 403) that indicates the session has expired and cannot be refreshed.
+     */
+    internal fun isAuthError(exception: Exception): Boolean {
+        val message = exception.message ?: return false
+        return message.contains("401") || message.contains("403") ||
+            message.contains("Unauthorized", ignoreCase = true) ||
+            message.contains("Forbidden", ignoreCase = true) ||
+            message.contains("invalid_jwt", ignoreCase = true) ||
+            message.contains("token_refresh_failed", ignoreCase = true)
+    }
 
     private suspend fun recognizeText(context: Context, imageUri: Uri): String =
         suspendCancellableCoroutine { continuation ->

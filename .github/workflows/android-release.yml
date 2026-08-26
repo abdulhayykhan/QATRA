@@ -103,23 +103,23 @@ jobs:
 
       # KEYSTORE_PATH, VERSION_NAME and VERSION_CODE were exported to the
       # environment via $GITHUB_ENV in the steps above.
-      - name: Test, then assemble signed release APK and AAB
+      - name: Test, then assemble signed prod release APK and AAB
         env:
           STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         # Unit tests are pure-JVM logic in the shared src/test source set (no
-        # release-specific tests), so testDebugUnitTest is representative. AGP
-        # 9.x only registers the unit-test task for the default testBuildType
-        # (debug), so testReleaseUnitTest does not exist.
-        run: ./gradlew testDebugUnitTest assembleRelease bundleRelease --no-daemon --no-configuration-cache --stacktrace
+        # release-specific tests), so testProdDebugUnitTest is representative.
+        # AGP 9.x only registers the unit-test task for the default testBuildType
+        # (debug), so testProdReleaseUnitTest does not exist.
+        run: ./gradlew testProdDebugUnitTest assembleProdRelease bundleProdRelease --no-daemon --no-configuration-cache --stacktrace
 
       - name: Upload build outputs as artifacts
         uses: actions/upload-artifact@v4
         with:
           name: qatra-release-${{ env.VERSION_NAME }}
           path: |
-            app/build/outputs/apk/release/*.apk
-            app/build/outputs/bundle/release/*.aab
+            app/build/outputs/apk/prod/release/*.apk
+            app/build/outputs/bundle/prodRelease/*.aab
           if-no-files-found: error
           retention-days: 30
 
@@ -133,5 +133,5 @@ jobs:
           gh release create "${GITHUB_REF_NAME}" \
             --title "QATRA ${GITHUB_REF_NAME}" \
             --generate-notes \
-            app/build/outputs/apk/release/*.apk \
-            app/build/outputs/bundle/release/*.aab
+            app/build/outputs/apk/prod/release/*.apk \
+            app/build/outputs/bundle/prodRelease/*.aab

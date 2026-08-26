@@ -409,7 +409,7 @@ fun VerificationQueueScreen(
                                     modifier = Modifier.padding(8.dp),
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
-                                    Icon(imageVector = Icons.Filled.Warning, contentDescription = "Warning", tint = QatraWarning, modifier = Modifier.size(16.dp))
+                                    Icon(imageVector = Icons.Filled.Warning, contentDescription = "Flag warning", tint = QatraWarning, modifier = Modifier.size(16.dp))
                                     Spacer(modifier = Modifier.width(6.dp))
                                     Text(
                                         text = activeItem.flagWarning ?: "",
@@ -558,7 +558,7 @@ fun FraudAuditCenterScreen(
                 )
             }
             IconButton(onClick = { viewModel.setAdminStep(AdminScreenStep.DRIVE_MANAGEMENT) }) {
-                Icon(imageVector = Icons.Filled.ArrowForward, contentDescription = "Drives", tint = QatraRedPrimary)
+                Icon(imageVector = Icons.Filled.ArrowForward, contentDescription = "Go to drive management", tint = QatraRedPrimary)
             }
         }
 
@@ -689,7 +689,7 @@ private fun AdminStatCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(imageVector = icon, contentDescription = null, tint = color, modifier = Modifier.size(16.dp))
+                Icon(imageVector = icon, contentDescription = title, tint = color, modifier = Modifier.size(16.dp))
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(text = count, style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Black), color = QatraGray900)
             }
@@ -756,7 +756,7 @@ fun DriveManagementDashboardScreen(
                 )
             }
             IconButton(onClick = { viewModel.setAdminStep(AdminScreenStep.LOGIN_2FA) }) {
-                Icon(imageVector = Icons.Filled.Logout, contentDescription = "Exit", tint = QatraRedPrimary)
+                Icon(imageVector = Icons.Filled.Logout, contentDescription = "Log out", tint = QatraRedPrimary)
             }
         }
 

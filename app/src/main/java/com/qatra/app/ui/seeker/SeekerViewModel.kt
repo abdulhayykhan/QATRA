@@ -11,6 +11,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * Seeker-specific ViewModel managing:
@@ -31,6 +32,10 @@ class SeekerViewModel(
     fun setStep(step: SeekerScreenStep) {
         _seekerStep.value = step
     }
+
+    // ── Session Expiry (forwarded from repository) ──────────────────────────
+    private val _sessionExpiredEvent = MutableSharedFlow<Unit>(replay = 0)
+    val sessionExpiredEvent = _sessionExpiredEvent.asSharedFlow()
 
     // ── Seeker Profile State ────────────────────────────────────────────────
     val seekerName = MutableStateFlow("Jane Doe")
@@ -70,6 +75,15 @@ class SeekerViewModel(
     private val _dialEvent = MutableSharedFlow<String>(replay = 0)
     val dialEvent = _dialEvent.asSharedFlow()
 
+    init {
+        // Forward session-expired events from the seeker repository
+        viewModelScope.launch {
+            repository.seekerRepository.sessionExpiredEvent.collect {
+                _sessionExpiredEvent.emit(Unit)
+            }
+        }
+    }
+
     fun startProxyCallCountdown() {
         proxyCallJob?.cancel()
         isProxyCallActive.value = true
@@ -96,6 +110,7 @@ class SeekerViewModel(
             slipVerificationError.value = "Please select a hospital slip image first."
             return
         }
+        val previousStep = _seekerStep.value
         _seekerStep.value = SeekerScreenStep.VERIFICATION_MODAL
         isOcrProcessing.value = true
         ocrStep1Completed.value = false
@@ -121,7 +136,12 @@ class SeekerViewModel(
                 repository.dispatchProximityAlerts(result.request.id, radiusKm = 10)
                 delay(800)
                 _seekerStep.value = SeekerScreenStep.LIVE_STATUS_FEED
+            } else if (result.errorMessage != null && !result.routedToVerification) {
+                // OCR/upload failed completely — rollback to previous step
+                _seekerStep.value = previousStep
+                Timber.w("Slip processing failed, rolled back seeker step to %s", previousStep)
             }
+            // If routedToVerification is true, stay on VERIFICATION_MODAL — admin review needed
         }
     }
 

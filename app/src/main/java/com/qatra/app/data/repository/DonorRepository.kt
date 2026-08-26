@@ -5,14 +5,20 @@ import com.qatra.app.data.model.*
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.postgrest
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import timber.log.Timber
 
 class DonorRepository {
+
+    // ── Session Expiry Detection ────────────────────────────────────────────
+    private val _sessionExpiredEvent = MutableSharedFlow<Unit>(replay = 0)
+    val sessionExpiredEvent = _sessionExpiredEvent.asSharedFlow()
 
     companion object {
         private val validProvinceDistrictRanges: List<IntRange> = listOf(
@@ -108,6 +114,7 @@ class DonorRepository {
         } catch (exception: Exception) {
             Timber.e(exception, "Failed to update donor location")
             setLastAuthError(exception.message ?: "Unable to update donor location.")
+            if (isAuthError(exception)) _sessionExpiredEvent.tryEmit(Unit)
             false
         }
     }
@@ -132,6 +139,7 @@ class DonorRepository {
         } catch (exception: Exception) {
             Timber.e(exception, "Failed to register FCM token")
             setLastAuthError(exception.message ?: "Unable to register FCM token.")
+            if (isAuthError(exception)) _sessionExpiredEvent.tryEmit(Unit)
             false
         }
     }
@@ -146,14 +154,25 @@ class DonorRepository {
     // accept_emergency_dispatch RPC (SECURITY DEFINER, keyed on auth.uid()): it records
     // the responder in matched_donor_requests and locks the request to DONOR_MATCHED.
     // Local state advances optimistically first so the demo flow continues even with no
-    // live session; the DB write is best effort.
+    // live session; the DB write is best effort. On failure the state is rolled back.
     suspend fun acceptEmergencyDispatch(requestId: String): Boolean {
+        // Save previous state for rollback
+        val previousRequest = activeSeekerRequestRef?.value
         activeSeekerRequestRef?.value?.let { current ->
             activeSeekerRequestRef?.value = current.copy(status = RequestStatus.DONOR_MATCHED)
         }
-        val client = SupabaseClientProvider.client ?: return false
-        if (client.auth.currentUserOrNull() == null) return false
-        if (requestId.toUuidOrNull() == null) return false
+        val client = SupabaseClientProvider.client ?: run {
+            activeSeekerRequestRef?.value = previousRequest
+            return false
+        }
+        if (client.auth.currentUserOrNull() == null) {
+            activeSeekerRequestRef?.value = previousRequest
+            return false
+        }
+        if (requestId.toUuidOrNull() == null) {
+            activeSeekerRequestRef?.value = previousRequest
+            return false
+        }
         return try {
             client.postgrest.rpc(
                 function = "accept_emergency_dispatch",
@@ -161,8 +180,10 @@ class DonorRepository {
             )
             true
         } catch (exception: Exception) {
-            Timber.e(exception, "Failed to accept emergency dispatch")
+            activeSeekerRequestRef?.value = previousRequest
+            Timber.e(exception, "Failed to accept emergency dispatch, rolled back request state")
             setLastAuthError(exception.message ?: "Unable to accept dispatch.")
+            if (isAuthError(exception)) _sessionExpiredEvent.tryEmit(Unit)
             false
         }
     }
@@ -170,20 +191,31 @@ class DonorRepository {
     // FR 2.4 — donor completes a donation. The durable side is the complete_donation RPC
     // (SECURITY DEFINER, keyed on auth.uid()): it starts the 90-day cooldown and increments
     // lifetime donations. rating/thankYouNote have no backend sink yet, so they stay in
-    // local state only. Local state advances optimistically first.
+    // local state only. Local state advances optimistically first; rolled back on failure.
     suspend fun completeDonation(rating: Int, thankYouNote: String?): Boolean {
-        val currentProfile = _donorProfile.value
-        _donorProfile.value = currentProfile.copy(
+        // Save previous state for rollback
+        val previousProfile = _donorProfile.value
+        val previousRequest = activeSeekerRequestRef?.value
+
+        _donorProfile.value = previousProfile.copy(
             isAvailableToDonate = false,
             isEligible = false,
             cooldownDaysRemaining = 90,
-            lifetimeDonations = currentProfile.lifetimeDonations + 1
+            lifetimeDonations = previousProfile.lifetimeDonations + 1
         )
         activeSeekerRequestRef?.value?.let { activeReq ->
             activeSeekerRequestRef?.value = activeReq.copy(status = RequestStatus.FULFILLED)
         }
-        val client = SupabaseClientProvider.client ?: return false
-        if (client.auth.currentUserOrNull() == null) return false
+        val client = SupabaseClientProvider.client ?: run {
+            _donorProfile.value = previousProfile
+            activeSeekerRequestRef?.value = previousRequest
+            return false
+        }
+        if (client.auth.currentUserOrNull() == null) {
+            _donorProfile.value = previousProfile
+            activeSeekerRequestRef?.value = previousRequest
+            return false
+        }
         return try {
             client.postgrest.rpc(
                 function = "complete_donation",
@@ -191,8 +223,11 @@ class DonorRepository {
             )
             true
         } catch (exception: Exception) {
-            Timber.e(exception, "Failed to complete donation")
+            _donorProfile.value = previousProfile
+            activeSeekerRequestRef?.value = previousRequest
+            Timber.e(exception, "Failed to complete donation, rolled back donor profile and request state")
             setLastAuthError(exception.message ?: "Unable to complete donation.")
+            if (isAuthError(exception)) _sessionExpiredEvent.tryEmit(Unit)
             false
         }
     }
@@ -215,4 +250,17 @@ class DonorRepository {
 
     private fun String.toUuidOrNull(): java.util.UUID? =
         runCatching { java.util.UUID.fromString(this) }.getOrNull()
+
+    /**
+     * Detects whether an exception represents an authentication/authorization failure
+     * (HTTP 401 or 403) that indicates the session has expired and cannot be refreshed.
+     */
+    internal fun isAuthError(exception: Exception): Boolean {
+        val message = exception.message ?: return false
+        return message.contains("401") || message.contains("403") ||
+            message.contains("Unauthorized", ignoreCase = true) ||
+            message.contains("Forbidden", ignoreCase = true) ||
+            message.contains("invalid_jwt", ignoreCase = true) ||
+            message.contains("token_refresh_failed", ignoreCase = true)
+    }
 }

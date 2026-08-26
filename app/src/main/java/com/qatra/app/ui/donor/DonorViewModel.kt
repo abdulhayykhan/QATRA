@@ -18,11 +18,14 @@ import com.qatra.app.notifications.GeoAlertPayload
 import com.qatra.app.notifications.QatraPushState
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
+import timber.log.Timber
 import kotlin.coroutines.resume
 
 /**
@@ -45,6 +48,10 @@ class DonorViewModel(
     fun setStep(step: DonorScreenStep) {
         _donorStep.value = step
     }
+
+    // ── Session Expiry (forwarded from repository) ──────────────────────────
+    private val _sessionExpiredEvent = MutableSharedFlow<Unit>(replay = 0)
+    val sessionExpiredEvent = _sessionExpiredEvent.asSharedFlow()
 
     // ── CNIC Upload State ───────────────────────────────────────────────────
     val donorCnicNumber = MutableStateFlow("42101-9876543-7")
@@ -73,6 +80,12 @@ class DonorViewModel(
                     geoAlertPayload.value = alert
                     showGeoAlertModal.value = true
                 }
+            }
+        }
+        // Forward session-expired events from the donor repository
+        viewModelScope.launch {
+            repository.donorRepository.sessionExpiredEvent.collect {
+                _sessionExpiredEvent.emit(Unit)
             }
         }
     }
@@ -138,18 +151,42 @@ class DonorViewModel(
     }
 
     fun donorAcceptDispatch() {
+        val previousStep = _donorStep.value
+        val previousShowModal = showGeoAlertModal.value
+        val previousPayload = geoAlertPayload.value
+
         showGeoAlertModal.value = false
         val requestId = geoAlertPayload.value?.requestId
-        if (requestId != null) {
-            viewModelScope.launch { repository.acceptEmergencyDispatch(requestId) }
-        }
         _donorStep.value = DonorScreenStep.NAVIGATION_ROUTING
+
+        if (requestId != null) {
+            viewModelScope.launch {
+                val success = repository.acceptEmergencyDispatch(requestId)
+                if (!success) {
+                    _donorStep.value = previousStep
+                    showGeoAlertModal.value = previousShowModal
+                    geoAlertPayload.value = previousPayload
+                    Timber.w("Dispatch acceptance failed, rolled back donor step to %s", previousStep)
+                }
+            }
+        } else {
+            // No request ID — nothing to persist, no rollback needed
+        }
     }
 
     fun donorFinishDonation() {
+        val previousStep = _donorStep.value
         val note = feedbackNote.value.ifBlank { "Donation completed via QATRA emergency dispatch." }
-        viewModelScope.launch { repository.completeDonation(feedbackRating.value, note) }
+
         _donorStep.value = DonorScreenStep.DONATION_COMPLETE
+
+        viewModelScope.launch {
+            val success = repository.completeDonation(feedbackRating.value, note)
+            if (!success) {
+                _donorStep.value = previousStep
+                Timber.w("Donation completion failed, rolled back donor step to %s", previousStep)
+            }
+        }
     }
 
     override fun onCleared() {

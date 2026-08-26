@@ -59,17 +59,17 @@ jobs:
               -keystore debug.keystore -storepass android -keypass android
           fi
 
-      - name: Run debug unit tests
-        run: ./gradlew testDebugUnitTest --no-daemon --no-configuration-cache --stacktrace
+      - name: Run dev debug unit tests
+        run: ./gradlew testDevDebugUnitTest --no-daemon --no-configuration-cache --stacktrace
 
-      - name: Assemble debug APK
-        run: ./gradlew assembleDebug --no-daemon --no-configuration-cache --stacktrace
+      - name: Assemble dev debug APK
+        run: ./gradlew assembleDevDebug --no-daemon --no-configuration-cache --stacktrace
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
-          name: qatra-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
+          name: qatra-dev-debug-apk
+          path: app/build/outputs/apk/dev/debug/*.apk
           if-no-files-found: error
           retention-days: 14
 
@@ -95,4 +95,4 @@ jobs:
             --title "QATRA $TAG (Debug)" \
             --generate-notes \
             --prerelease \
-            app/build/outputs/apk/debug/*.apk
+            app/build/outputs/apk/dev/debug/*.apk

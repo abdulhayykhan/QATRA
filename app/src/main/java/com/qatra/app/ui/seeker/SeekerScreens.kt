@@ -297,7 +297,7 @@ fun PhoneVerificationScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = { viewModel.setSeekerStep(SeekerScreenStep.SPLASH) }) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Navigate back")
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
@@ -519,7 +519,7 @@ fun RoleSelectionProfileScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = { viewModel.setSeekerStep(SeekerScreenStep.PHONE_VERIFICATION) }) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Navigate back")
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
@@ -622,7 +622,7 @@ fun RoleSelectionProfileScreen(
                     label = { Text("Primary District (Karachi)") },
                     trailingIcon = {
                         IconButton(onClick = { districtMenuExpanded = true }) {
-                            Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "Expand")
+                            Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "Expand district list")
                         }
                     },
                     modifier = Modifier
@@ -739,7 +739,7 @@ fun RequestCreationScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     IconButton(onClick = { viewModel.setSeekerStep(SeekerScreenStep.ROLE_PROFILE) }) {
-                        Icon(imageVector = Icons.Filled.Close, contentDescription = "Close")
+                        Icon(imageVector = Icons.Filled.Close, contentDescription = "Close request form")
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
@@ -805,7 +805,7 @@ fun RequestCreationScreen(
                     )
                     Icon(
                         imageVector = Icons.Outlined.Info,
-                        contentDescription = "Info",
+                        contentDescription = "Component type information",
                         tint = QatraGray600,
                         modifier = Modifier.size(16.dp)
                     )
@@ -867,7 +867,7 @@ fun RequestCreationScreen(
                                 .background(Color.White, CircleShape)
                                 .border(1.dp, QatraGray300, CircleShape)
                         ) {
-                            Icon(imageVector = Icons.Filled.Remove, contentDescription = "Decrease")
+                            Icon(imageVector = Icons.Filled.Remove, contentDescription = "Decrease units")
                         }
 
                         Column(
@@ -893,7 +893,7 @@ fun RequestCreationScreen(
                                 .background(Color.White, CircleShape)
                                 .border(1.dp, QatraGray300, CircleShape)
                         ) {
-                            Icon(imageVector = Icons.Filled.Add, contentDescription = "Increase")
+                            Icon(imageVector = Icons.Filled.Add, contentDescription = "Increase units")
                         }
                     }
                 }
@@ -921,7 +921,7 @@ fun RequestCreationScreen(
                         },
                         trailingIcon = {
                             IconButton(onClick = { hospitalDropdownExpanded = true }) {
-                                Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "Expand")
+                                Icon(imageVector = Icons.Filled.ArrowDropDown, contentDescription = "Expand hospital list")
                             }
                         },
                         modifier = Modifier
@@ -991,7 +991,7 @@ fun RequestCreationScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.Warning,
-                                    contentDescription = "Urgent",
+                                    contentDescription = "High priority indicator",
                                     tint = Color.White,
                                     modifier = Modifier.size(20.dp)
                                 )
@@ -1057,7 +1057,7 @@ fun RequestCreationScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Filled.Schedule,
-                                    contentDescription = "Standard",
+                                    contentDescription = "Standard priority indicator",
                                     tint = Color.White,
                                     modifier = Modifier.size(20.dp)
                                 )
@@ -1146,7 +1146,7 @@ fun RequisitionSlipUploadScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(onClick = { viewModel.setSeekerStep(SeekerScreenStep.REQUEST_CREATION) }) {
-                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
+                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Navigate back")
                 }
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
@@ -1232,7 +1232,7 @@ fun RequisitionSlipUploadScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Filled.AddAPhoto,
-                                contentDescription = "Upload photo",
+                                contentDescription = "Upload hospital slip photo",
                                 tint = QatraRedPrimary,
                                 modifier = Modifier.size(32.dp)
                             )
@@ -1289,7 +1289,7 @@ fun RequisitionSlipUploadScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.AutoAwesome,
-                        contentDescription = "AI",
+                        contentDescription = "AI powered verification",
                         tint = QatraRedPrimary,
                         modifier = Modifier.size(24.dp)
                     )
@@ -1372,7 +1372,7 @@ fun SlipVerificationPendingModal(
                     } else {
                         Icon(
                             imageVector = Icons.Filled.CheckCircle,
-                            contentDescription = "Success",
+                            contentDescription = "Verification successful",
                             tint = QatraSuccess,
                             modifier = Modifier.size(36.dp)
                         )
@@ -1424,7 +1424,7 @@ fun SlipVerificationPendingModal(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         if (step1Done) {
-                            Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "Done", tint = QatraSuccess, modifier = Modifier.size(20.dp))
+                            Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "Slip analysis complete", tint = QatraSuccess, modifier = Modifier.size(20.dp))
                         } else {
                             CircularProgressIndicator(modifier = Modifier.size(16.dp), color = QatraRedPrimary, strokeWidth = 2.dp)
                         }
@@ -1444,7 +1444,7 @@ fun SlipVerificationPendingModal(
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         if (step2Done) {
-                            Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "Done", tint = QatraSuccess, modifier = Modifier.size(20.dp))
+                            Icon(imageVector = Icons.Filled.CheckCircle, contentDescription = "Stamp validation complete", tint = QatraSuccess, modifier = Modifier.size(20.dp))
                         } else {
                             CircularProgressIndicator(modifier = Modifier.size(16.dp), color = QatraRedPrimary, strokeWidth = 2.dp)
                         }
@@ -1676,7 +1676,7 @@ fun LiveRequestFeedStatusScreen(
                             .padding(14.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        BloodGroupBadge(group = req.bloodGroup, isSelected = true, size = 44.dp)
+                        BloodGroupBadge(group = req.bloodGroup, isSelected = true, size = 48.dp)
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -1734,7 +1734,7 @@ fun MatchedDonorsScreen(
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = { viewModel.setSeekerStep(SeekerScreenStep.LIVE_STATUS_FEED) }) {
-                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
+                Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Navigate back")
             }
             Spacer(modifier = Modifier.weight(1f))
             Text(
@@ -1765,7 +1765,7 @@ fun MatchedDonorsScreen(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Row(verticalAlignment = Alignment.CenterVertically) {
-                                BloodGroupBadge(group = donor.bloodGroup, isSelected = true, size = 44.dp)
+                                BloodGroupBadge(group = donor.bloodGroup, isSelected = true, size = 48.dp)
                                 Spacer(modifier = Modifier.width(12.dp))
                                 Column {
                                     Text(
@@ -1849,7 +1849,7 @@ fun MatchedDonorsScreen(
                             shape = RoundedCornerShape(10.dp),
                             colors = ButtonDefaults.buttonColors(containerColor = QatraRedPrimary)
                         ) {
-                            Icon(imageVector = Icons.Filled.Phone, contentDescription = "Call", tint = Color.White, modifier = Modifier.size(16.dp))
+                            Icon(imageVector = Icons.Filled.Phone, contentDescription = "Call donor via masked proxy", tint = Color.White, modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(text = "Call via Masked Proxy", fontWeight = FontWeight.Bold, color = Color.White)
                         }
@@ -1961,7 +1961,7 @@ fun MaskedCallingScreen(
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Lock,
-                        contentDescription = "Encrypted",
+                        contentDescription = "Encrypted call privacy",
                         tint = Color.White,
                         modifier = Modifier.size(20.dp)
                     )
@@ -1993,7 +1993,7 @@ fun MaskedCallingScreen(
             ) {
                 Icon(
                     imageVector = Icons.Filled.CallEnd,
-                    contentDescription = "End Call",
+                    contentDescription = "End call and confirm delivery",
                     tint = Color.White,
                     modifier = Modifier.size(32.dp)
                 )
@@ -2082,7 +2082,7 @@ fun DonationConfirmationScreen(
                 for (i in 1..5) {
                     IconButton(
                         onClick = { viewModel.feedbackRating.value = i },
-                        modifier = Modifier.size(40.dp)
+                        modifier = Modifier.size(48.dp)
                     ) {
                         Icon(
                             imageVector = if (i <= rating) Icons.Filled.Star else Icons.Outlined.Star,

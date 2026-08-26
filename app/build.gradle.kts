@@ -31,8 +31,6 @@ android {
     versionName = System.getenv("VERSION_NAME") ?: "1.0"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    buildConfigField("String", "SUPABASE_URL", "\"${localProperties.getProperty("SUPABASE_URL", "")}\"")
-    buildConfigField("String", "SUPABASE_ANON_KEY", "\"${localProperties.getProperty("SUPABASE_ANON_KEY", "")}\"")
   }
 
   signingConfigs {
@@ -58,15 +56,35 @@ android {
       isShrinkResources = true
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
       signingConfig = signingConfigs.getByName("release")
-      buildConfigField("String", "SUPABASE_URL", "\"${localProperties.getProperty("SUPABASE_URL", "")}\"")
-      buildConfigField("String", "SUPABASE_ANON_KEY", "\"${localProperties.getProperty("SUPABASE_ANON_KEY", "")}\"")
     }
     debug {
       signingConfig = signingConfigs.getByName("debugConfig")
-      buildConfigField("String", "SUPABASE_URL", "\"${localProperties.getProperty("SUPABASE_URL", "")}\"")
-      buildConfigField("String", "SUPABASE_ANON_KEY", "\"${localProperties.getProperty("SUPABASE_ANON_KEY", "")}\"")
     }
   }
+  flavorDimensions += "environment"
+  productFlavors {
+    create("dev") {
+      dimension = "environment"
+      applicationIdSuffix = ".dev"
+      versionNameSuffix = "-dev"
+      buildConfigField("String", "SUPABASE_URL", "\"${System.getenv("SUPABASE_URL") ?: localProperties.getProperty("SUPABASE_URL", "")}\"")
+      buildConfigField("String", "SUPABASE_ANON_KEY", "\"${System.getenv("SUPABASE_ANON_KEY") ?: localProperties.getProperty("SUPABASE_ANON_KEY", "")}\"")
+    }
+    create("staging") {
+      dimension = "environment"
+      applicationIdSuffix = ".staging"
+      versionNameSuffix = "-staging"
+      buildConfigField("String", "SUPABASE_URL", "\"${System.getenv("STAGING_SUPABASE_URL") ?: localProperties.getProperty("STAGING_SUPABASE_URL", System.getenv("SUPABASE_URL") ?: localProperties.getProperty("SUPABASE_URL", ""))}\"")
+      buildConfigField("String", "SUPABASE_ANON_KEY", "\"${System.getenv("STAGING_SUPABASE_ANON_KEY") ?: localProperties.getProperty("STAGING_SUPABASE_ANON_KEY", System.getenv("SUPABASE_ANON_KEY") ?: localProperties.getProperty("SUPABASE_ANON_KEY", ""))}\"")
+    }
+    create("prod") {
+      dimension = "environment"
+      // No suffix for production
+      buildConfigField("String", "SUPABASE_URL", "\"${System.getenv("SUPABASE_URL") ?: localProperties.getProperty("SUPABASE_URL", "")}\"")
+      buildConfigField("String", "SUPABASE_ANON_KEY", "\"${System.getenv("SUPABASE_ANON_KEY") ?: localProperties.getProperty("SUPABASE_ANON_KEY", "")}\"")
+    }
+  }
+
   compileOptions {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
