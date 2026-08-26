@@ -46,6 +46,16 @@ jobs:
           printf 'SUPABASE_URL=%s\nSUPABASE_ANON_KEY=%s\n' \
             "$SUPABASE_URL" "$SUPABASE_ANON_KEY" > local.properties
 
+      - name: Create debug keystore if missing
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f debug.keystore ]; then
+            keytool -genkeypair -dname "CN=Qatra Debug, O=Alkhidmat Foundation, C=PK" \
+              -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 \
+              -keystore debug.keystore -storepass android -keypass android
+          fi
+
       - name: Run debug unit tests
         run: ./gradlew testDebugUnitTest --no-daemon --stacktrace
 
