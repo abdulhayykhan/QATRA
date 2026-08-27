@@ -54,9 +54,20 @@ class AuthRepository {
             return
         }
 
+        // Firebase is optional during dev/sideload: when google-services.json is
+        // missing, FirebaseApp is not auto-initialized. Surface a user-visible
+        // error instead of crashing.
+        val auth = try {
+            firebaseAuth
+        } catch (_: IllegalStateException) {
+            setLastAuthError("Push/phone verification unavailable: Firebase is not configured for this build.")
+            onResult(false)
+            return
+        }
+
         val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                firebaseAuth.signInWithCredential(credential)
+                auth.signInWithCredential(credential)
                     .addOnSuccessListener { onResult(true) }
                     .addOnFailureListener {
                         setLastAuthError(it.message ?: "Firebase phone verification failed.")
@@ -80,7 +91,7 @@ class AuthRepository {
         }
 
         PhoneAuthProvider.verifyPhoneNumber(
-            PhoneAuthOptions.newBuilder(firebaseAuth)
+            PhoneAuthOptions.newBuilder(auth)
                 .setPhoneNumber(normalizedPhone)
                 .setTimeout(60L, TimeUnit.SECONDS)
                 .setActivity(activity)
@@ -92,6 +103,13 @@ class AuthRepository {
     suspend fun verifyOtp(code: String): Boolean {
         val verificationId = firebaseVerificationId ?: run {
             setLastAuthError("No Firebase OTP verification is pending.")
+            return false
+        }
+
+        val auth = try {
+            firebaseAuth
+        } catch (_: IllegalStateException) {
+            setLastAuthError("Firebase is not configured for this build.")
             return false
         }
 
@@ -107,7 +125,7 @@ class AuthRepository {
 
         return try {
             val credential = PhoneAuthProvider.getCredential(verificationId, code)
-            val firebaseUser = firebaseAuth.signInWithCredentialAwait(credential)
+            val firebaseUser = auth.signInWithCredentialAwait(credential)
             val firebaseToken = firebaseUser.getIdToken(true).awaitResult().token
                 ?: throw IllegalStateException("Firebase did not return an ID token.")
             val response = httpClient.newCall(
