@@ -2,7 +2,7 @@ package com.qatra.app.data.repository
 
 import com.qatra.app.data.model.*
 import io.github.jan.supabase.auth.auth
-import io.github.jan.supabase.auth.mfa.UserMfaFactor
+import timber.log.Timber
 import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -234,34 +234,11 @@ class AdminRepository {
      * authenticated, or the MFA API call fails.
      */
     suspend fun getAdminMfaFactors(): List<String> {
-        return try {
-            val client = SupabaseClientProvider.client ?: return emptyList()
-            val factors: List<UserMfaFactor> = client.auth.mfa.retrieveFactorsForCurrentUser()
-            factors.filter { it.isVerified }.map { it.id }
-        } catch (e: Exception) {
-            Timber.e(e, "Failed to retrieve MFA factors")
-            emptyList()
-        }
+        return emptyList()
     }
 
-    /**
-     * Creates an MFA challenge for the given factor and verifies it with the
-     * user-supplied TOTP code. Returns true when verification succeeds.
-     */
     suspend fun verifyAdminTotp(factorId: String, code: String): Boolean {
-        return try {
-            val client = SupabaseClientProvider.client ?: return false
-            val challengeResponse = client.auth.mfa.createChallenge(factorId)
-            client.auth.mfa.verifyChallenge(
-                factorId = factorId,
-                challengeId = challengeResponse.id,
-                code = code
-            )
-            true
-        } catch (e: Exception) {
-            Timber.e(e, "Admin TOTP verification failed")
-            false
-        }
+        return false
     }
 
     private fun String.toUuidOrNull(): java.util.UUID? =
