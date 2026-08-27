@@ -168,7 +168,7 @@
     <string name="donor_alert_distance_value">%s km away</string>
     <string name="donor_alert_drive_label">Est. Drive</string>
     <string name="donor_alert_drive_value">%s mins</string>
-    <string name="donor_alert_requirement">Requirement: %s Unit %s required</string>
+    <string name="donor_alert_requirement" formatted="false">Requirement: %s Unit %s required</string>
     <string name="btn_accept_dispatch">Accept Dispatch &amp; Route</string>
     <string name="btn_view_live_map">View on Live Map</string>
     <string name="btn_dismiss">Dismiss</string>

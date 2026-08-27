@@ -168,7 +168,7 @@
     <string name="donor_alert_distance_value">%s کلومیٹر دور</string>
     <string name="donor_alert_drive_label">متوقع ڈرائیو</string>
     <string name="donor_alert_drive_value">%s منٹ</string>
-    <string name="donor_alert_requirement">ضرورت: %s یونٹ %s درکار ہے</string>
+    <string name="donor_alert_requirement" formatted="false">ضرورت: %s یونٹ %s درکار ہے</string>
     <string name="btn_accept_dispatch">ڈسپیچ قبول کریں اور راستہ لیں</string>
     <string name="btn_view_live_map">براہ راست نقشے پر دیکھیں</string>
     <string name="btn_dismiss">مسترد کریں</string>
