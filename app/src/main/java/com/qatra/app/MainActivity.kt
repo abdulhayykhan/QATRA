@@ -42,8 +42,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
-            viewModel.registerPushToken(applicationContext, token)
+        // Firebase is optional during dev/sideload: when google-services.json
+        // is missing, FirebaseApp is not auto-initialized. Skip push-token
+        // registration rather than crashing the app.
+        try {
+            FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+                viewModel.registerPushToken(applicationContext, token)
+            }
+        } catch (_: IllegalStateException) {
+            // FirebaseApp not initialized; push notifications unavailable.
         }
         viewModel.registerPendingPushToken(applicationContext)
         viewModel.consumePendingGeoAlert(applicationContext)
