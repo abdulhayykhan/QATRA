@@ -140,14 +140,16 @@ class SeekerViewModel(
         }
         val rating = feedbackRating.value
         val note = feedbackNote.value
+        // Reset state synchronously so callers (UI + tests) observe the
+        // transition immediately; the network write is best-effort.
+        feedbackRating.value = 5
+        feedbackNote.value = ""
+        setStep(SeekerScreenStep.SPLASH)
         viewModelScope.launch {
             val submitted = repository.seekerRepository.submitFeedback(requestId, rating, note)
             if (!submitted) {
                 Timber.w("Feedback submission to backend failed for request %s", requestId)
             }
-            feedbackRating.value = 5
-            feedbackNote.value = ""
-            setStep(SeekerScreenStep.SPLASH)
         }
     }
 
