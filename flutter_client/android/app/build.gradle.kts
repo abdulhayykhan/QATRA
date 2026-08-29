@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -33,10 +36,12 @@ android {
 
     buildTypes {
         release {
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            
             val keystorePropertiesFile = rootProject.file("../../qatra-key.properties")
             if (keystorePropertiesFile.exists()) {
-                val properties = java.util.Properties()
-                properties.load(java.io.FileInputStream(keystorePropertiesFile))
+                val properties = Properties()
+                properties.load(FileInputStream(keystorePropertiesFile))
                 
                 signingConfigs.create("release") {
                     keyAlias = properties.getProperty("keyAlias")

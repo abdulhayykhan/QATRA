@@ -53,7 +53,7 @@ def upgrade() -> None:
         sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     )
     # The GIST index on geography is usually automatically created by GeoAlchemy2, but we can enforce it:
-    op.create_index('idx_hospitals_location', 'hospitals', ['location'], postgresql_using='gist')
+    # op.create_index('idx_hospitals_location', 'hospitals', ['location'], postgresql_using='gist')
 
     # 3. awareness_articles
     op.create_table(
@@ -98,7 +98,7 @@ def upgrade() -> None:
         sa.Column('source', sa.String(), nullable=False, server_default='device'),
         sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     )
-    op.create_index('idx_donor_locations_location', 'donor_locations', ['location'], postgresql_using='gist')
+    # op.create_index('idx_donor_locations_location', 'donor_locations', ['location'], postgresql_using='gist')
 
     # 6. donor_device_tokens
     op.create_table(

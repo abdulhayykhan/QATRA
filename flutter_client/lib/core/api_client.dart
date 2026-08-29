@@ -3,8 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiClient {
-  // Use 10.0.2.2 for Android Emulator connecting to localhost
-  static const String baseUrl = 'http://10.0.2.2:8000';
+  // Use nip.io domain for production backend
+  static const String baseUrl = 'https://13.60.227.174.nip.io';
 
   /// Exchanges a Firebase ID token for a FastAPI JWT
   static Future<bool> verifyFirebasePhone(String firebaseIdToken) async {
@@ -184,10 +184,10 @@ class ApiClient {
       );
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
-        _token = data['access_token'];
-        if (_token != null) {
+        final token = data['access_token'];
+        if (token != null) {
           final prefs = await SharedPreferences.getInstance();
-          await prefs.setString('jwt_token', _token!);
+          await prefs.setString('jwt_token', token);
         }
         return true;
       }

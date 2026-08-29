@@ -2,6 +2,7 @@
 .env
 *.jks
 *.keystore
+*.pem
 
 # IDE / Tooling
 .idea/
