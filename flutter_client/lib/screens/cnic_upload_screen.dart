@@ -12,7 +12,7 @@ class CnicUploadScreen extends StatefulWidget {
 
 class _CnicUploadScreenState extends State<CnicUploadScreen> {
   final _formKey = GlobalKey<FormState>();
-  String _cnicNumber = '';
+
   File? _frontImage;
   File? _backImage;
   bool _isLoading = false;

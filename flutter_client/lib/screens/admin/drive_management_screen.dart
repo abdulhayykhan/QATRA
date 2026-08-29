@@ -73,16 +73,7 @@ class _DriveManagementScreenState extends State<DriveManagementScreen> {
     );
   }
 
-  Future<void> _simulateQrCheckIn(String attendeeId) async {
-    setState(() => _isLoading = true);
-    final success = await ApiClient.checkInAttendee(attendeeId);
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Attendee checked in successfully!')));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to check in attendee')));
-    }
-    _fetchDrives(); // Refresh (though check-in updates attendees, we refresh drives to show we did something)
-  }
+
 
   @override
   Widget build(BuildContext context) {
