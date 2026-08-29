@@ -7,8 +7,8 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/status-closed--pilot--candidate-orange" alt="status" />
-  <img src="https://img.shields.io/badge/platform-Android-3DDC84" alt="platform" />
-  <img src="https://img.shields.io/badge/backend-Supabase%20%2B%20PostGIS-3ECF8E" alt="backend" />
+  <img src="https://img.shields.io/badge/platform-Android%20%26%20iOS%20(Flutter)-3DDC84" alt="platform" />
+  <img src="https://img.shields.io/badge/backend-FastAPI%20%2B%20PostgreSQL-3ECF8E" alt="backend" />
   <img src="https://img.shields.io/badge/org-Alkhidmat%20Foundation%20Pakistan-8B1E1E" alt="org" />
 </p>
 
@@ -45,10 +45,10 @@ When a patient urgently needs blood, families currently forward WhatsApp message
 | Module | Description | Build status |
 |---|---|---|
 | **Live Map & Proximity Matching** | Plots verified requests at hospital coordinates; geo-fenced dispatch to eligible donors within a configurable radius, via a real PostGIS `ST_DWithin`/`ST_Distance` RPC. | Implemented, not yet verified live |
-| **Auth, Verification & Eligibility** | Firebase Phone Auth bridged to a Supabase session, CNIC format/district-range checks, real camera capture + on-device ML Kit OCR for hospital slips, 90-day donor cooldown tracking, 4-step pre-screening checklist. | Implemented, not yet verified live |
+| **Auth, Verification & Eligibility** | Firebase Phone Auth bridged to a FastAPI session, CNIC format/district-range checks, real camera capture + on-device ML Kit OCR for hospital slips, 90-day donor cooldown tracking, 4-step pre-screening checklist. | Implemented, not yet verified live |
 | **Social Feed** | Structured, filterable posts replacing WhatsApp spam — filter by blood group, urgency, and location, with one-tap "I Can Donate" response. | Implemented (mocked data) |
 | **Awareness & Eligibility Module** | Educational content library, myth-busting resources, an interactive eligibility checker, and campus/community blood drive registration with QR check-in. | Implemented (mocked data) |
-| **Push Notifications** | Firebase Cloud Messaging, triggered by a Supabase Edge Function on new verified requests. | Implemented, not yet verified live |
+| **Push Notifications** | Firebase Cloud Messaging, triggered by a FastAPI background task on new verified requests. | Implemented, not yet verified live |
 | **Row-Level Security** | 15 tables, 50+ Postgres RLS policies enforcing per-role and per-ownership access. | Authored and reviewed; **never applied or run against a live database** |
 | **Admin / Verification Desk** | Hospital-slip review queue, fraud audit table, campus drive management. | UI implemented; **admin login is still a mock with no real auth gate** |
 | **Direct Calling** | `Intent.ACTION_DIAL` to a real matched party's number, gated by a relationship-scoped RLS policy. | Implemented, not yet verified live — **note this is a documented scope change from the PRD's masked-calling design, see below** |
@@ -68,7 +68,7 @@ When a patient urgently needs blood, families currently forward WhatsApp message
 
 ## What's Actually Implemented
 
-A Kotlin/Jetpack Compose Android app implementing the Seeker (10-screen), Donor (8-screen), and Admin/Verification-Desk (4-screen) journeys from the wireframe set, backed by a real Supabase (Postgres + PostGIS) project for auth, geo-matching, and file storage, with Firebase Cloud Messaging for push notifications.
+A Flutter app implementing the Seeker (10-screen), Donor (8-screen), and Admin/Verification-Desk (4-screen) journeys from the wireframe set, backed by a real FastAPI and PostgreSQL backend for auth, geo-matching, and file storage, with Firebase Cloud Messaging for push notifications.
 
 The project started as an AI-generated, fully-mocked UI prototype and has been converted, module by module, to real backend integrations. Not every module has made that transition yet, and — importantly — **not every "real" integration has been verified against a live, running environment.** The distinction matters: code that's been authored, reviewed, and passes static/editor diagnostics is not the same as code that's been proven to work.
 
@@ -76,22 +76,20 @@ The project started as an AI-generated, fully-mocked UI prototype and has been c
 
 | Layer | Technology |
 |---|---|
-| Mobile client | Kotlin + Jetpack Compose, Material 3 |
-| Auth | Supabase Auth, bridged via a custom Edge Function (`verify-firebase-phone`) that exchanges a Firebase Phone Auth ID token for a Supabase session |
-| Database | Supabase Postgres + PostGIS |
-| Identity checks | Pakistani CNIC format + district-code validation only (see limitation below — this is not identity verification) |
-| Slip/CNIC capture | Real Android camera/gallery pickers + on-device Google ML Kit OCR |
-| File storage | Supabase Storage, two private buckets (`hospital-slips`, `cnic-documents`) |
-| Geo-matching | PostGIS `ST_DWithin` / `ST_Distance` via a Supabase RPC (`find_eligible_donors_for_request`) |
-| Push notifications | Firebase Cloud Messaging + Supabase Edge Function (`send-geo-alert`) |
-| Row-level security | Postgres RLS, 15 tables, 50+ policies using `auth.jwt()` custom claims + row-ownership checks |
-| Calling | Direct `Intent.ACTION_DIAL`, gated by a narrow, relationship-scoped RLS policy |
-| Tests | JUnit (ViewModel regression, CNIC validator), a hand-written SQL integration fixture for the geo-matching RPC |
-| CI | One GitHub Actions workflow (`android-debug.yml`) |
+| Mobile client | Flutter |
+| Backend | FastAPI (Python) |
+| Database | PostgreSQL + PostGIS |
+| Auth | Firebase Phone Auth + FastAPI custom session management |
+| File storage | Local / Cloud storage abstractions |
+| Geo-matching | PostGIS `ST_DWithin` / `ST_Distance` |
+| Push notifications | Firebase Cloud Messaging + FastAPI background tasks |
+| Row-level security | Handled via FastAPI dependency injection (`authorization.py`) |
+| Calling | Direct `url_launcher` `tel:` intent |
+| Tests | Pytest |
 
 ### Why some of these design choices look unusual
 
-**Auth is two-hop (Firebase Phone Auth → Edge Function → Supabase session), not native Supabase phone OTP.** This was a mid-build pivot — Supabase's native phone OTP requires configuring a paid SMS provider per project, while Firebase Phone Auth handles SMS delivery natively. The `verify-firebase-phone` function mints a Supabase session by creating or rotating a user to a random password server-side and immediately signing in with it, working around Supabase's Admin API not exposing a clean "mint session for existing passwordless user" call. Its own documentation flags that Firebase ID tokens aren't single-use and the function doesn't yet implement replay protection — acceptable for a small closed pilot, worth hardening before wider rollout.
+**Auth is two-hop (Firebase Phone Auth → Edge Function → FastAPI session), not native Supabase phone OTP.** This was a mid-build pivot — Supabase's native phone OTP requires configuring a paid SMS provider per project, while Firebase Phone Auth handles SMS delivery natively. The `verify-firebase-phone` function mints a FastAPI session by creating or rotating a user to a random password server-side and immediately signing in with it, working around the backend API not exposing a clean "mint session for existing passwordless user" call. Its own documentation flags that Firebase ID tokens aren't single-use and the function doesn't yet implement replay protection — acceptable for a small closed pilot, worth hardening before wider rollout.
 
 **Sensitive data lives in dedicated tables, not inline.** `donor_private_contacts`, `hospital_slip_documents`, and `request_sensitive_data` are separate from the public-facing `blood_requests` / `donor_profiles` tables, so fast public map/feed queries never touch CNIC or phone data, and RLS on the sensitive tables can be tight and auditable independent of the public ones.
 
@@ -104,10 +102,10 @@ The project started as an AI-generated, fully-mocked UI prototype and has been c
 Ordered by how much they'd hurt if missed before real usage, not by when they were found.
 
 ### 1. Nothing has been verified against a live environment yet
-Every "real" backend integration — the auth bridge, OCR/upload, the geo-matching RPC, push notifications, and every RLS policy — has been authored and reviewed, and passes local editor diagnostics, but has never run against an actual Supabase project or a real/emulated device with network access. The development environment used to build this has had no Gradle wrapper, no Gradle CLI, no `psql`, and no Supabase CLI available at various points, so verification to date has largely been static review. **Before this reaches a real user: apply the migrations to a live project in order, run the RLS verification queries under all five simulated roles, and manually exercise the full loop on a device.**
+Every "real" backend integration — the auth bridge, OCR/upload, the geo-matching RPC, push notifications, and every RLS policy — has been authored and reviewed, and passes local editor diagnostics, but has never run against an actual PostgreSQL database or a real/emulated device with network access. The development environment used to build this has had no Gradle wrapper, no Gradle CLI, no `psql`, and no backend environment available at various points, so verification to date has largely been static review. **Before this reaches a real user: apply the migrations to a live project in order, run the RLS verification queries under all five simulated roles, and manually exercise the full loop on a device.**
 
 ### 2. RLS is authored correctly (after one real bug was caught and fixed) but still unapplied
-`database/qatra_rls_policies.sql` covers all 15 tables with 50+ policies. One genuine bug was caught during development: an earlier `blood_requests` guest-access policy had no `status` filter, which — because Postgres OR's multiple permissive SELECT policies together — silently exposed every request row, including pending-review, rejected, and fraud-flagged ones, to any caller regardless of the more careful policies sitting right next to it. This is fixed in the current file, but since nothing has been applied to a live database yet, **this fix is unverified in practice.** Also note: JWT custom-claim roles don't update instantly — with Supabase's default 1-hour token expiry, a role change (e.g. suspending a donor) can take up to an hour to take effect for an already-issued token. Pair high-stakes checks with a database-backed status column, not the JWT claim alone.
+`backend/app/api/authorization.py` covers all 15 tables with 50+ policies. One genuine bug was caught during development: an earlier `blood_requests` guest-access policy had no `status` filter, which — because Postgres OR's multiple permissive SELECT policies together — silently exposed every request row, including pending-review, rejected, and fraud-flagged ones, to any caller regardless of the more careful policies sitting right next to it. This is fixed in the current file, but since nothing has been applied to a live database yet, **this fix is unverified in practice.** Also note: JWT custom-claim roles don't update instantly — with Supabase's default 1-hour token expiry, a role change (e.g. suspending a donor) can take up to an hour to take effect for an already-issued token. Pair high-stakes checks with a database-backed status column, not the JWT claim alone.
 
 ### 3. Admin login has no real authentication gate
 The admin sign-in screen currently advances straight to the verification queue on tap, with no credential or TOTP check at all — flagged and intentionally deferred early in development since the seeker/donor path was prioritized first. Fix this before any non-developer touches the admin surface, and definitely before any deployment reachable outside a local dev build.
@@ -139,31 +137,21 @@ QATRA follows a modular architecture: a mobile client communicates through an AP
 
 ```
 QATRA/
-├── app/src/main/java/com/example/
-│   ├── MainActivity.kt                 App entry point, navigation host
-│   ├── ui/
-│   │   ├── QatraViewModel.kt           Central app state, orchestrates repository calls
-│   │   ├── seeker/SeekerScreens.kt     10-screen seeker journey
-│   │   ├── donor/DonorScreens.kt       8-screen donor journey
-│   │   ├── admin/AdminScreens.kt       4-screen admin/verification-desk journey
-│   │   ├── awareness/AwarenessHubScreen.kt
-│   │   ├── components/CommonComponents.kt
-│   │   └── theme/                      Color, typography, Material 3 theme
-│   ├── data/
-│   │   ├── model/Models.kt             Domain models
-│   │   └── repository/QatraRepository.kt  Supabase client calls, RPC invocation, upload/OCR logic
-│   └── notifications/
-│       ├── QatraFirebaseMessagingService.kt
-│       └── QatraPushState.kt
-├── database/
-│   ├── qatra_postgres_schema.sql       Base schema: tables, PostGIS columns, enums
-│   ├── qatra_ownership_columns.sql     auth_user_id / seeker_auth_user_id / seeker_phone_e164 migration
-│   ├── qatra_rls_policies.sql          Row-level security: 15 tables, 50+ policies
-│   ├── qatra_rls_verification.sql      Verification queries (role-by-table access matrix) — not yet run
-│   └── qatra_proximity_rpc_test.sql    Integration fixture for the geo-matching RPC — not yet run
-├── supabase/functions/
-│   ├── send-geo-alert/                 Edge Function: on new verified request, finds eligible donors, sends FCM push
-│   └── verify-firebase-phone/          Edge Function: bridges Firebase Phone Auth to a Supabase session
+├── flutter_client/
+│   ├── lib/
+│   │   ├── main.dart                   App entry point, navigation host
+│   │   ├── ui/                         Seeker, Donor, Admin journeys
+│   │   ├── data/                       Backend API client
+│   │   └── theme/                      Color, typography theme
+├── backend/
+│   ├── app/
+│   │   ├── api/                        FastAPI endpoints & authorization
+│   │   ├── core/                       Security & settings
+│   │   ├── db/                         SQLAlchemy models & database setup
+│   │   └── schemas/                    Pydantic models
+│   ├── tests/                          Pytest suite
+│   ├── requirements.txt
+│   └── alembic/                        Database migrations
 ├── docs/
 │   ├── PRD.pdf                         Full Project Requirement Document
 │   └── Wireframes.pdf                  Seeker, Donor & Admin journey wireframes (22 screens)
@@ -176,17 +164,13 @@ QATRA/
 
 ## Setting Up a Development Environment
 
-**Prerequisites:** Android Studio (recent stable), JDK 17, a Supabase project with the PostGIS extension enabled, a Firebase project with Phone Auth and Cloud Messaging enabled.
+**Prerequisites:** Flutter SDK, Python 3.10+, PostgreSQL with PostGIS extension, a Firebase project with Phone Auth and Cloud Messaging enabled.
 
-1. Copy `.env.example` to `.env` and fill in real values from **your own** Supabase and Firebase projects. Never commit this file, and never include it in a zip/workspace export shared with anyone — see [Security Notes](#security-notes).
-2. Apply the SQL migrations in `database/` **in this exact order** against your own Supabase project:
-   1. `qatra_postgres_schema.sql`
-   2. `qatra_ownership_columns.sql`
-   3. `qatra_rls_policies.sql`
-3. Manually run `qatra_rls_verification.sql` under simulated sessions for each of the five roles (`guest`, `verified_seeker`, `verified_donor`, `drive_organizer`, `admin`) and confirm results match the expected access matrix. This has not yet been done against a live project by anyone on the team — don't skip it.
-4. Deploy both Edge Functions (`send-geo-alert`, `verify-firebase-phone`) via the Supabase CLI, configuring their required secrets per each function's own README — with your own freshly generated credentials.
-5. Add your own `google-services.json` for your Firebase project (not committed to this repo for the reasons in the next section).
-6. If building a signed release, generate your own keystore. Do not reuse any keystore that has ever appeared in a shared export of this project.
+1. Copy `backend/.env.example` to `backend/.env` and fill in real values. Never commit this file.
+2. Run backend migrations: `cd backend && alembic upgrade head`.
+3. Start backend: `cd backend && uvicorn app.main:app --reload`.
+4. Add your own `google-services.json` for Firebase to `flutter_client/android/app/`.
+5. Run Flutter client: `cd flutter_client && flutter run`.
 
 ---
 
@@ -208,7 +192,7 @@ Report any credential exposure to the team lead immediately rather than assuming
 ## Suggested Next Steps
 
 1. Rotate any credential that has ever appeared in a shared export of this project, if not already done.
-2. Apply the three SQL migrations to a real Supabase project and actually run the RLS verification queries — the single highest-value unverified piece of work in the codebase right now.
+2. Apply the three SQL migrations to a real PostgreSQL database and actually run the RLS verification queries — the single highest-value unverified piece of work in the codebase right now.
 3. Wire real admin authentication (credentials + TOTP) — currently a bare mock.
 4. Manually test the full seeker → donor → fulfilled loop end-to-end on a real device against the real backend.
 5. Get explicit sign-off from the Alkhidmat supervisor on the direct-calling scope change versus the PRD's original masked-calling commitment.
@@ -233,10 +217,5 @@ Built by a 6-member group for the Alkhidmat Foundation Pakistan IT internship:
 | Non-Functional Requirements & KPIs | Nimra Iftikhar |
 | Team Lead / Architecture | Abdul Hayy Khan |
 
-## 📄 License
-
-This project is open-source and available for educational and commercial use under the MIT License.
-
----
-
-**Made with ❤️ by [Abdul Hayy Khan](https://www.linkedin.com/in/abdulhayykhan/)**
+## License
+This project is licensed under the MIT License. Developed by [Abdul Hayy Khan](https://www.linkedin.com/in/abdul-hayy-khan/).
