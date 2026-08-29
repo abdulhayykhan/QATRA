@@ -24,15 +24,11 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: qatra_backend
+    env_file:
+      - .env
     environment:
-      # Secrets must be injected securely from environment (e.g. EC2 instance environment or .env file)
-      - DATABASE_URL=postgresql+psycopg://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-qatra}
-      - SECRET_KEY=${SECRET_KEY}
-      - FIREBASE_CREDENTIALS_JSON=${FIREBASE_CREDENTIALS_JSON}
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - SUPABASE_URL=${SUPABASE_URL}
-      - SUPABASE_KEY=${SUPABASE_KEY}
+      # Optional overrides (the rest come from .env)
+      - DATABASE_URL=${DATABASE_URL}
     ports:
       - "8000:8000"
     depends_on:
