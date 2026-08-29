@@ -55,6 +55,11 @@ def test_admin_auth_bypassing_2fa_fails(client: TestClient, db: Session):
     response = client.post("/auth/admin-login", json={
         "email": admin_email,
         "password": admin_password,
+        "totp_code": pyotp.TOTP(totp_secret).now()
+    })
+    assert response.status_code == 401
+
+    admin.role = "admin"
     db.commit()
 
     # Correct Password, Correct TOTP
