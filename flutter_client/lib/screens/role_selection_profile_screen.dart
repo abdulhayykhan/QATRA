@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:qatra_flutter/screens/cnic_upload_screen.dart';
 
 class RoleSelectionProfileScreen extends StatefulWidget {
@@ -19,6 +20,12 @@ class _RoleSelectionProfileScreenState extends State<RoleSelectionProfileScreen>
   final List<String> _districts = [
     'Karachi South', 'Karachi East', 'Karachi West', 'Karachi Central', 'Malir', 'Korangi'
   ];
+
+  final _cnicMaskFormatter = MaskTextInputFormatter(
+    mask: '#####-#######-#', 
+    filter: { "#": RegExp(r'[0-9]') },
+    type: MaskAutoCompletionType.eager
+  );
 
   void _saveProfile() {
     // In a full implementation, this would save the profile to the backend.
@@ -87,6 +94,7 @@ class _RoleSelectionProfileScreenState extends State<RoleSelectionProfileScreen>
             TextField(
               controller: _cnicController,
               keyboardType: TextInputType.number,
+              inputFormatters: [_cnicMaskFormatter],
               decoration: const InputDecoration(
                 labelText: 'CNIC (e.g. 42101-1234567-1)',
                 border: OutlineInputBorder(),
