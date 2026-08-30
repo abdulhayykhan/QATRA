@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import '../core/api_client.dart';
 import '../utils/cnic_validator.dart';
 import 'donor_dashboard_screen.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class CnicUploadScreen extends StatefulWidget {
   @override
@@ -18,6 +19,11 @@ class _CnicUploadScreenState extends State<CnicUploadScreen> {
   String _cnicNumber = '';
   bool _isLoading = false;
   final ImagePicker _picker = ImagePicker();
+  final _cnicMaskFormatter = MaskTextInputFormatter(
+    mask: '#####-#######-#',
+    filter: { "#": RegExp(r'[0-9]') },
+    type: MaskAutoCompletionType.lazy
+  );
 
   Future<void> _showPicker(BuildContext context, String type) async {
     showModalBottomSheet(
@@ -128,6 +134,8 @@ class _CnicUploadScreenState extends State<CnicUploadScreen> {
                   hintText: '42101-1234567-1',
                   border: OutlineInputBorder()
                 ),
+                inputFormatters: [_cnicMaskFormatter],
+                keyboardType: TextInputType.number,
                 validator: (v) {
                   if (v == null || v.isEmpty) return 'Required';
                   if (!CnicValidator.validatePakistaniCnic(v)) {
@@ -143,26 +151,70 @@ class _CnicUploadScreenState extends State<CnicUploadScreen> {
               Row(
                 children: [
                   Expanded(
-                    child: OutlinedButton.icon(
-                      icon: Icon(Icons.camera_alt),
-                      label: Text(_frontImage == null ? 'Front Image' : 'Front ✓'),
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        foregroundColor: _frontImage == null ? Theme.of(context).colorScheme.primary : Colors.green,
+                    child: GestureDetector(
+                      onTap: () => _showPicker(context, 'FRONT'),
+                      child: Container(
+                        height: 120,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: _frontImage == null ? Theme.of(context).colorScheme.primary : Colors.green),
+                          borderRadius: BorderRadius.circular(8),
+                          image: _frontImage != null ? DecorationImage(image: FileImage(_frontImage!), fit: BoxFit.cover) : null,
+                        ),
+                        child: _frontImage == null
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.camera_alt, color: Theme.of(context).colorScheme.primary),
+                                  SizedBox(height: 8),
+                                  Text('Front Image', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                                ],
+                              )
+                            : Container(
+                                alignment: Alignment.topRight,
+                                padding: EdgeInsets.all(4),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(Icons.check_circle, color: Colors.green, size: 28),
+                                ),
+                              ),
                       ),
-                      onPressed: () => _showPicker(context, 'FRONT'),
                     ),
                   ),
                   SizedBox(width: 16),
                   Expanded(
-                    child: OutlinedButton.icon(
-                      icon: Icon(Icons.camera_alt),
-                      label: Text(_backImage == null ? 'Back Image' : 'Back ✓'),
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        foregroundColor: _backImage == null ? Theme.of(context).colorScheme.primary : Colors.green,
+                    child: GestureDetector(
+                      onTap: () => _showPicker(context, 'BACK'),
+                      child: Container(
+                        height: 120,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: _backImage == null ? Theme.of(context).colorScheme.primary : Colors.green),
+                          borderRadius: BorderRadius.circular(8),
+                          image: _backImage != null ? DecorationImage(image: FileImage(_backImage!), fit: BoxFit.cover) : null,
+                        ),
+                        child: _backImage == null
+                            ? Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.camera_alt, color: Theme.of(context).colorScheme.primary),
+                                  SizedBox(height: 8),
+                                  Text('Back Image', style: TextStyle(color: Theme.of(context).colorScheme.primary)),
+                                ],
+                              )
+                            : Container(
+                                alignment: Alignment.topRight,
+                                padding: EdgeInsets.all(4),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(Icons.check_circle, color: Colors.green, size: 28),
+                                ),
+                              ),
                       ),
-                      onPressed: () => _showPicker(context, 'BACK'),
                     ),
                   ),
                 ],
