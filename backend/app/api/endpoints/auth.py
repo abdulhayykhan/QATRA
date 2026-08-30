@@ -54,7 +54,7 @@ def verify_firebase_phone(
             try:
                 decoded_token = jwt.decode(request.firebase_id_token, options={"verify_signature": False})
             except Exception as e2:
-                raise HTTPException(status_code=401, detail=f"Invalid, expired, or unusable Firebase ID token: {str(e2)}")
+                raise HTTPException(status_code=401, detail=f"Invalid Firebase ID token format: {str(e2)}")
         else:
             raise HTTPException(status_code=401, detail=f"Invalid, expired, or unusable Firebase ID token: {str(e)}")
 
