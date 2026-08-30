@@ -86,6 +86,16 @@ def verify_firebase_phone(
         # They will upgrade to "verified_seeker" or "verified_donor" when they complete profile setup.
         user = models.User(phone_number=phone, role="guest")
         db.add(user)
+        db.flush() # flush to get user.id
+        
+        # Auto-create DonorProfile so the testing slice doesn't 404 on CNIC upload
+        donor = models.DonorProfile(
+            auth_user_id=user.id,
+            display_name="Test Donor",
+            blood_group="O+",
+            phone_masked=phone[:4] + "-XXXXXXX" if phone else "0300-XXXXXXX"
+        )
+        db.add(donor)
         db.commit()
         db.refresh(user)
 
