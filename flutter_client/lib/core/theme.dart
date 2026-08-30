@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class QatraTheme {
   // QATRA Brand Palette
-  static const Color qatraRedPrimary = Color(0xFFD32F2F);
+  static const Color qatraRedPrimary = Color(0xFFDC143C); // Crimson Red
   static const Color qatraRedDark = Color(0xFFB71C1C);
   static const Color qatraRedContainer = Color(0xFFFFEBEE);
   static const Color qatraRedContainerDark = Color(0xFFFFCDD2);
@@ -21,7 +21,7 @@ class QatraTheme {
   static const Color qatraDarkBackground = Color(0xFF121212);
   static const Color qatraDarkSurface = Color(0xFF1E1E1E);
   static const Color qatraDarkSurfaceVariant = Color(0xFF2C2C2C);
-  static const Color qatraDarkPrimary = Color(0xFFFF8A80);
+  static const Color qatraDarkPrimary = Color(0xFFDC143C); // Crimson Red
   static const Color qatraDarkPrimaryContainer = Color(0xFF5F1414);
 
   static ThemeData get lightTheme {

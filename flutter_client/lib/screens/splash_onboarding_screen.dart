@@ -56,12 +56,9 @@ class SplashOnboardingScreen extends StatelessWidget {
                 ),
                 child: Center(
                   child: Image.asset(
-                    '../media/logo.png', // Assuming this is copied to assets, wait, I'll just use a flutter icon to prevent asset missing errors if it's not configured in pubspec
+                    'assets/images/logo.png',
                     width: 60,
                     height: 60,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Icon(Icons.water_drop, color: Theme.of(context).colorScheme.primary, size: 60);
-                    },
                   ),
                 ),
               ),
