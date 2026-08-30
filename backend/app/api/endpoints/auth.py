@@ -13,18 +13,23 @@ from app.schemas import auth as auth_schemas
 
 router = APIRouter()
 
-# Ensure Firebase App is initialized in a real deployment
 try:
     firebase_admin.get_app()
 except ValueError:
     import os
     if os.environ.get("FIREBASE_CREDENTIALS"):
-        # In a real app this would load from credentials
-        pass
+        import json
+        from firebase_admin import credentials
+        cred_path = os.environ.get("FIREBASE_CREDENTIALS")
+        if cred_path.strip().startswith("{"):
+            cred = credentials.Certificate(json.loads(cred_path))
+        elif os.path.exists(cred_path):
+            cred = credentials.Certificate(cred_path)
+        else:
+            cred = credentials.ApplicationDefault()
+        firebase_admin.initialize_app(cred)
     else:
-        # Initialize default for tests or local dev if needed
-        # firebase_admin.initialize_app()
-        pass
+        firebase_admin.initialize_app(options={'projectId': 'qatra-69493'})
 
 @router.post("/verify-firebase-phone", response_model=auth_schemas.VerifyFirebasePhoneResponse)
 def verify_firebase_phone(
@@ -41,9 +46,9 @@ def verify_firebase_phone(
     try:
         # Verify the Firebase token. This will hit Firebase servers or check local keys.
         # For testing, this might be mocked.
-        decoded_token = firebase_auth.verify_id_token(request.firebase_id_token, check_revoked=True)
+        decoded_token = firebase_auth.verify_id_token(request.firebase_id_token, check_revoked=False)
     except Exception as e:
-        raise HTTPException(status_code=401, detail="Invalid, expired, or unusable Firebase ID token")
+        raise HTTPException(status_code=401, detail=f"Invalid, expired, or unusable Firebase ID token: {str(e)}")
 
     phone = decoded_token.get("phone_number")
     if not phone:
