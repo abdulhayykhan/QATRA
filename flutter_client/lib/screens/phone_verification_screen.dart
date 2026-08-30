@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:qatra_flutter/core/api_client.dart';
 import 'package:qatra_flutter/screens/role_selection_profile_screen.dart';
+import 'package:qatra_flutter/screens/cnic_upload_screen.dart';
 
 class PhoneVerificationScreen extends StatefulWidget {
-  const PhoneVerificationScreen({super.key});
+  final bool isDonor;
+  
+  const PhoneVerificationScreen({super.key, this.isDonor = false});
 
   @override
   State<PhoneVerificationScreen> createState() => _PhoneVerificationScreenState();
@@ -76,7 +79,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
           if (!mounted) return;
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (_) => const RoleSelectionProfileScreen()),
+            MaterialPageRoute(builder: (_) => widget.isDonor ? CnicUploadScreen() : const RoleSelectionProfileScreen()),
           );
         } else {
           _showError('Backend verification failed');
