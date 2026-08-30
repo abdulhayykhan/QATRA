@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:qatra_flutter/core/theme.dart';
+import 'package:qatra_flutter/screens/splash_onboarding_screen.dart';
 import 'package:qatra_flutter/screens/phone_verification_screen.dart';
 import 'package:qatra_flutter/screens/geo_alert_modal.dart';
 import 'package:qatra_flutter/services/fcm_service.dart';
@@ -163,7 +164,7 @@ class _QatraAppState extends State<QatraApp> {
       theme: QatraTheme.lightTheme,
       darkTheme: QatraTheme.darkTheme,
       themeMode: ThemeMode.system,
-      home: const PhoneVerificationScreen(),
+      home: const SplashOnboardingScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
