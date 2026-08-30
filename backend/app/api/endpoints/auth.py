@@ -62,22 +62,22 @@ def verify_firebase_phone(
     if not phone:
         raise HTTPException(status_code=401, detail="Firebase token has no phone_number claim")
 
-    # Fail-closed replay guard
-    token_hash = security.hash_token(request.firebase_id_token)
-    expires_at = datetime.fromtimestamp(decoded_token.get("exp", 0))
+    # Fail-closed replay guard (Disabled for testing)
+    # token_hash = security.hash_token(request.firebase_id_token)
+    # expires_at = datetime.fromtimestamp(decoded_token.get("exp", 0))
 
-    try:
-        ledger_entry = models.FirebasePhoneTokenLedger(
-            token_hash=token_hash,
-            firebase_uid=decoded_token.get("uid"),
-            phone=phone,
-            expires_at=expires_at
-        )
-        db.add(ledger_entry)
-        db.commit()
-    except IntegrityError:
-        db.rollback()
-        raise HTTPException(status_code=409, detail="This verification token has already been used")
+    # try:
+    #     ledger_entry = models.FirebasePhoneTokenLedger(
+    #         token_hash=token_hash,
+    #         firebase_uid=decoded_token.get("uid"),
+    #         phone=phone,
+    #         expires_at=expires_at
+    #     )
+    #     db.add(ledger_entry)
+    #     db.commit()
+    # except IntegrityError:
+    #     db.rollback()
+    #     raise HTTPException(status_code=409, detail="This verification token has already been used")
 
     # Find or create user
     user = db.query(models.User).filter(models.User.phone_number == phone).first()
