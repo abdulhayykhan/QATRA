@@ -1,0 +1,502 @@
+test	Backend Tests	﻿2026-08-30T13:00:35.9940485Z ##[group]Run python -m pip install --upgrade pip
+test	Backend Tests	2026-08-30T13:00:35.9941071Z ^[[36;1mpython -m pip install --upgrade pip^[[0m
+test	Backend Tests	2026-08-30T13:00:35.9941599Z ^[[36;1mpip install -r requirements.txt^[[0m
+test	Backend Tests	2026-08-30T13:00:35.9942016Z ^[[36;1mpip install -r requirements-dev.txt^[[0m
+test	Backend Tests	2026-08-30T13:00:35.9942449Z ^[[36;1mpython -m pytest tests/^[[0m
+test	Backend Tests	2026-08-30T13:00:35.9981291Z shell: /usr/bin/bash -e {0}
+test	Backend Tests	2026-08-30T13:00:35.9981670Z env:
+test	Backend Tests	2026-08-30T13:00:35.9982051Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+test	Backend Tests	2026-08-30T13:00:35.9998859Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+test	Backend Tests	2026-08-30T13:00:35.9999665Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+test	Backend Tests	2026-08-30T13:00:36.0000428Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+test	Backend Tests	2026-08-30T13:00:36.0001122Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+test	Backend Tests	2026-08-30T13:00:36.0001668Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+test	Backend Tests	2026-08-30T13:00:36.0002109Z   JAVA_HOME: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.20-8/x64
+test	Backend Tests	2026-08-30T13:00:36.0002600Z   JAVA_HOME_17_X64: /opt/hostedtoolcache/Java_Zulu_jdk/17.0.20-8/x64
+test	Backend Tests	2026-08-30T13:00:36.0003071Z   FLUTTER_ROOT: /opt/hostedtoolcache/flutter/stable-3.47.2-x64/flutter
+test	Backend Tests	2026-08-30T13:00:36.0003877Z   PUB_CACHE: /home/runner/.pub-cache
+test	Backend Tests	2026-08-30T13:00:36.0004182Z   SECRET_KEY: dummy_secret_key_for_ci
+test	Backend Tests	2026-08-30T13:00:36.0004464Z   DATABASE_URL: sqlite:///./test.db
+test	Backend Tests	2026-08-30T13:00:36.0004735Z   S3_ACCESS_KEY_ID: dummy_access_key
+test	Backend Tests	2026-08-30T13:00:36.0005013Z   S3_SECRET_ACCESS_KEY: dummy_secret_key
+test	Backend Tests	2026-08-30T13:00:36.0005322Z   S3_ENDPOINT_URL: http://localhost:9000
+test	Backend Tests	2026-08-30T13:00:36.0005634Z   S3_HOSPITAL_SLIPS_BUCKET: dummy-slips
+test	Backend Tests	2026-08-30T13:00:36.0005919Z   S3_CNIC_DOCUMENTS_BUCKET: dummy-cnics
+test	Backend Tests	2026-08-30T13:00:36.0006194Z ##[endgroup]
+test	Backend Tests	2026-08-30T13:00:38.6528827Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (26.2.1)
+test	Backend Tests	2026-08-30T13:00:39.3996542Z Collecting fastapi==0.141.1 (from -r requirements.txt (line 2))
+test	Backend Tests	2026-08-30T13:00:39.4468790Z   Downloading fastapi-0.141.1-py3-none-any.whl.metadata (27 kB)
+test	Backend Tests	2026-08-30T13:00:39.4777942Z Collecting starlette==1.6.0 (from -r requirements.txt (line 3))
+test	Backend Tests	2026-08-30T13:00:39.4814303Z   Downloading starlette-1.6.0-py3-none-any.whl.metadata (6.4 kB)
+test	Backend Tests	2026-08-30T13:00:39.5188457Z Collecting uvicorn==0.52.4 (from -r requirements.txt (line 4))
+test	Backend Tests	2026-08-30T13:00:39.5223064Z   Downloading uvicorn-0.52.4-py3-none-any.whl.metadata (6.6 kB)
+test	Backend Tests	2026-08-30T13:00:39.5528190Z Collecting httptools==0.8.0 (from -r requirements.txt (line 5))
+test	Backend Tests	2026-08-30T13:00:39.5567477Z   Downloading httptools-0.8.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+test	Backend Tests	2026-08-30T13:00:39.6636151Z Collecting websockets==17.1 (from -r requirements.txt (line 6))
+test	Backend Tests	2026-08-30T13:00:39.6673890Z   Downloading websockets-17.1-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.3 kB)
+test	Backend Tests	2026-08-30T13:00:39.7634247Z Collecting pydantic==2.13.4 (from -r requirements.txt (line 9))
+test	Backend Tests	2026-08-30T13:00:39.7670305Z   Downloading pydantic-2.13.4-py3-none-any.whl.metadata (109 kB)
+test	Backend Tests	2026-08-30T13:00:40.4145341Z Collecting pydantic-core==2.46.4 (from -r requirements.txt (line 10))
+test	Backend Tests	2026-08-30T13:00:40.4182330Z   Downloading pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+test	Backend Tests	2026-08-30T13:00:40.4316924Z Collecting pydantic-extra-types==2.11.1 (from -r requirements.txt (line 11))
+test	Backend Tests	2026-08-30T13:00:40.4352822Z   Downloading pydantic_extra_types-2.11.1-py3-none-any.whl.metadata (4.2 kB)
+test	Backend Tests	2026-08-30T13:00:40.4512950Z Collecting pydantic-settings==2.15.0 (from -r requirements.txt (line 12))
+test	Backend Tests	2026-08-30T13:00:40.4547118Z   Downloading pydantic_settings-2.15.0-py3-none-any.whl.metadata (3.9 kB)
+test	Backend Tests	2026-08-30T13:00:40.4669857Z Collecting email-validator==2.3.0 (from -r requirements.txt (line 13))
+test	Backend Tests	2026-08-30T13:00:40.4704971Z   Downloading email_validator-2.3.0-py3-none-any.whl.metadata (26 kB)
+test	Backend Tests	2026-08-30T13:00:40.4856978Z Collecting python-dotenv==1.2.3 (from -r requirements.txt (line 14))
+test	Backend Tests	2026-08-30T13:00:40.4890560Z   Downloading python_dotenv-1.2.3-py3-none-any.whl.metadata (29 kB)
+test	Backend Tests	2026-08-30T13:00:40.5028264Z Collecting python-multipart==0.0.32 (from -r requirements.txt (line 15))
+test	Backend Tests	2026-08-30T13:00:40.5061433Z   Downloading python_multipart-0.0.32-py3-none-any.whl.metadata (2.1 kB)
+test	Backend Tests	2026-08-30T13:00:40.7561122Z Collecting sqlalchemy==2.0.52 (from -r requirements.txt (line 18))
+test	Backend Tests	2026-08-30T13:00:40.7599171Z   Downloading sqlalchemy-2.0.52-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (9.6 kB)
+test	Backend Tests	2026-08-30T13:00:40.7834383Z Collecting alembic==1.19.1 (from -r requirements.txt (line 19))
+test	Backend Tests	2026-08-30T13:00:40.7872127Z   Downloading alembic-1.19.1-py3-none-any.whl.metadata (7.3 kB)
+test	Backend Tests	2026-08-30T13:00:40.8012774Z Collecting mako==1.4.1 (from -r requirements.txt (line 20))
+test	Backend Tests	2026-08-30T13:00:40.8047101Z   Downloading mako-1.4.1-py3-none-any.whl.metadata (2.9 kB)
+test	Backend Tests	2026-08-30T13:00:40.8525209Z Collecting markupsafe==3.0.2 (from -r requirements.txt (line 21))
+test	Backend Tests	2026-08-30T13:00:40.8563076Z   Downloading MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.0 kB)
+test	Backend Tests	2026-08-30T13:00:40.8716881Z Collecting psycopg==3.3.4 (from -r requirements.txt (line 22))
+test	Backend Tests	2026-08-30T13:00:40.8751280Z   Downloading psycopg-3.3.4-py3-none-any.whl.metadata (4.3 kB)
+test	Backend Tests	2026-08-30T13:00:41.0528457Z Collecting psycopg-binary==3.3.4 (from -r requirements.txt (line 23))
+test	Backend Tests	2026-08-30T13:00:41.0566463Z   Downloading psycopg_binary-3.3.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.7 kB)
+test	Backend Tests	2026-08-30T13:00:41.1948848Z Collecting greenlet==3.5.5 (from -r requirements.txt (line 24))
+test	Backend Tests	2026-08-30T13:00:41.1986415Z   Downloading greenlet-3.5.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+test	Backend Tests	2026-08-30T13:00:41.2133958Z Collecting geoalchemy2==0.20.0 (from -r requirements.txt (line 25))
+test	Backend Tests	2026-08-30T13:00:41.2167684Z   Downloading geoalchemy2-0.20.0-py3-none-any.whl.metadata (2.0 kB)
+test	Backend Tests	2026-08-30T13:00:41.2521758Z Collecting bcrypt==5.0.0 (from -r requirements.txt (line 28))
+test	Backend Tests	2026-08-30T13:00:41.2557665Z   Downloading bcrypt-5.0.0-cp39-abi3-manylinux_2_34_x86_64.whl.metadata (10 kB)
+test	Backend Tests	2026-08-30T13:00:41.2681485Z Collecting passlib==1.7.4 (from -r requirements.txt (line 29))
+test	Backend Tests	2026-08-30T13:00:41.2715146Z   Downloading passlib-1.7.4-py2.py3-none-any.whl.metadata (1.7 kB)
+test	Backend Tests	2026-08-30T13:00:41.4424679Z Collecting cryptography==50.0.1 (from -r requirements.txt (line 30))
+test	Backend Tests	2026-08-30T13:00:41.4464843Z   Downloading cryptography-50.0.1-cp311-abi3-manylinux_2_34_x86_64.whl.metadata (4.3 kB)
+test	Backend Tests	2026-08-30T13:00:41.4620286Z Collecting pyjwt==2.13.0 (from -r requirements.txt (line 31))
+test	Backend Tests	2026-08-30T13:00:41.4653820Z   Downloading pyjwt-2.13.0-py3-none-any.whl.metadata (3.4 kB)
+test	Backend Tests	2026-08-30T13:00:41.4788579Z Collecting python-jose==3.5.0 (from -r requirements.txt (line 32))
+test	Backend Tests	2026-08-30T13:00:41.4823701Z   Downloading python_jose-3.5.0-py2.py3-none-any.whl.metadata (5.5 kB)
+test	Backend Tests	2026-08-30T13:00:41.4946069Z Collecting ecdsa==0.19.2 (from -r requirements.txt (line 33))
+test	Backend Tests	2026-08-30T13:00:41.4978955Z   Downloading ecdsa-0.19.2-py2.py3-none-any.whl.metadata (29 kB)
+test	Backend Tests	2026-08-30T13:00:41.5113768Z Collecting rsa==4.9.1 (from -r requirements.txt (line 34))
+test	Backend Tests	2026-08-30T13:00:41.5147422Z   Downloading rsa-4.9.1-py3-none-any.whl.metadata (5.6 kB)
+test	Backend Tests	2026-08-30T13:00:41.5347038Z Collecting pyasn1==0.6.4 (from -r requirements.txt (line 35))
+test	Backend Tests	2026-08-30T13:00:41.5383977Z   Downloading pyasn1-0.6.4-py3-none-any.whl.metadata (8.4 kB)
+test	Backend Tests	2026-08-30T13:00:41.5563832Z Collecting pyasn1-modules==0.4.2 (from -r requirements.txt (line 36))
+test	Backend Tests	2026-08-30T13:00:41.5597794Z   Downloading pyasn1_modules-0.4.2-py3-none-any.whl.metadata (3.5 kB)
+test	Backend Tests	2026-08-30T13:00:41.5714601Z Collecting pyotp==2.10.0 (from -r requirements.txt (line 37))
+test	Backend Tests	2026-08-30T13:00:41.5751986Z   Downloading pyotp-2.10.0-py3-none-any.whl.metadata (10 kB)
+test	Backend Tests	2026-08-30T13:00:41.5921578Z Collecting firebase-admin==7.5.0 (from -r requirements.txt (line 40))
+test	Backend Tests	2026-08-30T13:00:41.5994582Z   Downloading firebase_admin-7.5.0-py3-none-any.whl.metadata (1.8 kB)
+test	Backend Tests	2026-08-30T13:00:41.6248914Z Collecting google-api-core==2.34.0 (from -r requirements.txt (line 41))
+test	Backend Tests	2026-08-30T13:00:41.6282316Z   Downloading google_api_core-2.34.0-py3-none-any.whl.metadata (2.9 kB)
+test	Backend Tests	2026-08-30T13:00:41.6550460Z Collecting google-auth==2.57.0 (from -r requirements.txt (line 42))
+test	Backend Tests	2026-08-30T13:00:41.6585891Z   Downloading google_auth-2.57.0-py3-none-any.whl.metadata (6.0 kB)
+test	Backend Tests	2026-08-30T13:00:41.6792794Z Collecting google-cloud-core==2.7.0 (from -r requirements.txt (line 43))
+test	Backend Tests	2026-08-30T13:00:41.6825856Z   Downloading google_cloud_core-2.7.0-py3-none-any.whl.metadata (2.8 kB)
+test	Backend Tests	2026-08-30T13:00:41.6993152Z Collecting google-cloud-firestore==2.29.0 (from -r requirements.txt (line 44))
+test	Backend Tests	2026-08-30T13:00:41.7027503Z   Downloading google_cloud_firestore-2.29.0-py3-none-any.whl.metadata (9.5 kB)
+test	Backend Tests	2026-08-30T13:00:41.7248719Z Collecting google-cloud-storage==3.13.1 (from -r requirements.txt (line 45))
+test	Backend Tests	2026-08-30T13:00:41.7282612Z   Downloading google_cloud_storage-3.13.1-py3-none-any.whl.metadata (14 kB)
+test	Backend Tests	2026-08-30T13:00:41.7762754Z Collecting google-crc32c==1.8.0 (from -r requirements.txt (line 46))
+test	Backend Tests	2026-08-30T13:00:41.7800586Z   Downloading google_crc32c-1.8.0-cp312-cp312-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl.metadata (1.7 kB)
+test	Backend Tests	2026-08-30T13:00:41.7949657Z Collecting google-resumable-media==2.10.2 (from -r requirements.txt (line 47))
+test	Backend Tests	2026-08-30T13:00:41.7982551Z   Downloading google_resumable_media-2.10.2-py3-none-any.whl.metadata (2.2 kB)
+test	Backend Tests	2026-08-30T13:00:41.8147072Z Collecting googleapis-common-protos==1.75.2 (from -r requirements.txt (line 48))
+test	Backend Tests	2026-08-30T13:00:41.8182705Z   Downloading googleapis_common_protos-1.75.2-py3-none-any.whl.metadata (8.5 kB)
+test	Backend Tests	2026-08-30T13:00:42.3141556Z Collecting grpcio==1.83.1 (from -r requirements.txt (line 49))
+test	Backend Tests	2026-08-30T13:00:42.3184757Z   Downloading grpcio-1.83.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (3.7 kB)
+test	Backend Tests	2026-08-30T13:00:42.3437414Z Collecting grpcio-status==1.83.1 (from -r requirements.txt (line 50))
+test	Backend Tests	2026-08-30T13:00:42.3473556Z   Downloading grpcio_status-1.83.1-py3-none-any.whl.metadata (1.2 kB)
+test	Backend Tests	2026-08-30T13:00:42.3667744Z Collecting proto-plus==1.28.4 (from -r requirements.txt (line 51))
+test	Backend Tests	2026-08-30T13:00:42.3710028Z   Downloading proto_plus-1.28.4-py3-none-any.whl.metadata (2.2 kB)
+test	Backend Tests	2026-08-30T13:00:42.5133595Z Collecting protobuf==7.36.0 (from -r requirements.txt (line 52))
+test	Backend Tests	2026-08-30T13:00:42.5183991Z   Downloading protobuf-7.36.0-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+test	Backend Tests	2026-08-30T13:00:42.7424597Z Collecting boto3==1.43.83 (from -r requirements.txt (line 55))
+test	Backend Tests	2026-08-30T13:00:42.7460577Z   Downloading boto3-1.43.83-py3-none-any.whl.metadata (6.6 kB)
+test	Backend Tests	2026-08-30T13:00:42.9514936Z Collecting botocore==1.43.83 (from -r requirements.txt (line 56))
+test	Backend Tests	2026-08-30T13:00:42.9553221Z   Downloading botocore-1.43.83-py3-none-any.whl.metadata (5.6 kB)
+test	Backend Tests	2026-08-30T13:00:42.9709572Z Collecting s3transfer==0.19.2 (from -r requirements.txt (line 57))
+test	Backend Tests	2026-08-30T13:00:42.9744109Z   Downloading s3transfer-0.19.2-py3-none-any.whl.metadata (1.7 kB)
+test	Backend Tests	2026-08-30T13:00:42.9853910Z Collecting jmespath==1.1.0 (from -r requirements.txt (line 58))
+test	Backend Tests	2026-08-30T13:00:42.9887235Z   Downloading jmespath-1.1.0-py3-none-any.whl.metadata (7.6 kB)
+test	Backend Tests	2026-08-30T13:00:43.0041288Z Collecting httpx==0.28.1 (from -r requirements.txt (line 61))
+test	Backend Tests	2026-08-30T13:00:43.0074229Z   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+test	Backend Tests	2026-08-30T13:00:43.0229968Z Collecting httpcore==1.0.9 (from -r requirements.txt (line 62))
+test	Backend Tests	2026-08-30T13:00:43.0267640Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+test	Backend Tests	2026-08-30T13:00:43.0391459Z Collecting h11==0.16.0 (from -r requirements.txt (line 63))
+test	Backend Tests	2026-08-30T13:00:43.0425335Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+test	Backend Tests	2026-08-30T13:00:43.0561695Z Collecting h2==4.4.1 (from -r requirements.txt (line 64))
+test	Backend Tests	2026-08-30T13:00:43.0595081Z   Downloading h2-4.4.1-py3-none-any.whl.metadata (3.8 kB)
+test	Backend Tests	2026-08-30T13:00:43.0707986Z Collecting hpack==4.2.0 (from -r requirements.txt (line 65))
+test	Backend Tests	2026-08-30T13:00:43.0740451Z   Downloading hpack-4.2.0-py3-none-any.whl.metadata (3.3 kB)
+test	Backend Tests	2026-08-30T13:00:43.0859063Z Collecting hyperframe==6.1.0 (from -r requirements.txt (line 66))
+test	Backend Tests	2026-08-30T13:00:43.0891871Z   Downloading hyperframe-6.1.0-py3-none-any.whl.metadata (4.3 kB)
+test	Backend Tests	2026-08-30T13:00:43.1049706Z Collecting anyio==4.14.2 (from -r requirements.txt (line 67))
+test	Backend Tests	2026-08-30T13:00:43.1083236Z   Downloading anyio-4.14.2-py3-none-any.whl.metadata (4.6 kB)
+test	Backend Tests	2026-08-30T13:00:43.1210767Z Collecting idna==3.19 (from -r requirements.txt (line 68))
+test	Backend Tests	2026-08-30T13:00:43.1243364Z   Downloading idna-3.19-py3-none-any.whl.metadata (9.2 kB)
+test	Backend Tests	2026-08-30T13:00:43.1420562Z Collecting certifi==2026.7.22 (from -r requirements.txt (line 69))
+test	Backend Tests	2026-08-30T13:00:43.1458838Z   Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+test	Backend Tests	2026-08-30T13:00:43.1637250Z Collecting urllib3==2.7.0 (from -r requirements.txt (line 70))
+test	Backend Tests	2026-08-30T13:00:43.1670950Z   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+test	Backend Tests	2026-08-30T13:00:43.3466457Z Collecting charset-normalizer==3.5.1 (from -r requirements.txt (line 71))
+test	Backend Tests	2026-08-30T13:00:43.3504927Z   Downloading charset_normalizer-3.5.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (45 kB)
+test	Backend Tests	2026-08-30T13:00:43.4532601Z Collecting cffi==2.1.1 (from -r requirements.txt (line 72))
+test	Backend Tests	2026-08-30T13:00:43.4570308Z   Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+test	Backend Tests	2026-08-30T13:00:43.4672913Z Collecting pycparser==3.0 (from -r requirements.txt (line 73))
+test	Backend Tests	2026-08-30T13:00:43.4705639Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+test	Backend Tests	2026-08-30T13:00:43.4912263Z Collecting requests==2.34.2 (from -r requirements.txt (line 74))
+test	Backend Tests	2026-08-30T13:00:43.4947784Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+test	Backend Tests	2026-08-30T13:00:43.5337814Z Collecting sentry-sdk==2.68.1 (from -r requirements.txt (line 77))
+test	Backend Tests	2026-08-30T13:00:43.5372625Z   Downloading sentry_sdk-2.68.1-py3-none-any.whl.metadata (11 kB)
+test	Backend Tests	2026-08-30T13:00:43.5627505Z Collecting click==8.5.0 (from -r requirements.txt (line 80))
+test	Backend Tests	2026-08-30T13:00:43.5660666Z   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+test	Backend Tests	2026-08-30T13:00:43.5790357Z Collecting colorama==0.4.6 (from -r requirements.txt (line 81))
+test	Backend Tests	2026-08-30T13:00:43.5823452Z   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+test	Backend Tests	2026-08-30T13:00:43.5951708Z Collecting dnspython==2.8.0 (from -r requirements.txt (line 82))
+test	Backend Tests	2026-08-30T13:00:43.5985556Z   Downloading dnspython-2.8.0-py3-none-any.whl.metadata (5.7 kB)
+test	Backend Tests	2026-08-30T13:00:43.6729469Z Collecting msgpack==1.2.2 (from -r requirements.txt (line 83))
+test	Backend Tests	2026-08-30T13:00:43.6767022Z   Downloading msgpack-1.2.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (8.3 kB)
+test	Backend Tests	2026-08-30T13:00:43.6909231Z Collecting packaging==26.3 (from -r requirements.txt (line 84))
+test	Backend Tests	2026-08-30T13:00:43.6942723Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+test	Backend Tests	2026-08-30T13:00:43.7065952Z Collecting python-dateutil==2.9.0.post0 (from -r requirements.txt (line 85))
+test	Backend Tests	2026-08-30T13:00:43.7098136Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+test	Backend Tests	2026-08-30T13:00:43.7446365Z Collecting pyyaml==6.0.3 (from -r requirements.txt (line 86))
+test	Backend Tests	2026-08-30T13:00:43.7483071Z   Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+test	Backend Tests	2026-08-30T13:00:43.7599603Z Collecting six==1.17.0 (from -r requirements.txt (line 87))
+test	Backend Tests	2026-08-30T13:00:43.7633144Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+test	Backend Tests	2026-08-30T13:00:43.7778584Z Collecting typing-extensions==4.16.0 (from -r requirements.txt (line 88))
+test	Backend Tests	2026-08-30T13:00:43.7812952Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+test	Backend Tests	2026-08-30T13:00:43.7917153Z Collecting typing-inspection==0.4.4 (from -r requirements.txt (line 89))
+test	Backend Tests	2026-08-30T13:00:43.7951004Z   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+test	Backend Tests	2026-08-30T13:00:43.8076739Z Collecting tzdata==2026.3 (from -r requirements.txt (line 90))
+test	Backend Tests	2026-08-30T13:00:43.8111464Z   Downloading tzdata-2026.3-py2.py3-none-any.whl.metadata (1.4 kB)
+test	Backend Tests	2026-08-30T13:00:43.8254433Z Collecting annotated-doc>=0.0.2 (from fastapi==0.141.1->-r requirements.txt (line 2))
+test	Backend Tests	2026-08-30T13:00:43.8287423Z   Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+test	Backend Tests	2026-08-30T13:00:43.8477079Z Collecting annotated-types>=0.6.0 (from pydantic==2.13.4->-r requirements.txt (line 9))
+test	Backend Tests	2026-08-30T13:00:43.8511390Z   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+test	Backend Tests	2026-08-30T13:00:43.9020711Z Collecting cachecontrol>=0.14.3 (from firebase-admin==7.5.0->-r requirements.txt (line 40))
+test	Backend Tests	2026-08-30T13:00:43.9061208Z   Downloading cachecontrol-0.14.4-py3-none-any.whl.metadata (3.1 kB)
+test	Backend Tests	2026-08-30T13:00:44.0663022Z Downloading fastapi-0.141.1-py3-none-any.whl (131 kB)
+test	Backend Tests	2026-08-30T13:00:44.0760092Z Downloading starlette-1.6.0-py3-none-any.whl (75 kB)
+test	Backend Tests	2026-08-30T13:00:44.0818825Z Downloading anyio-4.14.2-py3-none-any.whl (125 kB)
+test	Backend Tests	2026-08-30T13:00:44.0876343Z Downloading uvicorn-0.52.4-py3-none-any.whl (79 kB)
+test	Backend Tests	2026-08-30T13:00:44.0936585Z Downloading httptools-0.8.0-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (523 kB)
+test	Backend Tests	2026-08-30T13:00:44.1028825Z Downloading websockets-17.1-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (224 kB)
+test	Backend Tests	2026-08-30T13:00:44.1088412Z Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+test	Backend Tests	2026-08-30T13:00:44.1159232Z Downloading pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+test	Backend Tests	2026-08-30T13:00:44.1270771Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 239.6 MB/s  0:00:00
+test	Backend Tests	2026-08-30T13:00:44.1306692Z Downloading pydantic_extra_types-2.11.1-py3-none-any.whl (79 kB)
+test	Backend Tests	2026-08-30T13:00:44.1365218Z Downloading pydantic_settings-2.15.0-py3-none-any.whl (69 kB)
+test	Backend Tests	2026-08-30T13:00:44.1418451Z Downloading email_validator-2.3.0-py3-none-any.whl (35 kB)
+test	Backend Tests	2026-08-30T13:00:44.1471926Z Downloading python_dotenv-1.2.3-py3-none-any.whl (22 kB)
+test	Backend Tests	2026-08-30T13:00:44.1522614Z Downloading python_multipart-0.0.32-py3-none-any.whl (30 kB)
+test	Backend Tests	2026-08-30T13:00:44.1579181Z Downloading sqlalchemy-2.0.52-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (3.4 MB)
+test	Backend Tests	2026-08-30T13:00:44.1728642Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.4/3.4 MB 259.0 MB/s  0:00:00
+test	Backend Tests	2026-08-30T13:00:44.1765348Z Downloading alembic-1.19.1-py3-none-any.whl (265 kB)
+test	Backend Tests	2026-08-30T13:00:44.1822900Z Downloading mako-1.4.1-py3-none-any.whl (80 kB)
+test	Backend Tests	2026-08-30T13:00:44.1877618Z Downloading MarkupSafe-3.0.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (23 kB)
+test	Backend Tests	2026-08-30T13:00:44.1930626Z Downloading psycopg-3.3.4-py3-none-any.whl (213 kB)
+test	Backend Tests	2026-08-30T13:00:44.1995541Z Downloading psycopg_binary-3.3.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.2 MB)
+test	Backend Tests	2026-08-30T13:00:44.2204881Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.2/5.2 MB 266.7 MB/s  0:00:00
+test	Backend Tests	2026-08-30T13:00:44.2244254Z Downloading greenlet-3.5.5-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (621 kB)
+test	Backend Tests	2026-08-30T13:00:44.2294905Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 621.4/621.4 kB 130.2 MB/s  0:00:00
+test	Backend Tests	2026-08-30T13:00:44.2327762Z Downloading geoalchemy2-0.20.0-py3-none-any.whl (96 kB)
+test	Backend Tests	2026-08-30T13:00:44.2383415Z Downloading bcrypt-5.0.0-cp39-abi3-manylinux_2_34_x86_64.whl (278 kB)
+test	Backend Tests	2026-08-30T13:00:44.2458641Z Downloading passlib-1.7.4-py2.py3-none-any.whl (525 kB)
+test	Backend Tests	2026-08-30T13:00:44.2514564Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 525.6/525.6 kB 97.5 MB/s  0:00:00
+test	Backend Tests	2026-08-30T13:00:44.2550387Z Downloading cryptography-50.0.1-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+test	Backend Tests	2026-08-30T13:00:44.2719858Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 315.2 MB/s  0:00:00
+test	Backend Tests	2026-08-30T13:00:44.2755298Z Downloading pyjwt-2.13.0-py3-none-any.whl (31 kB)
+test	Backend Tests	2026-08-30T13:00:44.2811100Z Downloading python_jose-3.5.0-py2.py3-none-any.whl (34 kB)
+test	Backend Tests	2026-08-30T13:00:44.2864690Z Downloading rsa-4.9.1-py3-none-any.whl (34 kB)
+test	Backend Tests	2026-08-30T13:00:44.2916450Z Downloading ecdsa-0.19.2-py2.py3-none-any.whl (150 kB)
+test	Backend Tests	2026-08-30T13:00:44.2978085Z Downloading pyasn1-0.6.4-py3-none-any.whl (84 kB)
+test	Backend Tests	2026-08-30T13:00:44.3036675Z Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+test	Backend Tests	2026-08-30T13:00:44.3092156Z Downloading pyotp-2.10.0-py3-none-any.whl (13 kB)
+test	Backend Tests	2026-08-30T13:00:44.3146521Z Downloading firebase_admin-7.5.0-py3-none-any.whl (141 kB)
+test	Backend Tests	2026-08-30T13:00:44.3205423Z Downloading google_api_core-2.34.0-py3-none-any.whl (180 kB)
+test	Backend Tests	2026-08-30T13:00:44.3264950Z Downloading google_auth-2.57.0-py3-none-any.whl (259 kB)
+test	Backend Tests	2026-08-30T13:00:44.3324158Z Downloading googleapis_common_protos-1.75.2-py3-none-any.whl (307 kB)
+test	Backend Tests	2026-08-30T13:00:44.3387312Z Downloading proto_plus-1.28.4-py3-none-any.whl (50 kB)
+test	Backend Tests	2026-08-30T13:00:44.3448310Z Downloading protobuf-7.36.0-cp310-abi3-manylinux2014_x86_64.whl (340 kB)
+test	Backend Tests	2026-08-30T13:00:44.3514990Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+test	Backend Tests	2026-08-30T13:00:44.3572263Z Downloading idna-3.19-py3-none-any.whl (68 kB)
+test	Backend Tests	2026-08-30T13:00:44.3628141Z Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+test	Backend Tests	2026-08-30T13:00:44.3688113Z Downloading charset_normalizer-3.5.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (248 kB)
+test	Backend Tests	2026-08-30T13:00:44.3749982Z Downloading google_cloud_core-2.7.0-py3-none-any.whl (31 kB)
+test	Backend Tests	2026-08-30T13:00:44.3807508Z Downloading google_cloud_firestore-2.29.0-py3-none-any.whl (432 kB)
+test	Backend Tests	2026-08-30T13:00:44.3880446Z Downloading grpcio-1.83.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (7.0 MB)
+test	Backend Tests	2026-08-30T13:00:44.4131486Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.0/7.0 MB 299.5 MB/s  0:00:00
+test	Backend Tests	2026-08-30T13:00:44.4167121Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+test	Backend Tests	2026-08-30T13:00:44.4222222Z Downloading google_cloud_storage-3.13.1-py3-none-any.whl (341 kB)
+test	Backend Tests	2026-08-30T13:00:44.4282873Z Downloading google_crc32c-1.8.0-cp312-cp312-manylinux1_x86_64.manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_5_x86_64.whl (33 kB)
+test	Backend Tests	2026-08-30T13:00:44.4335387Z Downloading google_resumable_media-2.10.2-py3-none-any.whl (81 kB)
+test	Backend Tests	2026-08-30T13:00:44.4392919Z Downloading grpcio_status-1.83.1-py3-none-any.whl (14 kB)
+test	Backend Tests	2026-08-30T13:00:44.4444564Z Downloading boto3-1.43.83-py3-none-any.whl (140 kB)
+test	Backend Tests	2026-08-30T13:00:44.4501210Z Downloading botocore-1.43.83-py3-none-any.whl (15.7 MB)
+test	Backend Tests	2026-08-30T13:00:44.4971800Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.7/15.7 MB 348.3 MB/s  0:00:00
+test	Backend Tests	2026-08-30T13:00:44.5006767Z Downloading s3transfer-0.19.2-py3-none-any.whl (90 kB)
+test	Backend Tests	2026-08-30T13:00:44.5061872Z Downloading jmespath-1.1.0-py3-none-any.whl (20 kB)
+test	Backend Tests	2026-08-30T13:00:44.5114992Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+test	Backend Tests	2026-08-30T13:00:44.5172838Z Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+test	Backend Tests	2026-08-30T13:00:44.5224923Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+test	Backend Tests	2026-08-30T13:00:44.5277848Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+test	Backend Tests	2026-08-30T13:00:44.5330103Z Downloading h2-4.4.1-py3-none-any.whl (62 kB)
+test	Backend Tests	2026-08-30T13:00:44.5385629Z Downloading hpack-4.2.0-py3-none-any.whl (34 kB)
+test	Backend Tests	2026-08-30T13:00:44.5439385Z Downloading hyperframe-6.1.0-py3-none-any.whl (13 kB)
+test	Backend Tests	2026-08-30T13:00:44.5492060Z Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+test	Backend Tests	2026-08-30T13:00:44.5549301Z Downloading cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+test	Backend Tests	2026-08-30T13:00:44.5607800Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+test	Backend Tests	2026-08-30T13:00:44.5662295Z Downloading sentry_sdk-2.68.1-py3-none-any.whl (520 kB)
+test	Backend Tests	2026-08-30T13:00:44.5729141Z Downloading click-8.5.0-py3-none-any.whl (125 kB)
+test	Backend Tests	2026-08-30T13:00:44.5789270Z Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+test	Backend Tests	2026-08-30T13:00:44.5843601Z Downloading dnspython-2.8.0-py3-none-any.whl (331 kB)
+test	Backend Tests	2026-08-30T13:00:44.5904369Z Downloading msgpack-1.2.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (420 kB)
+test	Backend Tests	2026-08-30T13:00:44.5967090Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+test	Backend Tests	2026-08-30T13:00:44.6024260Z Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)
+test	Backend Tests	2026-08-30T13:00:44.6084541Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 157.4 MB/s  0:00:00
+test	Backend Tests	2026-08-30T13:00:44.6118005Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+test	Backend Tests	2026-08-30T13:00:44.6171648Z Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+test	Backend Tests	2026-08-30T13:00:44.6224857Z Downloading tzdata-2026.3-py2.py3-none-any.whl (348 kB)
+test	Backend Tests	2026-08-30T13:00:44.6285574Z Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+test	Backend Tests	2026-08-30T13:00:44.6336019Z Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+test	Backend Tests	2026-08-30T13:00:44.6390102Z Downloading cachecontrol-0.14.4-py3-none-any.whl (22 kB)
+test	Backend Tests	2026-08-30T13:00:45.0207420Z Installing collected packages: passlib, websockets, urllib3, tzdata, typing-extensions, six, pyyaml, python-multipart, python-dotenv, pyotp, pyjwt, pycparser, pyasn1, psycopg-binary, protobuf, packaging, msgpack, markupsafe, jmespath, idna, hyperframe, httptools, hpack, h11, greenlet, google-crc32c, dnspython, colorama, click, charset-normalizer, certifi, bcrypt, annotated-types, annotated-doc, uvicorn, typing-inspection, sqlalchemy, sentry-sdk, rsa, requests, python-dateutil, pydantic-core, pyasn1-modules, psycopg, proto-plus, mako, httpcore, h2, grpcio, googleapis-common-protos, google-resumable-media, email-validator, ecdsa, cffi, anyio, starlette, python-jose, pydantic, httpx, grpcio-status, geoalchemy2, cryptography, cachecontrol, botocore, alembic, s3transfer, pydantic-settings, pydantic-extra-types, google-auth, fastapi, google-api-core, boto3, google-cloud-core, google-cloud-storage, google-cloud-firestore, firebase-admin
+test	Backend Tests	2026-08-30T13:00:52.4190914Z 
+test	Backend Tests	2026-08-30T13:00:52.4259001Z Successfully installed alembic-1.19.1 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.14.2 bcrypt-5.0.0 boto3-1.43.83 botocore-1.43.83 cachecontrol-0.14.4 certifi-2026.7.22 cffi-2.1.1 charset-normalizer-3.5.1 click-8.5.0 colorama-0.4.6 cryptography-50.0.1 dnspython-2.8.0 ecdsa-0.19.2 email-validator-2.3.0 fastapi-0.141.1 firebase-admin-7.5.0 geoalchemy2-0.20.0 google-api-core-2.34.0 google-auth-2.57.0 google-cloud-core-2.7.0 google-cloud-firestore-2.29.0 google-cloud-storage-3.13.1 google-crc32c-1.8.0 google-resumable-media-2.10.2 googleapis-common-protos-1.75.2 greenlet-3.5.5 grpcio-1.83.1 grpcio-status-1.83.1 h11-0.16.0 h2-4.4.1 hpack-4.2.0 httpcore-1.0.9 httptools-0.8.0 httpx-0.28.1 hyperframe-6.1.0 idna-3.19 jmespath-1.1.0 mako-1.4.1 markupsafe-3.0.2 msgpack-1.2.2 packaging-26.3 passlib-1.7.4 proto-plus-1.28.4 protobuf-7.36.0 psycopg-3.3.4 psycopg-binary-3.3.4 pyasn1-0.6.4 pyasn1-modules-0.4.2 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 pydantic-extra-types-2.11.1 pydantic-settings-2.15.0 pyjwt-2.13.0 pyotp-2.10.0 python-dateutil-2.9.0.post0 python-dotenv-1.2.3 python-jose-3.5.0 python-multipart-0.0.32 pyyaml-6.0.3 requests-2.34.2 rsa-4.9.1 s3transfer-0.19.2 sentry-sdk-2.68.1 six-1.17.0 sqlalchemy-2.0.52 starlette-1.6.0 typing-extensions-4.16.0 typing-inspection-0.4.4 tzdata-2026.3 urllib3-2.7.0 uvicorn-0.52.4 websockets-17.1
+test	Backend Tests	2026-08-30T13:00:53.1005007Z Requirement already satisfied: fastapi==0.141.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 2)) (0.141.1)
+test	Backend Tests	2026-08-30T13:00:53.1010963Z Requirement already satisfied: starlette==1.6.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 3)) (1.6.0)
+test	Backend Tests	2026-08-30T13:00:53.1016938Z Requirement already satisfied: uvicorn==0.52.4 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 4)) (0.52.4)
+test	Backend Tests	2026-08-30T13:00:53.1022462Z Requirement already satisfied: httptools==0.8.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 5)) (0.8.0)
+test	Backend Tests	2026-08-30T13:00:53.1028494Z Requirement already satisfied: websockets==17.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 6)) (17.1)
+test	Backend Tests	2026-08-30T13:00:53.1034228Z Requirement already satisfied: pydantic==2.13.4 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 9)) (2.13.4)
+test	Backend Tests	2026-08-30T13:00:53.1039798Z Requirement already satisfied: pydantic-core==2.46.4 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 10)) (2.46.4)
+test	Backend Tests	2026-08-30T13:00:53.1045602Z Requirement already satisfied: pydantic-extra-types==2.11.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 11)) (2.11.1)
+test	Backend Tests	2026-08-30T13:00:53.1051118Z Requirement already satisfied: pydantic-settings==2.15.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 12)) (2.15.0)
+test	Backend Tests	2026-08-30T13:00:53.1056711Z Requirement already satisfied: email-validator==2.3.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 13)) (2.3.0)
+test	Backend Tests	2026-08-30T13:00:53.1062085Z Requirement already satisfied: python-dotenv==1.2.3 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 14)) (1.2.3)
+test	Backend Tests	2026-08-30T13:00:53.1067912Z Requirement already satisfied: python-multipart==0.0.32 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 15)) (0.0.32)
+test	Backend Tests	2026-08-30T13:00:53.1073610Z Requirement already satisfied: sqlalchemy==2.0.52 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 18)) (2.0.52)
+test	Backend Tests	2026-08-30T13:00:53.1079010Z Requirement already satisfied: alembic==1.19.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 19)) (1.19.1)
+test	Backend Tests	2026-08-30T13:00:53.1084526Z Requirement already satisfied: mako==1.4.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 20)) (1.4.1)
+test	Backend Tests	2026-08-30T13:00:53.1090016Z Requirement already satisfied: markupsafe==3.0.2 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 21)) (3.0.2)
+test	Backend Tests	2026-08-30T13:00:53.1095771Z Requirement already satisfied: psycopg==3.3.4 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 22)) (3.3.4)
+test	Backend Tests	2026-08-30T13:00:53.1101212Z Requirement already satisfied: psycopg-binary==3.3.4 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 23)) (3.3.4)
+test	Backend Tests	2026-08-30T13:00:53.1106735Z Requirement already satisfied: greenlet==3.5.5 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 24)) (3.5.5)
+test	Backend Tests	2026-08-30T13:00:53.1112106Z Requirement already satisfied: geoalchemy2==0.20.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 25)) (0.20.0)
+test	Backend Tests	2026-08-30T13:00:53.1117792Z Requirement already satisfied: bcrypt==5.0.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 28)) (5.0.0)
+test	Backend Tests	2026-08-30T13:00:53.1124010Z Requirement already satisfied: passlib==1.7.4 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 29)) (1.7.4)
+test	Backend Tests	2026-08-30T13:00:53.1129650Z Requirement already satisfied: cryptography==50.0.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 30)) (50.0.1)
+test	Backend Tests	2026-08-30T13:00:53.1134954Z Requirement already satisfied: pyjwt==2.13.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 31)) (2.13.0)
+test	Backend Tests	2026-08-30T13:00:53.1140614Z Requirement already satisfied: python-jose==3.5.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 32)) (3.5.0)
+test	Backend Tests	2026-08-30T13:00:53.1146303Z Requirement already satisfied: ecdsa==0.19.2 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 33)) (0.19.2)
+test	Backend Tests	2026-08-30T13:00:53.1151861Z Requirement already satisfied: rsa==4.9.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 34)) (4.9.1)
+test	Backend Tests	2026-08-30T13:00:53.1157444Z Requirement already satisfied: pyasn1==0.6.4 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 35)) (0.6.4)
+test	Backend Tests	2026-08-30T13:00:53.1162957Z Requirement already satisfied: pyasn1-modules==0.4.2 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 36)) (0.4.2)
+test	Backend Tests	2026-08-30T13:00:53.1168696Z Requirement already satisfied: pyotp==2.10.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 37)) (2.10.0)
+test	Backend Tests	2026-08-30T13:00:53.1174382Z Requirement already satisfied: firebase-admin==7.5.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 40)) (7.5.0)
+test	Backend Tests	2026-08-30T13:00:53.1179809Z Requirement already satisfied: google-api-core==2.34.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 41)) (2.34.0)
+test	Backend Tests	2026-08-30T13:00:53.1185399Z Requirement already satisfied: google-auth==2.57.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 42)) (2.57.0)
+test	Backend Tests	2026-08-30T13:00:53.1190961Z Requirement already satisfied: google-cloud-core==2.7.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 43)) (2.7.0)
+test	Backend Tests	2026-08-30T13:00:53.1196559Z Requirement already satisfied: google-cloud-firestore==2.29.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 44)) (2.29.0)
+test	Backend Tests	2026-08-30T13:00:53.1201906Z Requirement already satisfied: google-cloud-storage==3.13.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 45)) (3.13.1)
+test	Backend Tests	2026-08-30T13:00:53.1207647Z Requirement already satisfied: google-crc32c==1.8.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 46)) (1.8.0)
+test	Backend Tests	2026-08-30T13:00:53.1213015Z Requirement already satisfied: google-resumable-media==2.10.2 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 47)) (2.10.2)
+test	Backend Tests	2026-08-30T13:00:53.1218814Z Requirement already satisfied: googleapis-common-protos==1.75.2 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 48)) (1.75.2)
+test	Backend Tests	2026-08-30T13:00:53.1224359Z Requirement already satisfied: grpcio==1.83.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 49)) (1.83.1)
+test	Backend Tests	2026-08-30T13:00:53.1229978Z Requirement already satisfied: grpcio-status==1.83.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 50)) (1.83.1)
+test	Backend Tests	2026-08-30T13:00:53.1236173Z Requirement already satisfied: proto-plus==1.28.4 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 51)) (1.28.4)
+test	Backend Tests	2026-08-30T13:00:53.1241628Z Requirement already satisfied: protobuf==7.36.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 52)) (7.36.0)
+test	Backend Tests	2026-08-30T13:00:53.1247263Z Requirement already satisfied: boto3==1.43.83 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 55)) (1.43.83)
+test	Backend Tests	2026-08-30T13:00:53.1252764Z Requirement already satisfied: botocore==1.43.83 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 56)) (1.43.83)
+test	Backend Tests	2026-08-30T13:00:53.1258372Z Requirement already satisfied: s3transfer==0.19.2 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 57)) (0.19.2)
+test	Backend Tests	2026-08-30T13:00:53.1264170Z Requirement already satisfied: jmespath==1.1.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 58)) (1.1.0)
+test	Backend Tests	2026-08-30T13:00:53.1269625Z Requirement already satisfied: httpx==0.28.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 61)) (0.28.1)
+test	Backend Tests	2026-08-30T13:00:53.1275093Z Requirement already satisfied: httpcore==1.0.9 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 62)) (1.0.9)
+test	Backend Tests	2026-08-30T13:00:53.1280600Z Requirement already satisfied: h11==0.16.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 63)) (0.16.0)
+test	Backend Tests	2026-08-30T13:00:53.1286410Z Requirement already satisfied: h2==4.4.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 64)) (4.4.1)
+test	Backend Tests	2026-08-30T13:00:53.1291758Z Requirement already satisfied: hpack==4.2.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 65)) (4.2.0)
+test	Backend Tests	2026-08-30T13:00:53.1297900Z Requirement already satisfied: hyperframe==6.1.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 66)) (6.1.0)
+test	Backend Tests	2026-08-30T13:00:53.1302689Z Requirement already satisfied: anyio==4.14.2 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 67)) (4.14.2)
+test	Backend Tests	2026-08-30T13:00:53.1307433Z Requirement already satisfied: idna==3.19 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 68)) (3.19)
+test	Backend Tests	2026-08-30T13:00:53.1311896Z Requirement already satisfied: certifi==2026.7.22 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 69)) (2026.7.22)
+test	Backend Tests	2026-08-30T13:00:53.1316972Z Requirement already satisfied: urllib3==2.7.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 70)) (2.7.0)
+test	Backend Tests	2026-08-30T13:00:53.1321347Z Requirement already satisfied: charset-normalizer==3.5.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 71)) (3.5.1)
+test	Backend Tests	2026-08-30T13:00:53.1325830Z Requirement already satisfied: cffi==2.1.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 72)) (2.1.1)
+test	Backend Tests	2026-08-30T13:00:53.1329967Z Requirement already satisfied: pycparser==3.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 73)) (3.0)
+test	Backend Tests	2026-08-30T13:00:53.1334365Z Requirement already satisfied: requests==2.34.2 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 74)) (2.34.2)
+test	Backend Tests	2026-08-30T13:00:53.1338552Z Requirement already satisfied: sentry-sdk==2.68.1 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 77)) (2.68.1)
+test	Backend Tests	2026-08-30T13:00:53.1343411Z Requirement already satisfied: click==8.5.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 80)) (8.5.0)
+test	Backend Tests	2026-08-30T13:00:53.1347537Z Requirement already satisfied: colorama==0.4.6 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 81)) (0.4.6)
+test	Backend Tests	2026-08-30T13:00:53.1351697Z Requirement already satisfied: dnspython==2.8.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 82)) (2.8.0)
+test	Backend Tests	2026-08-30T13:00:53.1356140Z Requirement already satisfied: msgpack==1.2.2 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 83)) (1.2.2)
+test	Backend Tests	2026-08-30T13:00:53.1360390Z Requirement already satisfied: packaging==26.3 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 84)) (26.3)
+test	Backend Tests	2026-08-30T13:00:53.1364939Z Requirement already satisfied: python-dateutil==2.9.0.post0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 85)) (2.9.0.post0)
+test	Backend Tests	2026-08-30T13:00:53.1369298Z Requirement already satisfied: pyyaml==6.0.3 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 86)) (6.0.3)
+test	Backend Tests	2026-08-30T13:00:53.1373570Z Requirement already satisfied: six==1.17.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 87)) (1.17.0)
+test	Backend Tests	2026-08-30T13:00:53.1377807Z Requirement already satisfied: typing-extensions==4.16.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 88)) (4.16.0)
+test	Backend Tests	2026-08-30T13:00:53.1381877Z Requirement already satisfied: typing-inspection==0.4.4 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 89)) (0.4.4)
+test	Backend Tests	2026-08-30T13:00:53.1386205Z Requirement already satisfied: tzdata==2026.3 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from -r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 90)) (2026.3)
+test	Backend Tests	2026-08-30T13:00:53.2247603Z Collecting pytest==9.1.1 (from -r requirements-dev.txt (line 2))
+test	Backend Tests	2026-08-30T13:00:53.2700357Z   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+test	Backend Tests	2026-08-30T13:00:53.2888164Z Collecting pytest-asyncio==1.4.0 (from -r requirements-dev.txt (line 3))
+test	Backend Tests	2026-08-30T13:00:53.2923007Z   Downloading pytest_asyncio-1.4.0-py3-none-any.whl.metadata (4.1 kB)
+test	Backend Tests	2026-08-30T13:00:53.3066463Z Collecting pytest-cov==7.1.0 (from -r requirements-dev.txt (line 4))
+test	Backend Tests	2026-08-30T13:00:53.3100863Z   Downloading pytest_cov-7.1.0-py3-none-any.whl.metadata (32 kB)
+test	Backend Tests	2026-08-30T13:00:53.3324977Z Collecting pytest-mock==3.15.1 (from -r requirements-dev.txt (line 5))
+test	Backend Tests	2026-08-30T13:00:53.3358868Z   Downloading pytest_mock-3.15.1-py3-none-any.whl.metadata (3.9 kB)
+test	Backend Tests	2026-08-30T13:00:53.7300655Z Collecting coverage==7.15.4 (from -r requirements-dev.txt (line 6))
+test	Backend Tests	2026-08-30T13:00:53.7339125Z   Downloading coverage-7.15.4-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.6 kB)
+test	Backend Tests	2026-08-30T13:00:53.7457733Z Collecting iniconfig==2.3.0 (from -r requirements-dev.txt (line 7))
+test	Backend Tests	2026-08-30T13:00:53.7491837Z   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+test	Backend Tests	2026-08-30T13:00:53.7613405Z Collecting pluggy==1.6.0 (from -r requirements-dev.txt (line 8))
+test	Backend Tests	2026-08-30T13:00:53.7648612Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+test	Backend Tests	2026-08-30T13:00:53.7710212Z Requirement already satisfied: annotated-doc>=0.0.2 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from fastapi==0.141.1->-r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 2)) (0.0.5)
+test	Backend Tests	2026-08-30T13:00:53.7819765Z Requirement already satisfied: annotated-types>=0.6.0 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from pydantic==2.13.4->-r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 9)) (0.8.0)
+test	Backend Tests	2026-08-30T13:00:53.8216335Z Requirement already satisfied: cachecontrol>=0.14.3 in /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages (from firebase-admin==7.5.0->-r /home/runner/work/QATRA/QATRA/backend/requirements.txt (line 40)) (0.14.4)
+test	Backend Tests	2026-08-30T13:00:53.9200961Z Collecting pygments>=2.7.2 (from pytest==9.1.1->-r requirements-dev.txt (line 2))
+test	Backend Tests	2026-08-30T13:00:53.9239715Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+test	Backend Tests	2026-08-30T13:00:53.9660888Z Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+test	Backend Tests	2026-08-30T13:00:53.9793199Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+test	Backend Tests	2026-08-30T13:00:53.9850472Z Downloading pytest_asyncio-1.4.0-py3-none-any.whl (16 kB)
+test	Backend Tests	2026-08-30T13:00:53.9905697Z Downloading pytest_cov-7.1.0-py3-none-any.whl (22 kB)
+test	Backend Tests	2026-08-30T13:00:53.9961791Z Downloading pytest_mock-3.15.1-py3-none-any.whl (10 kB)
+test	Backend Tests	2026-08-30T13:00:54.0019549Z Downloading coverage-7.15.4-cp312-cp312-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (257 kB)
+test	Backend Tests	2026-08-30T13:00:54.0095137Z Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+test	Backend Tests	2026-08-30T13:00:54.0152310Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+test	Backend Tests	2026-08-30T13:00:54.0257118Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 130.4 MB/s  0:00:00
+test	Backend Tests	2026-08-30T13:00:54.1091643Z Installing collected packages: pygments, pluggy, iniconfig, coverage, pytest, pytest-mock, pytest-cov, pytest-asyncio
+test	Backend Tests	2026-08-30T13:00:55.3345054Z 
+test	Backend Tests	2026-08-30T13:00:55.3406414Z Successfully installed coverage-7.15.4 iniconfig-2.3.0 pluggy-1.6.0 pygments-2.21.0 pytest-9.1.1 pytest-asyncio-1.4.0 pytest-cov-7.1.0 pytest-mock-3.15.1
+test	Backend Tests	2026-08-30T13:00:58.6311655Z ============================= test session starts ==============================
+test	Backend Tests	2026-08-30T13:00:58.6312854Z platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+test	Backend Tests	2026-08-30T13:00:58.6314036Z rootdir: /home/runner/work/QATRA/QATRA/backend
+test	Backend Tests	2026-08-30T13:00:58.6314815Z plugins: anyio-4.14.2, mock-3.15.1, cov-7.1.0, asyncio-1.4.0
+test	Backend Tests	2026-08-30T13:00:58.6315882Z asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+test	Backend Tests	2026-08-30T13:00:58.6316684Z collected 16 items
+test	Backend Tests	2026-08-30T13:00:58.6316863Z 
+test	Backend Tests	2026-08-30T13:01:00.1076535Z tests/test_admin_auth.py F                                               [  6%]
+test	Backend Tests	2026-08-30T13:01:00.1431108Z tests/test_auth.py .....                                                 [ 37%]
+test	Backend Tests	2026-08-30T13:01:00.1880578Z tests/test_authorization.py ..                                           [ 50%]
+test	Backend Tests	2026-08-30T13:01:00.2359366Z tests/test_contact_authorization.py ..                                   [ 62%]
+test	Backend Tests	2026-08-30T13:01:00.2541908Z tests/test_donor_device_token.py ..                                      [ 75%]
+test	Backend Tests	2026-08-30T13:01:00.2638710Z tests/test_proximity.py .                                                [ 81%]
+test	Backend Tests	2026-08-30T13:01:00.2741256Z tests/test_requests_feed.py .                                            [ 87%]
+test	Backend Tests	2026-08-30T13:01:00.4274676Z tests/test_verification_routing.py ..                                    [100%]
+test	Backend Tests	2026-08-30T13:01:00.4275520Z 
+test	Backend Tests	2026-08-30T13:01:00.4275769Z =================================== FAILURES ===================================
+test	Backend Tests	2026-08-30T13:01:00.4276520Z _____________________ test_admin_auth_bypassing_2fa_fails ______________________
+test	Backend Tests	2026-08-30T13:01:00.4277051Z 
+test	Backend Tests	2026-08-30T13:01:00.4277392Z client = <starlette.testclient.TestClient object at 0x7f8103c753d0>
+test	Backend Tests	2026-08-30T13:01:00.4278163Z db = <sqlalchemy.orm.session.Session object at 0x7f8103c75220>
+test	Backend Tests	2026-08-30T13:01:00.4278619Z 
+test	Backend Tests	2026-08-30T13:01:00.4278967Z     def test_admin_auth_bypassing_2fa_fails(client: TestClient, db: Session):
+test	Backend Tests	2026-08-30T13:01:00.4279655Z         # Setup test admin user with TOTP
+test	Backend Tests	2026-08-30T13:01:00.4280142Z         admin_email = "admin@example.com"
+test	Backend Tests	2026-08-30T13:01:00.4280600Z         admin_password = "SecurePassword123"
+test	Backend Tests	2026-08-30T13:01:00.4281053Z         totp_secret = pyotp.random_base32()
+test	Backend Tests	2026-08-30T13:01:00.4281457Z     
+test	Backend Tests	2026-08-30T13:01:00.4281747Z         # Clear existing if any
+test	Backend Tests	2026-08-30T13:01:00.4282740Z         db.query(models.User).filter(models.User.email == admin_email).delete()
+test	Backend Tests	2026-08-30T13:01:00.4283657Z     
+test	Backend Tests	2026-08-30T13:01:00.4283951Z         admin = models.User(
+test	Backend Tests	2026-08-30T13:01:00.4284354Z             email=admin_email,
+test	Backend Tests	2026-08-30T13:01:00.4284862Z             hashed_password=security.get_password_hash(admin_password),
+test	Backend Tests	2026-08-30T13:01:00.4285423Z             role="admin",
+test	Backend Tests	2026-08-30T13:01:00.4285786Z             totp_secret=totp_secret
+test	Backend Tests	2026-08-30T13:01:00.4286160Z         )
+test	Backend Tests	2026-08-30T13:01:00.4286452Z         db.add(admin)
+test	Backend Tests	2026-08-30T13:01:00.4286777Z         db.commit()
+test	Backend Tests	2026-08-30T13:01:00.4287081Z     
+test	Backend Tests	2026-08-30T13:01:00.4287379Z         # 1. Wrong Password
+test	Backend Tests	2026-08-30T13:01:00.4287835Z         response = client.post("/auth/admin-login", json={
+test	Backend Tests	2026-08-30T13:01:00.4288336Z             "email": admin_email,
+test	Backend Tests	2026-08-30T13:01:00.4288746Z             "password": "WrongPassword",
+test	Backend Tests	2026-08-30T13:01:00.4289223Z             "totp_code": pyotp.TOTP(totp_secret).now()
+test	Backend Tests	2026-08-30T13:01:00.4289689Z         })
+test	Backend Tests	2026-08-30T13:01:00.4289988Z         assert response.status_code == 401
+test	Backend Tests	2026-08-30T13:01:00.4290384Z     
+test	Backend Tests	2026-08-30T13:01:00.4290686Z         # 2. Correct Password, Missing TOTP
+test	Backend Tests	2026-08-30T13:01:00.4291192Z         response = client.post("/auth/admin-login", json={
+test	Backend Tests	2026-08-30T13:01:00.4291669Z             "email": admin_email,
+test	Backend Tests	2026-08-30T13:01:00.4292052Z             "password": admin_password
+test	Backend Tests	2026-08-30T13:01:00.4292432Z         })
+test	Backend Tests	2026-08-30T13:01:00.4292905Z         assert response.status_code == 422 # Validation error due to missing field
+test	Backend Tests	2026-08-30T13:01:00.4293712Z     
+test	Backend Tests	2026-08-30T13:01:00.4294005Z         # 3. Correct Password, Wrong TOTP
+test	Backend Tests	2026-08-30T13:01:00.4294499Z         response = client.post("/auth/admin-login", json={
+test	Backend Tests	2026-08-30T13:01:00.4295006Z             "email": admin_email,
+test	Backend Tests	2026-08-30T13:01:00.4295399Z             "password": admin_password,
+test	Backend Tests	2026-08-30T13:01:00.4295807Z             "totp_code": "000000"
+test	Backend Tests	2026-08-30T13:01:00.4296151Z         })
+test	Backend Tests	2026-08-30T13:01:00.4296465Z         assert response.status_code == 401
+test	Backend Tests	2026-08-30T13:01:00.4296972Z         assert "Invalid 2FA code" in response.json()["detail"]
+test	Backend Tests	2026-08-30T13:01:00.4297441Z     
+test	Backend Tests	2026-08-30T13:01:00.4298010Z         # 4. TOTP correct, but user isn't admin
+test	Backend Tests	2026-08-30T13:01:00.4298452Z         admin.role = "verified_donor"
+test	Backend Tests	2026-08-30T13:01:00.4298833Z         db.commit()
+test	Backend Tests	2026-08-30T13:01:00.4299130Z     
+test	Backend Tests	2026-08-30T13:01:00.4299472Z         response = client.post("/auth/admin-login", json={
+test	Backend Tests	2026-08-30T13:01:00.4299963Z             "email": admin_email,
+test	Backend Tests	2026-08-30T13:01:00.4300345Z             "password": admin_password,
+test	Backend Tests	2026-08-30T13:01:00.4300804Z             "totp_code": pyotp.TOTP(totp_secret).now()
+test	Backend Tests	2026-08-30T13:01:00.4301231Z         })
+test	Backend Tests	2026-08-30T13:01:00.4301543Z         assert response.status_code == 403
+test	Backend Tests	2026-08-30T13:01:00.4301942Z     
+test	Backend Tests	2026-08-30T13:01:00.4302213Z         admin.role = "admin"
+test	Backend Tests	2026-08-30T13:01:00.4302554Z         db.commit()
+test	Backend Tests	2026-08-30T13:01:00.4302845Z     
+test	Backend Tests	2026-08-30T13:01:00.4303143Z         # Correct Password, Correct TOTP
+test	Backend Tests	2026-08-30T13:01:00.4303894Z         response = client.post("/auth/admin-login", json={
+test	Backend Tests	2026-08-30T13:01:00.4304382Z             "email": admin_email,
+test	Backend Tests	2026-08-30T13:01:00.4304774Z             "password": admin_password,
+test	Backend Tests	2026-08-30T13:01:00.4305229Z             "totp_code": pyotp.TOTP(totp_secret).now()
+test	Backend Tests	2026-08-30T13:01:00.4305664Z         })
+test	Backend Tests	2026-08-30T13:01:00.4305984Z >       assert response.status_code == 200
+test	Backend Tests	2026-08-30T13:01:00.4306402Z E       assert 401 == 200
+test	Backend Tests	2026-08-30T13:01:00.4306817Z E        +  where 401 = <Response [401 Unauthorized]>.status_code
+test	Backend Tests	2026-08-30T13:01:00.4307217Z 
+test	Backend Tests	2026-08-30T13:01:00.4307407Z tests/test_admin_auth.py:71: AssertionError
+test	Backend Tests	2026-08-30T13:01:00.4307962Z =============================== warnings summary ===============================
+test	Backend Tests	2026-08-30T13:01:00.4308826Z ../../../../../../opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/fastapi/testclient.py:1
+test	Backend Tests	2026-08-30T13:01:00.4310506Z   /opt/hostedtoolcache/Python/3.12.14/x64/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+test	Backend Tests	2026-08-30T13:01:00.4312349Z     from starlette.testclient import TestClient as TestClient  # noqa
+test	Backend Tests	2026-08-30T13:01:00.4312806Z 
+test	Backend Tests	2026-08-30T13:01:00.4312946Z app/db/database.py:14
+test	Backend Tests	2026-08-30T13:01:00.4314675Z   /home/runner/work/QATRA/QATRA/backend/app/db/database.py:14: MovedIn20Warning: The ``declarative_base()`` function is now available as sqlalchemy.orm.declarative_base(). (deprecated since: 2.0) (Background on SQLAlchemy 2.0 at: https://sqlalche.me/e/b8d9)
+test	Backend Tests	2026-08-30T13:01:00.4316305Z     Base = declarative_base()
+test	Backend Tests	2026-08-30T13:01:00.4316555Z 
+test	Backend Tests	2026-08-30T13:01:00.4316693Z app/schemas/requests.py:17
+test	Backend Tests	2026-08-30T13:01:00.4318415Z   /home/runner/work/QATRA/QATRA/backend/app/schemas/requests.py:17: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+test	Backend Tests	2026-08-30T13:01:00.4320340Z     class BloodRequestResponse(BaseModel):
+test	Backend Tests	2026-08-30T13:01:00.4320647Z 
+test	Backend Tests	2026-08-30T13:01:00.4320805Z app/schemas/requests.py:26
+test	Backend Tests	2026-08-30T13:01:00.4322571Z   /home/runner/work/QATRA/QATRA/backend/app/schemas/requests.py:26: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+test	Backend Tests	2026-08-30T13:01:00.4324646Z     class BloodRequestFeedItem(BaseModel):
+test	Backend Tests	2026-08-30T13:01:00.4324963Z 
+test	Backend Tests	2026-08-30T13:01:00.4325109Z app/schemas/awareness.py:15
+test	Backend Tests	2026-08-30T13:01:00.4326880Z   /home/runner/work/QATRA/QATRA/backend/app/schemas/awareness.py:15: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+test	Backend Tests	2026-08-30T13:01:00.4328810Z     class AwarenessArticleResponse(AwarenessArticleBase):
+test	Backend Tests	2026-08-30T13:01:00.4329194Z 
+test	Backend Tests	2026-08-30T13:01:00.4329354Z app/schemas/prescreening.py:15
+test	Backend Tests	2026-08-30T13:01:00.4331378Z   /home/runner/work/QATRA/QATRA/backend/app/schemas/prescreening.py:15: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+test	Backend Tests	2026-08-30T13:01:00.4333557Z     class PreScreeningAnswerResponse(PreScreeningAnswerBase):
+test	Backend Tests	2026-08-30T13:01:00.4333990Z 
+test	Backend Tests	2026-08-30T13:01:00.4334136Z app/schemas/drives.py:16
+test	Backend Tests	2026-08-30T13:01:00.4335876Z   /home/runner/work/QATRA/QATRA/backend/app/schemas/drives.py:16: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+test	Backend Tests	2026-08-30T13:01:00.4337753Z     class CampusDriveResponse(CampusDriveBase):
+test	Backend Tests	2026-08-30T13:01:00.4338101Z 
+test	Backend Tests	2026-08-30T13:01:00.4338234Z app/schemas/drives.py:30
+test	Backend Tests	2026-08-30T13:01:00.4339986Z   /home/runner/work/QATRA/QATRA/backend/app/schemas/drives.py:30: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+test	Backend Tests	2026-08-30T13:01:00.4341847Z     class DriveAttendeeResponse(DriveAttendeeBase):
+test	Backend Tests	2026-08-30T13:01:00.4342202Z 
+test	Backend Tests	2026-08-30T13:01:00.4342349Z app/schemas/feedback.py:12
+test	Backend Tests	2026-08-30T13:01:00.4344287Z   /home/runner/work/QATRA/QATRA/backend/app/schemas/feedback.py:12: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.13/migration/
+test	Backend Tests	2026-08-30T13:01:00.4346400Z     class RequestFeedbackResponse(RequestFeedbackBase):
+test	Backend Tests	2026-08-30T13:01:00.4346772Z 
+test	Backend Tests	2026-08-30T13:01:00.4347076Z -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+test	Backend Tests	2026-08-30T13:01:00.4347770Z =========================== short test summary info ============================
+test	Backend Tests	2026-08-30T13:01:00.4348590Z FAILED tests/test_admin_auth.py::test_admin_auth_bypassing_2fa_fails - assert 401 == 200
+test	Backend Tests	2026-08-30T13:01:00.4349337Z  +  where 401 = <Response [401 Unauthorized]>.status_code
+test	Backend Tests	2026-08-30T13:01:00.4349934Z =================== 1 failed, 15 passed, 9 warnings in 1.82s ===================
+test	Backend Tests	2026-08-30T13:01:00.6654940Z ##[error]Process completed with exit code 1.

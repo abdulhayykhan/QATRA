@@ -128,7 +128,7 @@ async def admin_login(
         raise HTTPException(status_code=401, detail="2FA is not configured for this admin account")
 
     totp = pyotp.TOTP(user.totp_secret)
-    if not totp.verify(request.totp_code):
+    if not totp.verify(request.totp_code, valid_window=1):
         raise HTTPException(status_code=401, detail="Invalid 2FA code")
 
     access_token = security.create_access_token(

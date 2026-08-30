@@ -1,0 +1,3 @@
+completed	failure	feat: add CNIC auto-formatting and upload previews	Release Flutter APKs	v0.2.0	push	33312353155	2m4s	2026-08-30T12:45:47Z
+completed	success	fix: test error message for firebase auth bypass	Release Flutter APKs	v0.02.1	push	33312061659	9m10s	2026-08-30T12:39:19Z
+completed	failure	fix: bypass firebase id token signature verification when FIREBASE_CR…	Release Flutter APKs	v0.02.0	push	33306246627	2m6s	2026-08-30T10:20:39Z
