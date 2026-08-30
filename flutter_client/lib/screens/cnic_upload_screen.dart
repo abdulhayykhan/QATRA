@@ -19,8 +19,37 @@ class _CnicUploadScreenState extends State<CnicUploadScreen> {
   bool _isLoading = false;
   final ImagePicker _picker = ImagePicker();
 
-  Future<void> _pickImage(String type) async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+  Future<void> _showPicker(BuildContext context, String type) async {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: Wrap(
+            children: <Widget>[
+              ListTile(
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text('Gallery'),
+                  onTap: () {
+                    _pickImage(type, ImageSource.gallery);
+                    Navigator.of(context).pop();
+                  }),
+              ListTile(
+                leading: const Icon(Icons.photo_camera),
+                title: const Text('Camera'),
+                onTap: () {
+                  _pickImage(type, ImageSource.camera);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      }
+    );
+  }
+
+  Future<void> _pickImage(String type, ImageSource source) async {
+    final pickedFile = await _picker.pickImage(source: source);
     if (pickedFile != null) {
       setState(() {
         if (type == 'FRONT') {
@@ -121,7 +150,7 @@ class _CnicUploadScreenState extends State<CnicUploadScreen> {
                         padding: EdgeInsets.symmetric(vertical: 16),
                         foregroundColor: _frontImage == null ? Theme.of(context).colorScheme.primary : Colors.green,
                       ),
-                      onPressed: () => _pickImage('FRONT'),
+                      onPressed: () => _showPicker(context, 'FRONT'),
                     ),
                   ),
                   SizedBox(width: 16),
@@ -133,7 +162,7 @@ class _CnicUploadScreenState extends State<CnicUploadScreen> {
                         padding: EdgeInsets.symmetric(vertical: 16),
                         foregroundColor: _backImage == null ? Theme.of(context).colorScheme.primary : Colors.green,
                       ),
-                      onPressed: () => _pickImage('BACK'),
+                      onPressed: () => _showPicker(context, 'BACK'),
                     ),
                   ),
                 ],
