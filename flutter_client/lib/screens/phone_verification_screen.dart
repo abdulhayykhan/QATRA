@@ -22,7 +22,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
     setState(() => _isLoading = true);
     try {
       await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: _phoneController.text.trim(),
+        phoneNumber: '+92${_phoneController.text.trim()}',
         verificationCompleted: (PhoneAuthCredential credential) async {
           // Auto-resolution
           await _signInWithCredential(credential);
@@ -113,7 +113,8 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
               keyboardType: TextInputType.phone,
               decoration: const InputDecoration(
                 labelText: 'Phone Number',
-                hintText: '+923001234567',
+                hintText: '3001234567',
+                prefixText: '+92 ',
                 border: OutlineInputBorder(),
               ),
               enabled: !_otpSent,
