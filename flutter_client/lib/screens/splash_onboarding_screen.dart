@@ -138,7 +138,7 @@ class SplashOnboardingScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const CnicUploadScreen()),
+                      MaterialPageRoute(builder: (context) => CnicUploadScreen()),
                     );
                   },
                   style: OutlinedButton.styleFrom(

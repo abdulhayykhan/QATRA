@@ -15,6 +15,7 @@ class _CnicUploadScreenState extends State<CnicUploadScreen> {
 
   File? _frontImage;
   File? _backImage;
+  String _cnicNumber = '';
   bool _isLoading = false;
   final ImagePicker _picker = ImagePicker();
 
