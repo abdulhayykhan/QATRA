@@ -1,0 +1,16 @@
+name: Get Keystore SHA
+on: [workflow_dispatch]
+jobs:
+  get-sha:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decode Keystore
+        env:
+          ENCODED_KEYSTORE: ${{ secrets.QATRA_KEYSTORE_BASE64 }}
+        run: |
+          echo "$ENCODED_KEYSTORE" | base64 --decode > qatra-release.jks
+      - name: Get SHA
+        env:
+          QATRA_STORE_PASSWORD: ${{ secrets.QATRA_STORE_PASSWORD }}
+        run: |
+          keytool -list -v -keystore qatra-release.jks -storepass "$QATRA_STORE_PASSWORD"
