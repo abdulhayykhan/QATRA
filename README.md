@@ -3,13 +3,13 @@
 </p>
 
 ```text
-                  ██████╗   █████╗  ████████╗ ██████╗   █████╗ 
-                ██╔═══██╗ ██╔══██╗ ╚══██╔══╝ ██╔══██╗ ██╔══██╗
-                ██║   ██║ ███████║    ██║    ██████╔╝ ███████║
-                ██║▄▄ ██║ ██╔══██║    ██║    ██╔══██╗ ██╔══██║
-                ╚██████╔╝ ██║  ██║    ██║    ██║  ██║ ██║  ██║
-                  ╚══▀▀═╝  ╚═╝  ╚═╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝
-      Connecting Verified Seekers to Eligible Donors — in Minutes, Not Hours
+                                 ██████╗   █████╗  ████████╗ ██████╗   █████╗ 
+                                ██╔═══██╗ ██╔══██╗ ╚══██╔══╝ ██╔══██╗ ██╔══██╗
+                                ██║   ██║ ███████║    ██║    ██████╔╝ ███████║
+                                ██║▄▄ ██║ ██╔══██║    ██║    ██╔══██╗ ██╔══██║
+                                ╚██████╔╝ ██║  ██║    ██║    ██║  ██║ ██║  ██║
+                                 ╚══▀▀═╝  ╚═╝  ╚═╝    ╚═╝    ╚═╝  ╚═╝ ╚═╝  ╚═╝
+                      Connecting Verified Seekers to Eligible Donors — in Minutes, Not Hours
 ```
 
 ![Android](https://img.shields.io/badge/Android-Flutter-3DDC84?style=for-the-badge&logo=android&logoColor=white)
