@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qatra_flutter/screens/cnic_upload_screen.dart';
 
 class RoleSelectionProfileScreen extends StatefulWidget {
   const RoleSelectionProfileScreen({super.key});
@@ -111,7 +112,20 @@ class _RoleSelectionProfileScreenState extends State<RoleSelectionProfileScreen>
                 foregroundColor: Theme.of(context).colorScheme.onPrimary,
                 padding: const EdgeInsets.symmetric(vertical: 16),
               ),
-              child: const Text('Save Profile & Continue'),
+              child: const Text('Save Profile & Continue (Seeker)'),
+            ),
+            const SizedBox(height: 16),
+            OutlinedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CnicUploadScreen()),
+                );
+              },
+              style: OutlinedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 16),
+              ),
+              child: const Text('Register as Voluntary Donor'),
             ),
           ],
         ),

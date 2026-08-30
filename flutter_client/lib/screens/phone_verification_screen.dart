@@ -65,7 +65,7 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
   Future<void> _signInWithCredential(PhoneAuthCredential credential) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-      final idToken = await userCredential.user?.getIdToken();
+      final idToken = await userCredential.user?.getIdToken(true);
       
       if (idToken != null) {
         // Exchange Firebase token for FastAPI JWT

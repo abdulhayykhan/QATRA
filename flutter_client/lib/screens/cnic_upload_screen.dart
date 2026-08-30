@@ -22,7 +22,7 @@ class _CnicUploadScreenState extends State<CnicUploadScreen> {
   final _cnicMaskFormatter = MaskTextInputFormatter(
     mask: '#####-#######-#',
     filter: { "#": RegExp(r'[0-9]') },
-    type: MaskAutoCompletionType.lazy
+    type: MaskAutoCompletionType.eager
   );
 
   Future<void> _showPicker(BuildContext context, String type) async {
