@@ -1,4 +1,4 @@
-package com.qatra.app.flutter.qatra_flutter
+package com.qatra.app.flutter
 
 import io.flutter.embedding.android.FlutterActivity
 
