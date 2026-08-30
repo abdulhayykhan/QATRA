@@ -88,22 +88,21 @@ jobs:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo "$GOOGLE_SERVICES_JSON" > flutter_client/android/app/google-services.json
 
-      - name: Build split APKs
+      - name: Build universal APK
         working-directory: flutter_client
         env:
           QATRA_STORE_FILE: ${{ github.workspace }}/qatra-release.jks
           QATRA_KEY_ALIAS: ${{ secrets.QATRA_KEY_ALIAS }}
           QATRA_KEY_PASSWORD: ${{ secrets.QATRA_KEY_PASSWORD }}
           QATRA_STORE_PASSWORD: ${{ secrets.QATRA_STORE_PASSWORD }}
-        run: flutter build apk --split-per-abi --release
+        run: flutter build apk --release
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
           generate_release_notes: true
+          body: "🚀 Welcome to the latest release of QATRA!\n\n**Instructions:**\nDownload the `app-release.apk` file below and open it on your Android device to install the app. If you are prompted, make sure to allow installations from unknown sources."
           files: |
-            flutter_client/build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
-            flutter_client/build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
-            flutter_client/build/app/outputs/flutter-apk/app-x86_64-release.apk
+            flutter_client/build/app/outputs/flutter-apk/app-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
